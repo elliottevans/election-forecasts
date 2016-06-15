@@ -1,0 +1,59 @@
+---
+title: "Election Forecasts"
+output: html_document
+---
+
+<style>
+paragraph {
+    font-size: 19px;
+  }
+.paragraph2 {
+    font-size: 21px;
+  }
+.header {
+    font-family: Arial, Helvetica, sans-serif;
+  }
+</style>
+
+```{r echo=FALSE, include=FALSE}
+source("C:\\Users\\Elliott\\Desktop\\Random Analysis\\2016_election_analysis\\main.R")
+```
+
+<p class="header">
+<center>
+  <h1>Election Scenarios</h1>
+</center>
+</p>
+
+<p class="paragraph2">
+Suppose the voting of states with insufficient polling data mirrors that of previous election cycles:
+</p>
+
+<p class="paragraph">
+Political Climate | Expected Result             | Victor
+-------------     |   -------------             |------------- 
+2000              |   `r outcome_2000_climate`  |`r margin2000`
+2004              |   `r outcome_2004_climate`  |`r margin2004`
+2008              |   `r outcome_2008_climate`  |`r margin2008`
+2012              |   `r outcome_2012_climate`  |`r margin2012`
+</p>
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+<center>
+  <h1>Current Prediction Map</h1>
+</center>
+
+```{r map, echo=FALSE,fig.width=8,fig.align='center'}
+gg
+```
+
+<center>
+  <h1>State Forecasts</h1>
+</center>
+
+```{r stateplots, echo=FALSE,fig.align='center',fig.width=9, fig.height=9}
+multiplot(plotlist = plots,cols=3)
+```
