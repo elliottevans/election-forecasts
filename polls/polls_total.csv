@@ -7235,6 +7235,8 @@
 24205,"2016","CA",2016-03-30,"SurveyUSA","Trump",26,"R",223
 24155,"2016","CA",2016-03-16,"USC/LA Times","Clinton",57,"D",237
 24155,"2016","CA",2016-03-16,"USC/LA Times","Trump",30,"R",237
+24720,"2016","FL",2016-06-08,"Quinnipiac","Clinton",47,"D",153
+24720,"2016","FL",2016-06-08,"Quinnipiac","Trump",39,"R",153
 24635,"2016","FL",2016-06-02,"PPP (D)","Clinton",40,"D",159
 24635,"2016","FL",2016-06-02,"PPP (D)","Trump",41,"R",159
 24606,"2016","FL",2016-05-31,"Mason-Dixon","Clinton",45,"D",161
@@ -7289,6 +7291,8 @@
 23896,"2016","GA",2016-02-22,"SurveyUSA/TEGNA/11Alive","Trump",50,"R",260
 23042,"2016","GA",2015-10-15,"SurveyUSA/11Alive","Clinton",37,"D",390
 23042,"2016","GA",2015-10-15,"SurveyUSA/11Alive","Trump",46,"R",390
+24688,"2016","IA",2016-06-09,"PPP (D-Constitutional Responsibility Project)","Clinton",44,"D",152
+24688,"2016","IA",2016-06-09,"PPP (D-Constitutional Responsibility Project)","Trump",41,"R",152
 23463,"2016","IA",2016-01-02,"NBC/WSJ/Marist","Clinton",48,"D",311
 23463,"2016","IA",2016-01-02,"NBC/WSJ/Marist","Trump",40,"R",311
 23364,"2016","IA",2015-12-10,"PPP (D)","Clinton",45,"D",334
@@ -7439,6 +7443,8 @@
 22577,"2016","NC",2015-08-12,"PPP (D)","Trump",45,"R",454
 22353,"2016","NC",2015-07-02,"PPP (D)","Clinton",47,"D",495
 22353,"2016","NC",2015-07-02,"PPP (D)","Trump",44,"R",495
+24721,"2016","OH",2016-06-08,"Quinnipiac","Clinton",40,"D",153
+24721,"2016","OH",2016-06-08,"Quinnipiac","Trump",40,"R",153
 24556,"2016","OH",2016-05-18,"Zogby (Internet)","Clinton",45,"D",174
 24556,"2016","OH",2016-05-18,"Zogby (Internet)","Trump",39,"R",174
 24530,"2016","OH",2016-05-16,"CBS/YouGov","Clinton",44,"D",176
@@ -7461,6 +7467,8 @@
 22861,"2016","OH",2015-09-25,"Quinnipiac","Trump",42,"R",410
 22583,"2016","OH",2015-08-07,"Quinnipiac","Clinton",43,"D",459
 22583,"2016","OH",2015-08-07,"Quinnipiac","Trump",38,"R",459
+24722,"2016","PA",2016-06-08,"Quinnipiac","Clinton",42,"D",153
+24722,"2016","PA",2016-06-08,"Quinnipiac","Trump",41,"R",153
 24641,"2016","PA",2016-06-03,"PPP (D)","Clinton",41,"D",158
 24641,"2016","PA",2016-06-03,"PPP (D)","Trump",40,"R",158
 24465,"2016","PA",2016-04-27,"Quinnipiac","Clinton",43,"D",195
@@ -7481,6 +7489,24 @@
 22862,"2016","PA",2015-09-25,"Quinnipiac","Trump",42,"R",410
 22584,"2016","PA",2015-08-07,"Quinnipiac","Clinton",45,"D",459
 22584,"2016","PA",2015-08-07,"Quinnipiac","Trump",40,"R",459
+24725,"2016",NA,2016-06-08,"Dan Jones & Associates/UtahPolicy.com","Clinton",27,"D",153
+24725,"2016",NA,2016-06-08,"Dan Jones & Associates/UtahPolicy.com","Trump",36,"R",153
+24658,"2016",NA,2016-06-02,"SurveyUSA/Salt Lake Tribune/Hinckley Institute","Clinton",35,"D",159
+24658,"2016",NA,2016-06-02,"SurveyUSA/Salt Lake Tribune/Hinckley Institute","Trump",35,"R",159
+24624,"2016",NA,2016-05-31,"Gravis Marketing","Clinton",29,"D",161
+24624,"2016",NA,2016-05-31,"Gravis Marketing","Trump",36,"R",161
+24602,"2016",NA,2016-03-08,"Dan Jones & Associates/Deseret News/KSL","Clinton",38,"D",245
+24602,"2016",NA,2016-03-08,"Dan Jones & Associates/Deseret News/KSL","Trump",36,"R",245
+24491,"2016",NA,2016-05-02,"Dan Jones & Associates/UtahPolicy.com","Clinton",30,"D",190
+24491,"2016",NA,2016-05-02,"Dan Jones & Associates/UtahPolicy.com","Trump",43,"R",190
+24297,"2016",NA,2016-03-23,"Dan Jones & Associates/UtahPolicy.com","Clinton",38,"D",230
+24297,"2016",NA,2016-03-23,"Dan Jones & Associates/UtahPolicy.com","Trump",38,"R",230
+23503,"2016",NA,2015-12-08,"Dan Jones & Associates/UtahPolicy.com","Clinton",28,"D",336
+23503,"2016",NA,2015-12-08,"Dan Jones & Associates/UtahPolicy.com","Trump",33,"R",336
+22646,"2016",NA,2015-08-07,"Dan Jones & Associates/UtahPolicy.com","Clinton",29,"D",459
+22646,"2016",NA,2015-08-07,"Dan Jones & Associates/UtahPolicy.com","Trump",38,"R",459
+24689,"2016","VA",2016-06-13,"PPP (D)","Clinton",42,"D",148
+24689,"2016","VA",2016-06-13,"PPP (D)","Trump",39,"R",148
 24563,"2016","VA",2016-05-24,"Gravis Marketing","Clinton",45,"D",168
 24563,"2016","VA",2016-05-24,"Gravis Marketing","Trump",41,"R",168
 24534,"2016","VA",2016-05-09,"Roanoke College","Clinton",38,"D",183
@@ -7497,6 +7523,8 @@
 22619,"2016","VA",2015-08-10,"Roanoke College","Trump",32,"R",456
 22389,"2016","VA",2015-07-13,"PPP (D)","Clinton",49,"D",484
 22389,"2016","VA",2015-07-13,"PPP (D)","Trump",39,"R",484
+24685,"2016","WI",2016-06-09,"Marquette Law School","Clinton",46,"D",152
+24685,"2016","WI",2016-06-09,"Marquette Law School","Trump",37,"R",152
 24567,"2016","WI",2016-05-10,"Public Opinion Strategies (R)/Federation for Children","Clinton",43,"D",182
 24567,"2016","WI",2016-05-10,"Public Opinion Strategies (R)/Federation for Children","Trump",31,"R",182
 24316,"2016","WI",2016-04-12,"St Norbert/WPR/WPTV","Clinton",46,"D",210

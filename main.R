@@ -1,4 +1,4 @@
-setwd("~/Desktop/Random Analysis/2016_election_analysis")
+setwd("~/election_forecasts")
 library("sqldf", lib.loc="~/R/win-library/3.2")
 library("sqldf", lib.loc="~/R/win-library/3.2")
 library("reshape2", lib.loc="~/R/win-library/3.2")
@@ -8,6 +8,7 @@ library(rgdal)
 library(rgeos)
 library(maptools)
 library("stringr", lib.loc="~/R/win-library/3.2")
+library("plyr", lib.loc="~/R/win-library/3.2")
 
 # Multiple plot function
 #
@@ -374,6 +375,12 @@ select distinct
   ,candidate
   ,p.value as poll_value
   ,party
+  ,`X1976` as `1976_state_result`
+  ,`X1980` as `1980_state_result`
+  ,`X1984` as `1984_state_result`
+  ,`X1988` as `1988_state_result`
+  ,`X1992` as `1992_state_result`
+  ,`X1996` as `1996_state_result`
   ,`X2000` as `2000_state_result`
   ,`X2004` as `2004_state_result`
   ,`X2008` as `2008_state_result`
@@ -463,10 +470,16 @@ poll_data<-sql("
 select
   sabb.name
   ,sabb.abb as iso3166_2
-  ,X2000 as `2000_result`
-  ,X2004 as `2004_result`
-  ,X2008 as `2008_result`
-  ,X2012 as `2012_result`
+  ,`X1976` as `1976_state_result`
+  ,`X1980` as `1980_state_result`
+  ,`X1984` as `1984_state_result`
+  ,`X1988` as `1988_state_result`
+  ,`X1992` as `1992_state_result`
+  ,`X1996` as `1996_state_result`
+  ,`X2000` as `2000_state_result`
+  ,`X2004` as `2004_state_result`
+  ,`X2008` as `2008_state_result`
+  ,`X2012` as `2012_state_result`
   ,`Electoral.Votes` as `electoral_votes`
   ,diff
 from state_abb sabb
@@ -476,7 +489,7 @@ from state_abb sabb
 ")
 
 
-us <- readOGR("C:\\Users\\Elliott\\Desktop\\Random Analysis\\2016_election_analysis\\map\\us_states_hexgrid.geojson", "OGRGeoJSON")
+us <- readOGR("map\\us_states_hexgrid.geojson", "OGRGeoJSON")
 
 centers <- cbind.data.frame(data.frame(gCentroid(us, byid=TRUE), id=us@data$iso3166_2))
 
@@ -525,10 +538,16 @@ poll_data<-sql("
 select
   sabb.name
   ,sabb.abb as iso3166_2
-  ,X2000 as `2000_result`
-  ,X2004 as `2004_result`
-  ,X2008 as `2008_result`
-  ,X2012 as `2012_result`
+  ,`X1976` as `1976_state_result`
+  ,`X1980` as `1980_state_result`
+  ,`X1984` as `1984_state_result`
+  ,`X1988` as `1988_state_result`
+  ,`X1992` as `1992_state_result`
+  ,`X1996` as `1996_state_result`
+  ,`X2000` as `2000_state_result`
+  ,`X2004` as `2004_state_result`
+  ,`X2008` as `2008_state_result`
+  ,`X2012` as `2012_state_result`
   ,`Electoral.Votes` as `electoral_votes`
   ,value
   ,Candidate
@@ -550,7 +569,7 @@ from
   select
     name 
     ,case when value is null then 
-      case when `2000_result`='R' then 'Trump' else 'Clinton' end
+      case when `2000_state_result`='R' then 'Trump' else 'Clinton' end
      else Candidate end as Candidate
     ,electoral_votes
     ,case when value is null then 1.000 else round(value,6) end as value
@@ -575,7 +594,7 @@ from
   select
     name 
     ,case when value is null then 
-      case when `2004_result`='R' then 'Trump' else 'Clinton' end
+      case when `2004_state_result`='R' then 'Trump' else 'Clinton' end
      else Candidate end as Candidate
     ,electoral_votes
     ,case when value is null then 1.000 else round(value,6) end as value
@@ -600,7 +619,7 @@ from
   select
     name 
     ,case when value is null then 
-      case when `2008_result`='R' then 'Trump' else 'Clinton' end
+      case when `2008_state_result`='R' then 'Trump' else 'Clinton' end
      else Candidate end as Candidate
     ,electoral_votes
     ,case when value is null then 1.000 else round(value,6) end as value
@@ -626,7 +645,7 @@ from
   select
     name 
     ,case when value is null then 
-      case when `2012_result`='R' then 'Trump' else 'Clinton' end
+      case when `2012_state_result`='R' then 'Trump' else 'Clinton' end
      else Candidate end as Candidate
     ,electoral_votes
     ,case when value is null then 1.000 else round(value,6) end as value
@@ -704,6 +723,112 @@ margin2012<-paste(climate2012[which.max(climate2012$exp_electoral_votes),'Candid
 # 
 # 
 # write.csv(master_forecasts,'forecasts\\master_forecasts.csv',row.names = FALSE)
+
+
+
+
+
+#########################################################################
+#Final Probability
+#########################################################################
+
+election_test<-sql("
+select
+  name
+  ,case when dem_prob is not null then dem_prob else hist_dem_prob end as dem_prob
+  ,electoral_votes
+from
+(
+  select
+    name
+    ,case when num_dems=0 then round(round(1,10)/round(11,10),4)
+          when num_dems=10 then round(round(10,10)/round(11,10),4)
+    else round(round(num_dems,10)/round(10,10),4) end hist_dem_prob
+    ,dem_prob
+    ,electoral_votes
+  from
+  (
+    select 
+      name
+      ,case when `1976_state_result`='D' then 1 else 0 end
+        +case when `1980_state_result`='D' then 1 else 0 end
+        +case when `1984_state_result`='D' then 1 else 0 end
+        +case when `1988_state_result`='D' then 1 else 0 end
+        +case when `1992_state_result`='D' then 1 else 0 end
+        +case when `1996_state_result`='D' then 1 else 0 end
+        +case when `2000_state_result`='D' then 1 else 0 end
+        +case when `2004_state_result`='D' then 1 else 0 end
+        +case when `2008_state_result`='D' then 1 else 0 end
+        +case when `2012_state_result`='D' then 1 else 0 end as num_dems
+      ,case when candidate='Clinton' then value else null end as dem_prob
+      ,electoral_votes
+    from poll_data
+    group by 1
+  ) temp1
+) temp2
+"
+)
+
+dem_wins<-0
+electoral_vote_list<-c()
+for(i in 1:10000){
+  electoral_votes<-0
+  for(j in 1:nrow(election_test)){
+    win_or_lose<-rbinom(1,1,election_test[j,'dem_prob'])
+    if(win_or_lose==1){
+      electoral_votes<-electoral_votes+election_test[j,'electoral_votes']
+    }
+  }
+  electoral_vote_list<-append(electoral_vote_list,electoral_votes)
+  if(electoral_votes>=270){
+    dem_wins<-dem_wins+1
+  }
+}
+
+hist_data<-
+data.frame(
+  rbind(
+    cbind(rep('Clinton',length(electoral_vote_list)),electoral_vote_list)
+    ,cbind(rep('Trump',length(electoral_vote_list)),538-electoral_vote_list)
+  )
+)
+names(hist_data)<-c('candidate','electoral_votes')
+hist_data$electoral_votes<-as.numeric(as.character(hist_data$electoral_votes))
+sum_dat<-ddply(hist_data, "candidate", summarise, electoral_votes.mean=mean(electoral_votes))
+
+if(sum_dat[sum_dat$candidate=='Clinton',2]>=270){
+    clinton_label_spot<-sum_dat[sum_dat$candidate=='Clinton',2]+9
+    trump_label_spot<-sum_dat[sum_dat$candidate=='Trump',2]-9
+}else{
+    clinton_label_spot<-sum_dat[sum_dat$candidate=='Clinton',2]-9
+    trump_label_spot<-sum_dat[sum_dat$candidate=='Trump',2]+9
+}
+
+simulated_result<-ggplot(hist_data, aes(x=electoral_votes, fill=candidate)) +
+    geom_histogram(binwidth=5, alpha=.5, position="identity")+
+    scale_fill_manual(values=c("deepskyblue", "firebrick1"))+
+    geom_vline(data=sum_dat, aes(xintercept=electoral_votes.mean),
+               linetype="dashed", size=1,color=c('blue','red3'))+
+    geom_text(aes(x=clinton_label_spot, label=round(sum_dat[sum_dat$candidate=='Clinton',2]), y=60), colour="blue",size=8)+
+    geom_text(aes(x=trump_label_spot, label=round(sum_dat[sum_dat$candidate=='Trump',2]), y=60), colour="red3",size=8)+
+    geom_text(aes(x=270+5, label='270 to Win', y=1000), colour="red3",size=8)+
+    geom_vline(data=sum_dat, aes(xintercept=270),
+               linetype="dashed", size=1)+
+    ggtitle("Electoral Votes")+
+    ylab("Frequency")+
+    xlab("Electoral Votes")+
+    guides(fill=guide_legend(title=NULL))+
+    theme(plot.title=element_text(face="bold",hjust=0,vjust=2,colour="#3C3C3C",size=31))+
+    theme(axis.text=element_text(size=18))+
+    theme(axis.title=element_text(size=22))+
+    theme(legend.text = element_text(size = 19, face = "bold"))
+
+
+
+
+
+
+
 
 
 
