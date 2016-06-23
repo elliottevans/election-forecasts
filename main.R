@@ -666,65 +666,6 @@ margin2012<-paste(climate2012[which.max(climate2012$exp_electoral_votes),'Candid
 ######################################################################
 
 
-# 
-# ######################################################################
-# # INCLDE DUMMY DATA FOR STATES THAT HAVENT BEEN POLLED YET
-# ######################################################################
-# year_df<-data.frame(t(data.frame(list(2004,2008,2012,2016))))
-# names(year_df)<-'year'
-# rownames(year_df)<-NULL
-# 
-# model_df<-data.frame(t(data.frame(list("prob_unweighted_dem","prob_unweighted_rep","prob_weighted_dem","prob_weighted_rep"))))
-# names(model_df)<-'model'
-# rownames(model_df)<-NULL
-# 
-# states_df<-data.frame(data.frame(list(electoral_votes$State)))
-# names(states_df)<-'state'
-# rownames(states_df)<-NULL
-# 
-# dummy<-sql("
-# select distinct  
-#   NULL as id
-#   ,y.year as election_year
-#   ,sa.abb as State
-#   ,NULL as Date 
-#   ,NULL as days_till_election 
-#   ,NULL as dem_plus_minus 
-#   ,NULL as running_average 
-#   ,NULL as weighted_running_average 
-#   ,NULL as actual
-#   ,NULL as actual_binary_dem 
-#   ,m.model as prediction
-#   ,NULL as value
-#   ,NULL as final_prediction_ind
-#   ,s.state as state_full
-#   ,`Electoral.Votes` as state_electoral_votes
-#   ,`X.Location` as x_location
-#   ,`Y.Location` as y_location
-#   ,NULL as Pollster
-#   ,NULL as Candidate
-#   ,NULL as poll_value
-#   ,NULL as party
-#   ,`X2004` as `2004_state_result`
-#   ,`X2008` as `2008_state_result`
-#   ,`X2012` as `2012_state_result`
-# from year_df y
-#   inner join model_df m on 1=1
-#   inner join states_df s on 1=1
-#   inner join state_abb sa on sa.name=s.state
-#   inner join electoral_votes ev on ev.State=s.state
-#   inner join state_actuals on state_actuals.State=sa.name
-# ")
-# 
-# master_forecasts<-data.frame(rbind(master_forecasts,dummy))
-# ######################################################################
-# # INCLDE DUMMY DATA FOR STATES THAT HAVENT BEEN POLLED YET
-# ######################################################################
-# 
-# 
-# write.csv(master_forecasts,'forecasts\\master_forecasts.csv',row.names = FALSE)
-
-
 
 
 
@@ -769,9 +710,10 @@ from
 "
 )
 
+n<-10000
 dem_wins<-0
 electoral_vote_list<-c()
-for(i in 1:10000){
+for(i in 1:n){
   electoral_votes<-0
   for(j in 1:nrow(election_test)){
     win_or_lose<-rbinom(1,1,election_test[j,'dem_prob'])
@@ -784,6 +726,8 @@ for(i in 1:10000){
     dem_wins<-dem_wins+1
   }
 }
+
+dem_prob<-dem_wins/n
 
 hist_data<-
 data.frame(
@@ -804,16 +748,21 @@ if(sum_dat[sum_dat$candidate=='Clinton',2]>=270){
     trump_label_spot<-sum_dat[sum_dat$candidate=='Trump',2]+9
 }
 
+line_lengths<-sql("
+select
+  hd.candidate
+  ,count(case when electoral_votes>=round(`electoral_votes.mean`)-2 and electoral_votes<=round(`electoral_votes.mean`)+2 then hd.candidate end) as counter
+from hist_data hd
+  inner join sum_dat sd on sd.candidate=hd.candidate
+group by 1
+")
+
 simulated_result<-ggplot(hist_data, aes(x=electoral_votes, fill=candidate)) +
     geom_histogram(binwidth=5, alpha=.5, position="identity")+
     scale_fill_manual(values=c("deepskyblue", "firebrick1"))+
-    geom_vline(data=sum_dat, aes(xintercept=electoral_votes.mean),
-               linetype="dashed", size=1,color=c('blue','red3'))+
     geom_text(aes(x=clinton_label_spot, label=round(sum_dat[sum_dat$candidate=='Clinton',2]), y=60), colour="blue",size=8)+
     geom_text(aes(x=trump_label_spot, label=round(sum_dat[sum_dat$candidate=='Trump',2]), y=60), colour="red3",size=8)+
-    geom_text(aes(x=270+5, label='270 to Win', y=1000), colour="red3",size=8)+
-    geom_vline(data=sum_dat, aes(xintercept=270),
-               linetype="dashed", size=1)+
+    geom_text(aes(x=270, label='270 to Win', y=1000),size=8)+
     ggtitle("Electoral Votes")+
     ylab("Frequency")+
     xlab("Electoral Votes")+
@@ -821,7 +770,10 @@ simulated_result<-ggplot(hist_data, aes(x=electoral_votes, fill=candidate)) +
     theme(plot.title=element_text(face="bold",hjust=0,vjust=2,colour="#3C3C3C",size=31))+
     theme(axis.text=element_text(size=18))+
     theme(axis.title=element_text(size=22))+
-    theme(legend.text = element_text(size = 19, face = "bold"))
+    theme(legend.text = element_text(size = 19, face = "bold"))+
+    geom_segment(aes(x = round(sum_dat[sum_dat$candidate=='Clinton',2]), y = 0, xend = round(sum_dat[sum_dat$candidate=='Clinton',2]), yend = line_lengths[line_lengths$candidate=='Clinton','counter']), colour = "blue",linetype='dashed',size=1)+
+    geom_segment(aes(x = round(sum_dat[sum_dat$candidate=='Trump',2]), y = 0, xend = round(sum_dat[sum_dat$candidate=='Trump',2]), yend = line_lengths[line_lengths$candidate=='Trump','counter']), colour = "red3",linetype='dashed',size=1)+
+    geom_segment(aes(x = 270, y = 0, xend = 270, yend = 970),linetype='dashed',size=1)
 
 
 
