@@ -23,7 +23,7 @@ tr:nth-child(even){background-color: #f2f2f2}
   
 <!--begin.rcode warning=FALSE,echo=FALSE, include=FALSE
 setwd("~/election_forecasts")
-source("main.R")
+source("main2.R")
 end.rcode-->
 
     <meta charset="utf-8">
@@ -74,48 +74,12 @@ end.rcode-->
       <p></p>
       
       <div class="jumbotron">
-        <h2><b>Election Scenarios</b></h2>
-        <p>Suppose the voting of states with insufficient polling data mirrors that of previous election cycles:</p>
-      </div>
-      <div class="container">
-      <table>
-        <tr>
-          <th>Political Climate</th>
-          <th>Expected Result</th>
-          <th>Victor</th>
-        </tr>
-        <tr>
-          <td>2000</td>
-          <td><!--rinline outcome_2000_climate --></td>
-          <td><!--rinline margin2000 --></td>
-        </tr>
-        <tr>
-          <td>2004</td>
-          <td><!--rinline outcome_2004_climate --></td>
-          <td><!--rinline margin2004 --></td>
-        </tr>
-        <tr>
-          <td>2008</td>
-          <td><!--rinline outcome_2008_climate --></td>
-          <td><!--rinline margin2008 --></td>
-        </tr>
-        <tr>
-          <td>2012</td>
-          <td><!--rinline outcome_2012_climate --></td>
-          <td><!--rinline margin2012 --></td>
-        </tr>
-      </table>
-      </div>
-      
-      <p></p>
-      
-      <div class="jumbotron">
         <h2><b>Prediction Map</b></h2>
         <p>The electoral map based on current odds. Darker blue states lean more democratic, while darfer red states lean more republican. Grey states currently have little or no polling data.</p>
       </div>
       <div class="container">
-<!--begin.rcode echo=FALSE,fig.align='center',fig.width=15, fig.height=8
-gg
+<!--begin.rcode echo=FALSE,fig.align='center',fig.width=17, fig.height=10
+map
 end.rcode-->
       </div>
 

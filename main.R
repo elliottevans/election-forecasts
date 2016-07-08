@@ -1,3 +1,5 @@
+##########################################################################################
+##########################################################################################
 setwd("~/election_forecasts")
 library("sqldf", lib.loc="~/R/win-library/3.2")
 library("sqldf", lib.loc="~/R/win-library/3.2")
@@ -9,6 +11,7 @@ library(rgeos)
 library(maptools)
 library("stringr", lib.loc="~/R/win-library/3.2")
 library("plyr", lib.loc="~/R/win-library/3.2")
+library("arm", lib.loc="~/R/win-library/3.2")
 
 # Multiple plot function
 #
@@ -62,6 +65,85 @@ sql<-function(str){
   sqldf()
   return(ret)
 }
+
+state_actuals<-read.csv('data_sets\\state_election_results.csv')
+state_actuals_2000<-state_actuals[,c("State","X2000")]
+state_actuals_2004<-state_actuals[,c("State","X2004")]
+state_actuals_2008<-state_actuals[,c("State","X2008")]
+state_actuals_2012<-state_actuals[,c("State","X2012")]
+state_abb_temp<-data.frame(list("Washington DC","DC"))
+names(state_abb_temp)<-c('name','abb')
+state_abb<-data.frame(cbind(state.name,state.abb))
+names(state_abb)<-c('name','abb')
+state_abb<-rbind(state_abb,state_abb_temp)
+
+electoral_votes<-read.csv('data_sets\\electoral_votes.csv')
+
+temp<-sql("
+select
+  sabb.name
+  ,`X1976` as `1976_state_result`
+  ,`X1980` as `1980_state_result`
+  ,`X1984` as `1984_state_result`
+  ,`X1988` as `1988_state_result`
+  ,`X1992` as `1992_state_result`
+  ,`X1996` as `1996_state_result`
+  ,`X2000` as `2000_state_result`
+  ,`X2004` as `2004_state_result`
+  ,`X2008` as `2008_state_result`
+  ,`X2012` as `2012_state_result`
+  ,`Electoral.Votes` as `electoral_votes`
+from state_abb sabb
+  left join state_actuals sact on sact.State=sabb.name
+  left join electoral_votes ev on ev.State=sabb.name
+")
+
+election_hist_temp<-sql("
+select
+  temp2.name as name
+  ,abb
+  ,hist_dem_prob
+  ,electoral_votes
+from
+(
+  select
+    name
+    ,case when num_dems=0 then round(round(1,10)/round(11,10),4)
+          when num_dems=10 then round(round(10,10)/round(11,10),4)
+    else round(round(num_dems,10)/round(10,10),4) end hist_dem_prob
+    ,electoral_votes
+  from
+  (
+    select 
+      name
+      ,case when `1976_state_result`='D' then 1 else 0 end
+        +case when `1980_state_result`='D' then 1 else 0 end
+        +case when `1984_state_result`='D' then 1 else 0 end
+        +case when `1988_state_result`='D' then 1 else 0 end
+        +case when `1992_state_result`='D' then 1 else 0 end
+        +case when `1996_state_result`='D' then 1 else 0 end
+        +case when `2000_state_result`='D' then 1 else 0 end
+        +case when `2004_state_result`='D' then 1 else 0 end
+        +case when `2008_state_result`='D' then 1 else 0 end
+        +case when `2012_state_result`='D' then 1 else 0 end as num_dems
+      ,electoral_votes
+    from temp
+    group by 1
+  ) temp1
+) temp2
+inner join state_abb sa on sa.name=temp2.name
+"
+)
+
+
+
+
+
+##########################################################################################
+##########################################################################################
+
+
+
 
 #############################################################
 #Clean old polling data
@@ -135,7 +217,7 @@ names(polls_2000)[ncol(polls_2000)]<-'days_till_election'
 polls_2012<-data.frame()
 states<-append(state.abb,"DC")
 for(i in 1:length(states)){
-#  print(noquote(paste("CURRENTLY GETTING STATE:",states[i])))
+  print(noquote(paste("CURRENTLY GETTING STATE:",states[i])))
   temp1<-pollstr_polls(topic='2012-president',showall=FALSE,state=states[i],max_pages=50)
   temp2<-temp1$polls
   temp3<-temp1$question
@@ -177,7 +259,7 @@ write.csv(polls_2012,'polls\\polls_2012.csv',row.names = FALSE)
 polls_2016<-data.frame()
 states<-append(state.abb,"DC")
 for(i in 1:length(states)){
-#  print(noquote(paste("CURRENTLY GETTING STATE:",states[i])))
+  print(noquote(paste("CURRENTLY GETTING STATE:",states[i])))
   temp1<-pollstr_polls(topic='2016-president',showall=FALSE,state=states[i],max_pages=50)
   temp2<-temp1$polls
   temp3<-temp1$question
@@ -199,6 +281,7 @@ for(i in 1:length(states)){
       and choice in ('Trump','Clinton')
     "
   )
+  temp4$State<-states[i]
   polls_2016<-rbind(polls_2016,temp4)
 }
 names(polls_2016)[4]<-'Date'
@@ -257,16 +340,7 @@ for(i in 1:length(years)){
     polls_altered<-data.frame(rbind(polls_altered,temp5))
   }
 }
-state_actuals<-read.csv('data_sets\\state_election_results.csv')
-state_actuals_2000<-state_actuals[,c("State","X2000")]
-state_actuals_2004<-state_actuals[,c("State","X2004")]
-state_actuals_2008<-state_actuals[,c("State","X2008")]
-state_actuals_2012<-state_actuals[,c("State","X2012")]
-state_abb_temp<-data.frame(list("Washington DC","DC"))
-names(state_abb_temp)<-c('name','abb')
-state_abb<-data.frame(cbind(state.name,state.abb))
-names(state_abb)<-c('name','abb')
-state_abb<-rbind(state_abb,state_abb_temp)
+
 polls_altered_2000<-sql("
   select
     pa.*
@@ -315,6 +389,14 @@ polls_altered_2016$actual_binary_dem<-as.numeric(polls_altered_2016$actual_binar
 
 polls_altered<-data.frame(rbind(polls_altered_2000,polls_altered_2004,polls_altered_2008,polls_altered_2012,polls_altered_2016))
 
+polls_altered<-sql("
+select
+  pa.*
+  ,hist_dem_prob
+from polls_altered pa 
+  inner join election_hist_temp eht on eht.abb=pa.State
+")
+
 states<-unique(polls_altered$State)
 polls_altered_final<-data.frame()
 #for(i in 1:length(states)){
@@ -323,12 +405,18 @@ polls_altered_final<-data.frame()
   temp<-polls_altered
   
   #Fit the linear regression models to each state using unweighted polling
-  fit_unweighted<-glm(actual_binary_dem~days_till_election+running_average,data=temp[temp$actual!='',],family=binomial())
+  fit_unweighted<-bayesglm(actual_binary_dem~
+                        days_till_election+
+                        hist_dem_prob+
+                        running_average,data=temp[temp$actual!='',],family=binomial())
   prob_unweighted_dem<-predict(fit_unweighted,temp,type='response')
   prob_unweighted_rep<-1-prob_unweighted_dem
   
   #Fit the linear regression models to each state using weighted polling
-  fit_weighted<-glm(actual_binary_dem~days_till_election+weighted_running_average,data=temp[temp$actual!='',],family=binomial())
+  fit_weighted<-bayesglm(actual_binary_dem~
+                      days_till_election+
+                      hist_dem_prob+
+                      weighted_running_average,data=temp[temp$actual!='',],family=binomial())
   prob_weighted_dem<-predict(fit_weighted,temp,type='response')
   prob_weighted_rep<-1-prob_weighted_dem
   
@@ -363,7 +451,6 @@ from polls_altered_final paf
 
 write.csv(polls_altered_final,'forecasts\\polls_altered_final.csv',row.names = FALSE)
 
-electoral_votes<-read.csv('data_sets\\electoral_votes.csv')
 master_forecasts<-sql("
 select distinct
   paf.*
@@ -412,6 +499,7 @@ select
         else floor(round(value,0)) end as poll_data_value_label 
 from poll_data pd
 ")
+
 
 plots<-vector('list', length(relevant_list))
 for(i in 1:length(relevant_list)){
@@ -557,8 +645,6 @@ from state_abb sabb
   left join electoral_votes ev on ev.State=sabb.name
 ")
 
-
-
 #2000 Political Climate
 climate2000<-sql("
 select
@@ -673,10 +759,13 @@ margin2012<-paste(climate2012[which.max(climate2012$exp_electoral_votes),'Candid
 #Final Probability
 #########################################################################
 
-election_test<-sql("
+
+election_hist<-sql("
 select
-  name
+  temp2.name
+  ,abb
   ,case when dem_prob is not null then dem_prob else hist_dem_prob end as dem_prob
+  ,hist_dem_prob
   ,electoral_votes
 from
 (
@@ -707,6 +796,7 @@ from
     group by 1
   ) temp1
 ) temp2
+inner join state_abb sa on sa.name=temp2.name
 "
 )
 
@@ -715,10 +805,10 @@ dem_wins<-0
 electoral_vote_list<-c()
 for(i in 1:n){
   electoral_votes<-0
-  for(j in 1:nrow(election_test)){
-    win_or_lose<-rbinom(1,1,election_test[j,'dem_prob'])
+  for(j in 1:nrow(election_hist)){
+    win_or_lose<-rbinom(1,1,election_hist[j,'dem_prob'])
     if(win_or_lose==1){
-      electoral_votes<-electoral_votes+election_test[j,'electoral_votes']
+      electoral_votes<-electoral_votes+election_hist[j,'electoral_votes']
     }
   }
   electoral_vote_list<-append(electoral_vote_list,electoral_votes)
@@ -773,18 +863,4 @@ simulated_result<-ggplot(hist_data, aes(x=electoral_votes, fill=candidate)) +
     theme(legend.text = element_text(size = 19, face = "bold"))+
     geom_segment(aes(x = round(sum_dat[sum_dat$candidate=='Clinton',2]), y = 0, xend = round(sum_dat[sum_dat$candidate=='Clinton',2]), yend = line_lengths[line_lengths$candidate=='Clinton','counter']), colour = "blue",linetype='dashed',size=1)+
     geom_segment(aes(x = round(sum_dat[sum_dat$candidate=='Trump',2]), y = 0, xend = round(sum_dat[sum_dat$candidate=='Trump',2]), yend = line_lengths[line_lengths$candidate=='Trump','counter']), colour = "red3",linetype='dashed',size=1)+
-    geom_segment(aes(x = 270, y = 0, xend = 270, yend = 970),linetype='dashed',size=1)
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+    geom_segment(aes(x = 270, y = 0, xend = 270, yend = 960),linetype='dashed',size=1)

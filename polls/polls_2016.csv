@@ -1,74 +1,88 @@
 "id","election_year","State","Date","Pollster","Candidate","value","party","days_till_election"
+24785,"2016","AZ",2016-06-22,"PPP (D-Americans United for Change/Constitutional Responsibility Project) ","Clinton",40,"D",139
+24785,"2016","AZ",2016-06-22,"PPP (D-Americans United for Change/Constitutional Responsibility Project) ","Trump",44,"R",139
+24751,"2016","AZ",2016-06-20,"OH Predictive Insights (R)","Trump",42,"R",141
+24751,"2016","AZ",2016-06-20,"OH Predictive Insights (R)","Clinton",47,"D",141
 24504,"2016","AZ",2016-05-13,"PPP (D)","Clinton",38,"D",179
 24504,"2016","AZ",2016-05-13,"PPP (D)","Trump",40,"R",179
-24357,"2016","AZ",2016-04-04,"Behavior Research Center","Clinton",42,"D",218
 24357,"2016","AZ",2016-04-04,"Behavior Research Center","Trump",35,"R",218
+24357,"2016","AZ",2016-04-04,"Behavior Research Center","Clinton",42,"D",218
 24105,"2016","AZ",2016-03-07,"Merrill/WestGroup","Clinton",38,"D",246
 24105,"2016","AZ",2016-03-07,"Merrill/WestGroup","Trump",38,"R",246
 23359,"2016","AZ",2015-12-04,"Strategies 360","Clinton",42,"D",340
 23359,"2016","AZ",2015-12-04,"Strategies 360","Trump",44,"R",340
-24674,"2016","CA",2016-06-09,"SurveyMonkey/USC/LA Times","Clinton",54,"D",152
+24831,"2016","CA",2016-06-08,"Field","Trump",28,"R",153
+24831,"2016","CA",2016-06-08,"Field","Clinton",58,"D",153
 24674,"2016","CA",2016-06-09,"SurveyMonkey/USC/LA Times","Trump",28,"R",152
-24612,"2016","CA",2016-05-31,"CBS/YouGov","Clinton",48,"D",161
+24674,"2016","CA",2016-06-09,"SurveyMonkey/USC/LA Times","Clinton",54,"D",152
 24612,"2016","CA",2016-05-31,"CBS/YouGov","Trump",33,"R",161
-24603,"2016","CA",2016-05-19,"USC/LA Times","Clinton",54,"D",173
+24612,"2016","CA",2016-05-31,"CBS/YouGov","Clinton",48,"D",161
 24603,"2016","CA",2016-05-19,"USC/LA Times","Trump",33,"R",173
-24594,"2016","CA",2016-05-26,"Field","Clinton",53,"D",166
+24603,"2016","CA",2016-05-19,"USC/LA Times","Clinton",54,"D",173
 24594,"2016","CA",2016-05-26,"Field","Trump",34,"R",166
-24593,"2016","CA",2016-05-29,"NBC/WSJ/Marist","Clinton",55,"D",163
+24594,"2016","CA",2016-05-26,"Field","Clinton",53,"D",166
 24593,"2016","CA",2016-05-29,"NBC/WSJ/Marist","Trump",31,"R",163
-24574,"2016","CA",2016-05-04,"YouGov/Hoover Institution","Clinton",45,"D",188
+24593,"2016","CA",2016-05-29,"NBC/WSJ/Marist","Clinton",55,"D",163
 24574,"2016","CA",2016-05-04,"YouGov/Hoover Institution","Trump",33,"R",188
-24558,"2016","CA",2016-05-13,"PPIC","Clinton",49,"D",179
+24574,"2016","CA",2016-05-04,"YouGov/Hoover Institution","Clinton",45,"D",188
 24558,"2016","CA",2016-05-13,"PPIC","Trump",39,"R",179
-24538,"2016","CA",2016-05-19,"SurveyUSA/KABC/SCNG","Clinton",52,"D",173
+24558,"2016","CA",2016-05-13,"PPIC","Clinton",49,"D",179
 24538,"2016","CA",2016-05-19,"SurveyUSA/KABC/SCNG","Trump",38,"R",173
-24427,"2016","CA",2016-04-27,"SurveyUSA/KABC/SCNG","Clinton",56,"D",195
+24538,"2016","CA",2016-05-19,"SurveyUSA/KABC/SCNG","Clinton",52,"D",173
 24427,"2016","CA",2016-04-27,"SurveyUSA/KABC/SCNG","Trump",34,"R",195
-24222,"2016","CA",2016-03-24,"Field","Clinton",59,"D",229
+24427,"2016","CA",2016-04-27,"SurveyUSA/KABC/SCNG","Clinton",56,"D",195
 24222,"2016","CA",2016-03-24,"Field","Trump",31,"R",229
-24205,"2016","CA",2016-03-30,"SurveyUSA","Clinton",60,"D",223
+24222,"2016","CA",2016-03-24,"Field","Clinton",59,"D",229
 24205,"2016","CA",2016-03-30,"SurveyUSA","Trump",26,"R",223
-24155,"2016","CA",2016-03-16,"USC/LA Times","Clinton",57,"D",237
+24205,"2016","CA",2016-03-30,"SurveyUSA","Clinton",60,"D",223
 24155,"2016","CA",2016-03-16,"USC/LA Times","Trump",30,"R",237
-24720,"2016","FL",2016-06-08,"Quinnipiac","Clinton",47,"D",153
+24155,"2016","CA",2016-03-16,"USC/LA Times","Clinton",57,"D",237
+24767,"2016","CO",2016-06-21,"CBS/YouGov","Trump",39,"R",140
+24767,"2016","CO",2016-06-21,"CBS/YouGov","Clinton",40,"D",140
+23168,"2016","CO",2015-11-11,"Quinnipiac","Clinton",37,"D",363
+23168,"2016","CO",2015-11-11,"Quinnipiac","Trump",48,"R",363
+24797,"2016","FL",2016-06-25,"SurveyUSA/Bay News 9/News 13","Trump",42,"R",136
+24797,"2016","FL",2016-06-25,"SurveyUSA/Bay News 9/News 13","Clinton",46,"D",136
+24766,"2016","FL",2016-06-21,"CBS/YouGov","Trump",41,"R",140
+24766,"2016","FL",2016-06-21,"CBS/YouGov","Clinton",44,"D",140
 24720,"2016","FL",2016-06-08,"Quinnipiac","Trump",39,"R",153
+24720,"2016","FL",2016-06-08,"Quinnipiac","Clinton",47,"D",153
 24635,"2016","FL",2016-06-02,"PPP (D)","Clinton",40,"D",159
 24635,"2016","FL",2016-06-02,"PPP (D)","Trump",41,"R",159
-24606,"2016","FL",2016-05-31,"Mason-Dixon","Clinton",45,"D",161
 24606,"2016","FL",2016-05-31,"Mason-Dixon","Trump",42,"R",161
-24554,"2016","FL",2016-05-17,"Gravis Marketing","Clinton",46,"D",175
+24606,"2016","FL",2016-05-31,"Mason-Dixon","Clinton",45,"D",161
 24554,"2016","FL",2016-05-17,"Gravis Marketing","Trump",42,"R",175
-24529,"2016","FL",2016-05-16,"CBS/YouGov","Clinton",43,"D",176
+24554,"2016","FL",2016-05-17,"Gravis Marketing","Clinton",46,"D",175
 24529,"2016","FL",2016-05-16,"CBS/YouGov","Trump",42,"R",176
-24463,"2016","FL",2016-04-27,"Quinnipiac","Clinton",43,"D",195
+24529,"2016","FL",2016-05-16,"CBS/YouGov","Clinton",43,"D",176
 24463,"2016","FL",2016-04-27,"Quinnipiac","Trump",42,"R",195
-24418,"2016","FL",2016-04-25,"Associated Industries of Florida (R)","Clinton",49,"D",197
+24463,"2016","FL",2016-04-27,"Quinnipiac","Clinton",43,"D",195
 24418,"2016","FL",2016-04-25,"Associated Industries of Florida (R)","Trump",36,"R",197
-24057,"2016","FL",2016-03-04,"NBC/WSJ/Marist","Clinton",49,"D",249
+24418,"2016","FL",2016-04-25,"Associated Industries of Florida (R)","Clinton",49,"D",197
 24057,"2016","FL",2016-03-04,"NBC/WSJ/Marist","Trump",41,"R",249
-24021,"2016","FL",2016-03-02,"CNN","Clinton",50,"D",251
+24057,"2016","FL",2016-03-04,"NBC/WSJ/Marist","Clinton",49,"D",249
 24021,"2016","FL",2016-03-02,"CNN","Trump",43,"R",251
+24021,"2016","FL",2016-03-02,"CNN","Clinton",50,"D",251
 24010,"2016","FL",2016-03-04,"SurveyUSA/Bay News 9/News 13","Clinton",44,"D",249
 24010,"2016","FL",2016-03-04,"SurveyUSA/Bay News 9/News 13","Trump",45,"R",249
 23886,"2016","FL",2016-02-24,"PPP (D)","Clinton",44,"D",258
 23886,"2016","FL",2016-02-24,"PPP (D)","Trump",46,"R",258
-23730,"2016","FL",2016-01-30,"Florida Southern College Center","Clinton",45,"D",283
 23730,"2016","FL",2016-01-30,"Florida Southern College Center","Trump",38,"R",283
+23730,"2016","FL",2016-01-30,"Florida Southern College Center","Clinton",45,"D",283
 23532,"2016","FL",2016-01-15,"Florida Atlantic University","Clinton",44,"D",298
 23532,"2016","FL",2016-01-15,"Florida Atlantic University","Trump",47,"R",298
-23292,"2016","FL",2015-11-29,"Saint Leo University","Clinton",49,"D",345
 23292,"2016","FL",2015-11-29,"Saint Leo University","Trump",41,"R",345
+23292,"2016","FL",2015-11-29,"Saint Leo University","Clinton",49,"D",345
 23190,"2016","FL",2015-09-17,"Florida Atlantic University","Clinton",45,"D",418
 23190,"2016","FL",2015-09-17,"Florida Atlantic University","Trump",46,"R",418
 23188,"2016","FL",2015-11-15,"Florida Atlantic University","Clinton",41,"D",359
 23188,"2016","FL",2015-11-15,"Florida Atlantic University","Trump",49,"R",359
 23054,"2016","FL",2015-10-28,"SurveyUSA/Bay News 9/News 13","Clinton",43,"D",377
 23054,"2016","FL",2015-10-28,"SurveyUSA/Bay News 9/News 13","Trump",47,"R",377
-22910,"2016","FL",2015-09-16,"Cherry (R-Florida Chamber of Commerce)","Clinton",42,"D",419
 22910,"2016","FL",2015-09-16,"Cherry (R-Florida Chamber of Commerce)","Trump",41,"R",419
-22860,"2016","FL",2015-09-25,"Quinnipiac","Clinton",46,"D",410
+22910,"2016","FL",2015-09-16,"Cherry (R-Florida Chamber of Commerce)","Clinton",42,"D",419
 22860,"2016","FL",2015-09-25,"Quinnipiac","Trump",41,"R",410
+22860,"2016","FL",2015-09-25,"Quinnipiac","Clinton",46,"D",410
 22737,"2016","FL",2015-09-11,"PPP (D)","Clinton",42,"D",424
 22737,"2016","FL",2015-09-11,"PPP (D)","Trump",48,"R",424
 22582,"2016","FL",2015-08-07,"Quinnipiac","Clinton",41,"D",459
@@ -81,265 +95,301 @@
 24490,"2016","GA",2016-05-09,"Abt SRBI Inc/Atlanta Journal-Constitution","Trump",45,"R",183
 24452,"2016","GA",2016-05-05,"Landmark (R)/Rosetta Stone/WSB-TV","Clinton",41,"D",187
 24452,"2016","GA",2016-05-05,"Landmark (R)/Rosetta Stone/WSB-TV","Trump",42,"R",187
-24267,"2016","GA",2016-03-31,"Lake Research (D)","Clinton",50,"D",222
 24267,"2016","GA",2016-03-31,"Lake Research (D)","Trump",37,"R",222
+24267,"2016","GA",2016-03-31,"Lake Research (D)","Clinton",50,"D",222
 23896,"2016","GA",2016-02-22,"SurveyUSA/TEGNA/11Alive","Clinton",41,"D",260
 23896,"2016","GA",2016-02-22,"SurveyUSA/TEGNA/11Alive","Trump",50,"R",260
 23042,"2016","GA",2015-10-15,"SurveyUSA/11Alive","Clinton",37,"D",390
 23042,"2016","GA",2015-10-15,"SurveyUSA/11Alive","Trump",46,"R",390
-24688,"2016","IA",2016-06-09,"PPP (D-Constitutional Responsibility Project)","Clinton",44,"D",152
+24806,"2016","IA",2016-06-24,"Loras College","Trump",34,"R",137
+24806,"2016","IA",2016-06-24,"Loras College","Clinton",48,"D",137
+24786,"2016","IA",2016-06-22,"PPP (D-Americans United for Change/Constitutional Responsibility Project) ","Trump",39,"R",139
+24786,"2016","IA",2016-06-22,"PPP (D-Americans United for Change/Constitutional Responsibility Project) ","Clinton",41,"D",139
 24688,"2016","IA",2016-06-09,"PPP (D-Constitutional Responsibility Project)","Trump",41,"R",152
-23463,"2016","IA",2016-01-02,"NBC/WSJ/Marist","Clinton",48,"D",311
+24688,"2016","IA",2016-06-09,"PPP (D-Constitutional Responsibility Project)","Clinton",44,"D",152
 23463,"2016","IA",2016-01-02,"NBC/WSJ/Marist","Trump",40,"R",311
-23364,"2016","IA",2015-12-10,"PPP (D)","Clinton",45,"D",334
+23463,"2016","IA",2016-01-02,"NBC/WSJ/Marist","Clinton",48,"D",311
 23364,"2016","IA",2015-12-10,"PPP (D)","Trump",43,"R",334
-23184,"2016","IA",2015-11-10,"Morning Consult/Campaign for Sustainable Rx Pricing ","Clinton",41,"D",364
+23364,"2016","IA",2015-12-10,"PPP (D)","Clinton",45,"D",334
 23184,"2016","IA",2015-11-10,"Morning Consult/Campaign for Sustainable Rx Pricing ","Trump",40,"R",364
+23184,"2016","IA",2015-11-10,"Morning Consult/Campaign for Sustainable Rx Pricing ","Clinton",41,"D",364
 23072,"2016","IA",2015-10-30,"PPP (D)","Clinton",44,"D",375
 23072,"2016","IA",2015-10-30,"PPP (D)","Trump",44,"R",375
 22843,"2016","IA",2015-09-23,"NBC/WSJ/Marist","Clinton",41,"D",412
 22843,"2016","IA",2015-09-23,"NBC/WSJ/Marist","Trump",48,"R",412
 22684,"2016","IA",2015-08-26,"NBC/Marist","Clinton",43,"D",440
 22684,"2016","IA",2015-08-26,"NBC/Marist","Trump",48,"R",440
-22539,"2016","IA",2015-08-07,"PPP (D)","Clinton",43,"D",459
 22539,"2016","IA",2015-08-07,"PPP (D)","Trump",40,"R",459
-24314,"2016","MD",2016-04-15,"PPP (D)","Clinton",61,"D",207
+22539,"2016","IA",2015-08-07,"PPP (D)","Clinton",43,"D",459
+24669,"2016","KS",2016-06-04,"Zogby/Kansas Health Foundation","Trump",36,"R",157
+24669,"2016","KS",2016-06-04,"Zogby/Kansas Health Foundation","Clinton",43,"D",157
+23980,"2016","KS",2016-02-19,"Fort Hays State University","Clinton",36,"D",263
+23980,"2016","KS",2016-02-19,"Fort Hays State University","Trump",46,"R",263
 24314,"2016","MD",2016-04-15,"PPP (D)","Trump",28,"R",207
-24262,"2016","MD",2016-04-05,"NBC4/Marist","Clinton",63,"D",217
+24314,"2016","MD",2016-04-15,"PPP (D)","Clinton",61,"D",207
 24262,"2016","MD",2016-04-05,"NBC4/Marist","Trump",27,"R",217
-24223,"2016","MD",2016-03-30,"Washington Post/University of Maryland","Clinton",63,"D",223
+24262,"2016","MD",2016-04-05,"NBC4/Marist","Clinton",63,"D",217
 24223,"2016","MD",2016-03-30,"Washington Post/University of Maryland","Trump",28,"R",223
-24588,"2016","MI",2016-05-24,"Glengariff/Detroit News/WDIV","Clinton",43,"D",168
+24223,"2016","MD",2016-03-30,"Washington Post/University of Maryland","Clinton",63,"D",223
 24588,"2016","MI",2016-05-24,"Glengariff/Detroit News/WDIV","Trump",39,"R",168
-24238,"2016","MI",2016-03-19,"EPIC-MRA/Detroit Free Press/WXYZ-TV ","Clinton",47,"D",234
+24588,"2016","MI",2016-05-24,"Glengariff/Detroit News/WDIV","Clinton",43,"D",168
 24238,"2016","MI",2016-03-19,"EPIC-MRA/Detroit Free Press/WXYZ-TV ","Trump",37,"R",234
-24153,"2016","MI",2016-03-23,"SurveyUSA","Clinton",49,"D",230
+24238,"2016","MI",2016-03-19,"EPIC-MRA/Detroit Free Press/WXYZ-TV ","Clinton",47,"D",234
 24153,"2016","MI",2016-03-23,"SurveyUSA","Trump",38,"R",230
-23993,"2016","MI",2016-03-01,"NBC/WSJ/Marist","Clinton",52,"D",252
+24153,"2016","MI",2016-03-23,"SurveyUSA","Clinton",49,"D",230
 23993,"2016","MI",2016-03-01,"NBC/WSJ/Marist","Trump",36,"R",252
-23917,"2016","MI",2016-02-22,"Marketing Resource Group (R)","Clinton",44,"D",260
+23993,"2016","MI",2016-03-01,"NBC/WSJ/Marist","Clinton",52,"D",252
 23917,"2016","MI",2016-02-22,"Marketing Resource Group (R)","Trump",39,"R",260
-23078,"2016","MI",2015-10-25,"EPIC-MRA/Detroit Free Press/WXYZ-TV ","Clinton",46,"D",380
+23917,"2016","MI",2016-02-22,"Marketing Resource Group (R)","Clinton",44,"D",260
 23078,"2016","MI",2015-10-25,"EPIC-MRA/Detroit Free Press/WXYZ-TV ","Trump",38,"R",380
+23078,"2016","MI",2015-10-25,"EPIC-MRA/Detroit Free Press/WXYZ-TV ","Clinton",46,"D",380
 22826,"2016","MI",2015-09-18,"Mitchell Research (R)/Fox 2 Detroit","Clinton",42,"D",417
 22826,"2016","MI",2015-09-18,"Mitchell Research (R)/Fox 2 Detroit","Trump",42,"R",417
-22759,"2016","MI",2015-09-09,"Marketing Resource Group (R)","Clinton",43,"D",426
 22759,"2016","MI",2015-09-09,"Marketing Resource Group (R)","Trump",40,"R",426
-22605,"2016","MI",2015-08-18,"EPIC-MRA/Detroit Free Press/WXYZ-TV ","Clinton",44,"D",448
+22759,"2016","MI",2015-09-09,"Marketing Resource Group (R)","Clinton",43,"D",426
 22605,"2016","MI",2015-08-18,"EPIC-MRA/Detroit Free Press/WXYZ-TV ","Trump",42,"R",448
+22605,"2016","MI",2015-08-18,"EPIC-MRA/Detroit Free Press/WXYZ-TV ","Clinton",44,"D",448
 22603,"2016","MI",2015-08-10,"Mitchell Research (R)/Fox 2 Detroit","Clinton",39,"D",456
 22603,"2016","MI",2015-08-10,"Mitchell Research (R)/Fox 2 Detroit","Trump",40,"R",456
-22328,"2016","MI",2015-06-25,"PPP (D)","Clinton",49,"D",502
 22328,"2016","MI",2015-06-25,"PPP (D)","Trump",39,"R",502
-23574,"2016","MN",2016-01-18,"Mason-Dixon/Star Tribune","Clinton",43,"D",295
+22328,"2016","MI",2015-06-25,"PPP (D)","Clinton",49,"D",502
 23574,"2016","MN",2016-01-18,"Mason-Dixon/Star Tribune","Trump",38,"R",295
+23574,"2016","MN",2016-01-18,"Mason-Dixon/Star Tribune","Clinton",43,"D",295
 23089,"2016","MN",2015-10-29,"SurveyUSA/KSTP-TV","Clinton",42,"D",376
 23089,"2016","MN",2015-10-29,"SurveyUSA/KSTP-TV","Trump",45,"R",376
-22481,"2016","MN",2015-07-30,"PPP (D)","Clinton",44,"D",467
 22481,"2016","MN",2015-07-30,"PPP (D)","Trump",39,"R",467
-24188,"2016","MO",2016-03-17,"DFM Research (D-United Transportation Union)","Clinton",42,"D",236
+22481,"2016","MN",2015-07-30,"PPP (D)","Clinton",44,"D",467
 24188,"2016","MO",2016-03-17,"DFM Research (D-United Transportation Union)","Trump",40,"R",236
+24188,"2016","MO",2016-03-17,"DFM Research (D-United Transportation Union)","Clinton",42,"D",236
 24056,"2016","MO",2016-03-03,"Fort Hays State University","Clinton",38,"D",250
 24056,"2016","MO",2016-03-03,"Fort Hays State University","Trump",43,"R",250
 22555,"2016","MO",2015-08-07,"PPP (D)","Clinton",39,"D",459
 22555,"2016","MO",2015-08-07,"PPP (D)","Trump",48,"R",459
+24796,"2016","NH",2016-06-24,"ARG","Trump",42,"R",137
+24796,"2016","NH",2016-06-24,"ARG","Clinton",47,"D",137
+24787,"2016","NH",2016-06-22,"PPP (D-Americans United for Change/Constitutional Responsibility Project) ","Trump",39,"R",139
+24787,"2016","NH",2016-06-22,"PPP (D-Americans United for Change/Constitutional Responsibility Project) ","Clinton",43,"D",139
 24570,"2016","NH",2016-05-25,"Franklin Pierce/RKM/Boston Herald","Clinton",44,"D",167
 24570,"2016","NH",2016-05-25,"Franklin Pierce/RKM/Boston Herald","Trump",44,"R",167
-24505,"2016","NH",2016-05-12,"MassINC/WBUR","Clinton",44,"D",180
 24505,"2016","NH",2016-05-12,"MassINC/WBUR","Trump",42,"R",180
-24458,"2016","NH",2016-04-11,"Dartmouth","Clinton",34,"D",211
+24505,"2016","NH",2016-05-12,"MassINC/WBUR","Clinton",44,"D",180
 24458,"2016","NH",2016-04-11,"Dartmouth","Trump",29,"R",211
-23977,"2016","NH",2016-02-20,"UNH/WMUR","Clinton",47,"D",262
+24458,"2016","NH",2016-04-11,"Dartmouth","Clinton",34,"D",211
 23977,"2016","NH",2016-02-20,"UNH/WMUR","Trump",39,"R",262
-23709,"2016","NH",2016-02-05,"UMass Lowell/7 News","Clinton",45,"D",277
+23977,"2016","NH",2016-02-20,"UNH/WMUR","Clinton",47,"D",262
 23709,"2016","NH",2016-02-05,"UMass Lowell/7 News","Trump",40,"R",277
-23538,"2016","NH",2016-01-13,"CNN/UNH/WMUR","Clinton",48,"D",300
+23709,"2016","NH",2016-02-05,"UMass Lowell/7 News","Clinton",45,"D",277
 23538,"2016","NH",2016-01-13,"CNN/UNH/WMUR","Trump",39,"R",300
-23464,"2016","NH",2016-01-02,"NBC/WSJ/Marist","Clinton",45,"D",311
+23538,"2016","NH",2016-01-13,"CNN/UNH/WMUR","Clinton",48,"D",300
 23464,"2016","NH",2016-01-02,"NBC/WSJ/Marist","Trump",44,"R",311
+23464,"2016","NH",2016-01-02,"NBC/WSJ/Marist","Clinton",45,"D",311
+23453,"2016","NH",2016-01-04,"PPP (D)","Trump",36,"R",309
 23453,"2016","NH",2016-01-04,"PPP (D)","Clinton",50,"D",309
-23453,"2016","NH",2016-01-04,"PPP (D)","Trump",26,"R",309
-23268,"2016","NH",2015-11-30,"PPP (D)","Clinton",47,"D",344
 23268,"2016","NH",2015-11-30,"PPP (D)","Trump",41,"R",344
-23185,"2016","NH",2015-11-06,"Morning Consult/Campaign for Sustainable Rx Pricing ","Clinton",45,"D",368
+23268,"2016","NH",2015-11-30,"PPP (D)","Clinton",47,"D",344
 23185,"2016","NH",2015-11-06,"Morning Consult/Campaign for Sustainable Rx Pricing ","Trump",38,"R",368
-23176,"2016","NH",2015-11-15,"FOX","Clinton",47,"D",359
+23185,"2016","NH",2015-11-06,"Morning Consult/Campaign for Sustainable Rx Pricing ","Clinton",45,"D",368
 23176,"2016","NH",2015-11-15,"FOX","Trump",40,"R",359
-22959,"2016","NH",2015-10-16,"PPP (D)","Clinton",47,"D",389
+23176,"2016","NH",2015-11-15,"FOX","Clinton",47,"D",359
 22959,"2016","NH",2015-10-16,"PPP (D)","Trump",41,"R",389
-22842,"2016","NH",2015-09-23,"NBC/WSJ/Marist","Clinton",48,"D",412
+22959,"2016","NH",2015-10-16,"PPP (D)","Clinton",47,"D",389
 22842,"2016","NH",2015-09-23,"NBC/WSJ/Marist","Trump",45,"R",412
-22807,"2016","NH",2015-09-17,"CNN/UNH/WMUR","Clinton",50,"D",418
+22842,"2016","NH",2015-09-23,"NBC/WSJ/Marist","Clinton",48,"D",412
 22807,"2016","NH",2015-09-17,"CNN/UNH/WMUR","Trump",42,"R",418
-22685,"2016","NH",2015-08-26,"NBC/Marist","Clinton",46,"D",440
+22807,"2016","NH",2015-09-17,"CNN/UNH/WMUR","Clinton",50,"D",418
 22685,"2016","NH",2015-08-26,"NBC/Marist","Trump",45,"R",440
-22612,"2016","NH",2015-08-21,"PPP (D)","Clinton",46,"D",445
+22685,"2016","NH",2015-08-26,"NBC/Marist","Clinton",46,"D",440
 22612,"2016","NH",2015-08-21,"PPP (D)","Trump",44,"R",445
-22500,"2016","NH",2015-07-22,"UNH/WMUR","Clinton",50,"D",475
+22612,"2016","NH",2015-08-21,"PPP (D)","Clinton",46,"D",445
 22500,"2016","NH",2015-07-22,"UNH/WMUR","Trump",40,"R",475
-24585,"2016","NY",2016-05-22,"Siena","Clinton",52,"D",170
+22500,"2016","NH",2015-07-22,"UNH/WMUR","Clinton",50,"D",475
+24613,"2016","NJ",2016-05-31,"CBS/YouGov","Trump",34,"R",161
+24613,"2016","NJ",2016-05-31,"CBS/YouGov","Clinton",49,"D",161
+24572,"2016","NJ",2016-05-23,"Monmouth University","Trump",34,"R",169
+24572,"2016","NJ",2016-05-23,"Monmouth University","Clinton",38,"D",169
+24548,"2016","NJ",2016-05-18,"Fairleigh Dickinson","Trump",37,"R",174
+24548,"2016","NJ",2016-05-18,"Fairleigh Dickinson","Clinton",48,"D",174
+24515,"2016","NJ",2016-05-10,"Quinnipiac","Trump",38,"R",182
+24515,"2016","NJ",2016-05-10,"Quinnipiac","Clinton",45,"D",182
+24304,"2016","NJ",2016-04-01,"Rutgers-Eagleton","Trump",36,"R",221
+24304,"2016","NJ",2016-04-01,"Rutgers-Eagleton","Clinton",50,"D",221
+24809,"2016","NY",2016-06-22,"Siena","Trump",31,"R",139
+24809,"2016","NY",2016-06-22,"Siena","Clinton",54,"D",139
 24585,"2016","NY",2016-05-22,"Siena","Trump",31,"R",170
-24430,"2016","NY",2016-04-24,"Siena","Clinton",56,"D",198
+24585,"2016","NY",2016-05-22,"Siena","Clinton",52,"D",170
 24430,"2016","NY",2016-04-24,"Siena","Trump",30,"R",198
-24294,"2016","NY",2016-04-16,"Emerson College Polling Society","Clinton",55,"D",206
+24430,"2016","NY",2016-04-24,"Siena","Clinton",56,"D",198
 24294,"2016","NY",2016-04-16,"Emerson College Polling Society","Trump",36,"R",206
-24259,"2016","NY",2016-04-07,"PPP (D)","Clinton",55,"D",215
+24294,"2016","NY",2016-04-16,"Emerson College Polling Society","Clinton",55,"D",206
 24259,"2016","NY",2016-04-07,"PPP (D)","Trump",35,"R",215
-24253,"2016","NY",2016-04-05,"Baruch College/New York 1","Clinton",51,"D",217
+24259,"2016","NY",2016-04-07,"PPP (D)","Clinton",55,"D",215
 24253,"2016","NY",2016-04-05,"Baruch College/New York 1","Trump",35,"R",217
-24249,"2016","NY",2016-04-06,"NBC/WSJ/Marist","Clinton",61,"D",216
+24253,"2016","NY",2016-04-05,"Baruch College/New York 1","Clinton",51,"D",217
 24249,"2016","NY",2016-04-06,"NBC/WSJ/Marist","Trump",32,"R",216
-24239,"2016","NY",2016-04-04,"Fox News","Clinton",53,"D",218
+24249,"2016","NY",2016-04-06,"NBC/WSJ/Marist","Clinton",61,"D",216
 24239,"2016","NY",2016-04-04,"Fox News","Trump",37,"R",218
-24235,"2016","NY",2016-04-06,"Emerson College Polling Society","Clinton",54,"D",216
+24239,"2016","NY",2016-04-04,"Fox News","Clinton",53,"D",218
 24235,"2016","NY",2016-04-06,"Emerson College Polling Society","Trump",36,"R",216
-24174,"2016","NY",2016-03-22,"Quinnipiac","Clinton",53,"D",231
+24235,"2016","NY",2016-04-06,"Emerson College Polling Society","Clinton",54,"D",216
 24174,"2016","NY",2016-03-22,"Quinnipiac","Trump",33,"R",231
-24106,"2016","NY",2016-03-14,"Emerson College Polling Society","Clinton",55,"D",239
+24174,"2016","NY",2016-03-22,"Quinnipiac","Clinton",53,"D",231
 24106,"2016","NY",2016-03-14,"Emerson College Polling Society","Trump",36,"R",239
-23997,"2016","NY",2016-02-28,"Siena","Clinton",57,"D",254
+24106,"2016","NY",2016-03-14,"Emerson College Polling Society","Clinton",55,"D",239
 23997,"2016","NY",2016-02-28,"Siena","Trump",34,"R",254
-23712,"2016","NY",2016-01-31,"Siena","Clinton",57,"D",282
+23997,"2016","NY",2016-02-28,"Siena","Clinton",57,"D",254
 23712,"2016","NY",2016-01-31,"Siena","Trump",32,"R",282
+23712,"2016","NY",2016-01-31,"Siena","Clinton",57,"D",282
+24769,"2016","NC",2016-06-21,"CBS/YouGov","Trump",42,"R",140
+24769,"2016","NC",2016-06-21,"CBS/YouGov","Clinton",44,"D",140
+24758,"2016","NC",2016-06-20,"PPP (D)","Clinton",43,"D",141
+24758,"2016","NC",2016-06-20,"PPP (D)","Trump",43,"R",141
 24565,"2016","NC",2016-05-21,"Civitas (R)","Clinton",36,"D",171
 24565,"2016","NC",2016-05-21,"Civitas (R)","Trump",39,"R",171
 24552,"2016","NC",2016-05-20,"PPP (D)","Clinton",41,"D",172
 24552,"2016","NC",2016-05-20,"PPP (D)","Trump",43,"R",172
-24421,"2016","NC",2016-04-23,"Civitas (R)","Clinton",49,"D",199
 24421,"2016","NC",2016-04-23,"Civitas (R)","Trump",37,"R",199
+24421,"2016","NC",2016-04-23,"Civitas (R)","Clinton",49,"D",199
 24386,"2016","NC",2016-04-22,"PPP (D)","Clinton",44,"D",200
 24386,"2016","NC",2016-04-22,"PPP (D)","Trump",44,"R",200
-24309,"2016","NC",2016-04-10,"Elon","Clinton",45,"D",212
 24309,"2016","NC",2016-04-10,"Elon","Trump",39,"R",212
-24132,"2016","NC",2016-03-18,"PPP (D)","Clinton",44,"D",235
+24309,"2016","NC",2016-04-10,"Elon","Clinton",45,"D",212
 24132,"2016","NC",2016-03-18,"PPP (D)","Trump",42,"R",235
+24132,"2016","NC",2016-03-18,"PPP (D)","Clinton",44,"D",235
 24055,"2016","NC",2016-03-09,"SurveyUSA/High Point University","Clinton",42,"D",244
 24055,"2016","NC",2016-03-09,"SurveyUSA/High Point University","Trump",49,"R",244
 23843,"2016","NC",2016-02-14,"PPP (D)","Clinton",43,"D",268
 23843,"2016","NC",2016-02-14,"PPP (D)","Trump",44,"R",268
 23837,"2016","NC",2016-02-14,"SurveyUSA/TWC News North Carolina","Clinton",43,"D",268
 23837,"2016","NC",2016-02-14,"SurveyUSA/TWC News North Carolina","Trump",45,"R",268
-23831,"2016","NC",2016-02-15,"Elon","Clinton",47,"D",267
 23831,"2016","NC",2016-02-15,"Elon","Trump",41,"R",267
+23831,"2016","NC",2016-02-15,"Elon","Clinton",47,"D",267
 23535,"2016","NC",2016-01-18,"PPP (D)","Clinton",43,"D",295
 23535,"2016","NC",2016-01-18,"PPP (D)","Trump",45,"R",295
 23277,"2016","NC",2015-12-05,"PPP (D)","Clinton",43,"D",339
 23277,"2016","NC",2015-12-05,"PPP (D)","Trump",47,"R",339
-23075,"2016","NC",2015-10-29,"Elon","Clinton",50,"D",376
 23075,"2016","NC",2015-10-29,"Elon","Trump",40,"R",376
+23075,"2016","NC",2015-10-29,"Elon","Clinton",50,"D",376
 23002,"2016","NC",2015-10-23,"PPP (D)","Clinton",42,"D",382
 23002,"2016","NC",2015-10-23,"PPP (D)","Trump",48,"R",382
-22883,"2016","NC",2015-09-28,"Civitas (R)","Clinton",47,"D",407
 22883,"2016","NC",2015-09-28,"Civitas (R)","Trump",43,"R",407
+22883,"2016","NC",2015-09-28,"Civitas (R)","Clinton",47,"D",407
 22812,"2016","NC",2015-09-24,"PPP (D)","Clinton",42,"D",411
 22812,"2016","NC",2015-09-24,"PPP (D)","Trump",47,"R",411
-22796,"2016","NC",2015-09-17,"Elon","Clinton",47,"D",418
 22796,"2016","NC",2015-09-17,"Elon","Trump",40,"R",418
+22796,"2016","NC",2015-09-17,"Elon","Clinton",47,"D",418
 22577,"2016","NC",2015-08-12,"PPP (D)","Clinton",42,"D",454
 22577,"2016","NC",2015-08-12,"PPP (D)","Trump",45,"R",454
-22353,"2016","NC",2015-07-02,"PPP (D)","Clinton",47,"D",495
 22353,"2016","NC",2015-07-02,"PPP (D)","Trump",44,"R",495
+22353,"2016","NC",2015-07-02,"PPP (D)","Clinton",47,"D",495
+24788,"2016","OH",2016-06-22,"PPP (D-Americans United for Change/Constitutional Responsibility Project) ","Trump",40,"R",139
+24788,"2016","OH",2016-06-22,"PPP (D-Americans United for Change/Constitutional Responsibility Project) ","Clinton",44,"D",139
 24721,"2016","OH",2016-06-08,"Quinnipiac","Clinton",40,"D",153
 24721,"2016","OH",2016-06-08,"Quinnipiac","Trump",40,"R",153
-24556,"2016","OH",2016-05-18,"Zogby (Internet)","Clinton",45,"D",174
 24556,"2016","OH",2016-05-18,"Zogby (Internet)","Trump",39,"R",174
-24530,"2016","OH",2016-05-16,"CBS/YouGov","Clinton",44,"D",176
+24556,"2016","OH",2016-05-18,"Zogby (Internet)","Clinton",45,"D",174
 24530,"2016","OH",2016-05-16,"CBS/YouGov","Trump",39,"R",176
+24530,"2016","OH",2016-05-16,"CBS/YouGov","Clinton",44,"D",176
 24464,"2016","OH",2016-04-27,"Quinnipiac","Clinton",39,"D",195
 24464,"2016","OH",2016-04-27,"Quinnipiac","Trump",43,"R",195
-24417,"2016","OH",2016-04-26,"PPP (D)","Clinton",45,"D",196
 24417,"2016","OH",2016-04-26,"PPP (D)","Trump",42,"R",196
-24059,"2016","OH",2016-03-04,"NBC/WSJ/Marist","Clinton",48,"D",249
+24417,"2016","OH",2016-04-26,"PPP (D)","Clinton",45,"D",196
 24059,"2016","OH",2016-03-04,"NBC/WSJ/Marist","Trump",42,"R",249
-24043,"2016","OH",2016-03-04,"PPP (D)","Clinton",45,"D",249
+24059,"2016","OH",2016-03-04,"NBC/WSJ/Marist","Clinton",48,"D",249
 24043,"2016","OH",2016-03-04,"PPP (D)","Trump",40,"R",249
-24022,"2016","OH",2016-03-02,"CNN","Clinton",50,"D",251
+24043,"2016","OH",2016-03-04,"PPP (D)","Clinton",45,"D",249
 24022,"2016","OH",2016-03-02,"CNN","Trump",43,"R",251
+24022,"2016","OH",2016-03-02,"CNN","Clinton",50,"D",251
 23879,"2016","OH",2016-02-11,"Baldwin Wallace University","Clinton",37,"D",271
 23879,"2016","OH",2016-02-11,"Baldwin Wallace University","Trump",39,"R",271
 23851,"2016","OH",2016-02-16,"Quinnipiac","Clinton",42,"D",266
 23851,"2016","OH",2016-02-16,"Quinnipiac","Trump",44,"R",266
-22861,"2016","OH",2015-09-25,"Quinnipiac","Clinton",43,"D",410
 22861,"2016","OH",2015-09-25,"Quinnipiac","Trump",42,"R",410
-22583,"2016","OH",2015-08-07,"Quinnipiac","Clinton",43,"D",459
+22861,"2016","OH",2015-09-25,"Quinnipiac","Clinton",43,"D",410
 22583,"2016","OH",2015-08-07,"Quinnipiac","Trump",38,"R",459
-24722,"2016","PA",2016-06-08,"Quinnipiac","Clinton",42,"D",153
+22583,"2016","OH",2015-08-07,"Quinnipiac","Clinton",43,"D",459
+24789,"2016","PA",2016-06-22,"PPP (D-Americans United for Change/Constitutional Responsibility Project) ","Trump",42,"R",139
+24789,"2016","PA",2016-06-22,"PPP (D-Americans United for Change/Constitutional Responsibility Project) ","Clinton",46,"D",139
 24722,"2016","PA",2016-06-08,"Quinnipiac","Trump",41,"R",153
-24641,"2016","PA",2016-06-03,"PPP (D)","Clinton",41,"D",158
+24722,"2016","PA",2016-06-08,"Quinnipiac","Clinton",42,"D",153
 24641,"2016","PA",2016-06-03,"PPP (D)","Trump",40,"R",158
-24465,"2016","PA",2016-04-27,"Quinnipiac","Clinton",43,"D",195
+24641,"2016","PA",2016-06-03,"PPP (D)","Clinton",41,"D",158
 24465,"2016","PA",2016-04-27,"Quinnipiac","Trump",42,"R",195
-24335,"2016","PA",2016-04-18,"NBC/WSJ/Marist","Clinton",54,"D",204
+24465,"2016","PA",2016-04-27,"Quinnipiac","Clinton",43,"D",195
 24335,"2016","PA",2016-04-18,"NBC/WSJ/Marist","Trump",39,"R",204
+24335,"2016","PA",2016-04-18,"NBC/WSJ/Marist","Clinton",54,"D",204
 24240,"2016","PA",2016-04-04,"Fox News","Clinton",44,"D",218
 24240,"2016","PA",2016-04-04,"Fox News","Trump",44,"R",218
-24216,"2016","PA",2016-03-30,"Quinnipiac","Clinton",45,"D",223
 24216,"2016","PA",2016-03-30,"Quinnipiac","Trump",42,"R",223
-24143,"2016","PA",2016-03-14,"Franklin and Marshall College","Clinton",46,"D",239
+24216,"2016","PA",2016-03-30,"Quinnipiac","Clinton",45,"D",223
 24143,"2016","PA",2016-03-14,"Franklin and Marshall College","Trump",33,"R",239
-24092,"2016","PA",2016-03-01,"Mercyhurst University","Clinton",43,"D",252
+24143,"2016","PA",2016-03-14,"Franklin and Marshall College","Clinton",46,"D",239
 24092,"2016","PA",2016-03-01,"Mercyhurst University","Trump",35,"R",252
+24092,"2016","PA",2016-03-01,"Mercyhurst University","Clinton",43,"D",252
 22927,"2016","PA",2015-10-08,"PPP (D)","Clinton",43,"D",397
 22927,"2016","PA",2015-10-08,"PPP (D)","Trump",45,"R",397
-22862,"2016","PA",2015-09-25,"Quinnipiac","Clinton",44,"D",410
 22862,"2016","PA",2015-09-25,"Quinnipiac","Trump",42,"R",410
-22584,"2016","PA",2015-08-07,"Quinnipiac","Clinton",45,"D",459
+22862,"2016","PA",2015-09-25,"Quinnipiac","Clinton",44,"D",410
 22584,"2016","PA",2015-08-07,"Quinnipiac","Trump",40,"R",459
-24725,"2016",NA,2016-06-08,"Dan Jones & Associates/UtahPolicy.com","Clinton",27,"D",153
-24725,"2016",NA,2016-06-08,"Dan Jones & Associates/UtahPolicy.com","Trump",36,"R",153
-24658,"2016",NA,2016-06-02,"SurveyUSA/Salt Lake Tribune/Hinckley Institute","Clinton",35,"D",159
-24658,"2016",NA,2016-06-02,"SurveyUSA/Salt Lake Tribune/Hinckley Institute","Trump",35,"R",159
-24624,"2016",NA,2016-05-31,"Gravis Marketing","Clinton",29,"D",161
-24624,"2016",NA,2016-05-31,"Gravis Marketing","Trump",36,"R",161
-24602,"2016",NA,2016-03-08,"Dan Jones & Associates/Deseret News/KSL","Clinton",38,"D",245
-24602,"2016",NA,2016-03-08,"Dan Jones & Associates/Deseret News/KSL","Trump",36,"R",245
-24491,"2016",NA,2016-05-02,"Dan Jones & Associates/UtahPolicy.com","Clinton",30,"D",190
-24491,"2016",NA,2016-05-02,"Dan Jones & Associates/UtahPolicy.com","Trump",43,"R",190
-24297,"2016",NA,2016-03-23,"Dan Jones & Associates/UtahPolicy.com","Clinton",38,"D",230
-24297,"2016",NA,2016-03-23,"Dan Jones & Associates/UtahPolicy.com","Trump",38,"R",230
-23503,"2016",NA,2015-12-08,"Dan Jones & Associates/UtahPolicy.com","Clinton",28,"D",336
-23503,"2016",NA,2015-12-08,"Dan Jones & Associates/UtahPolicy.com","Trump",33,"R",336
-22646,"2016",NA,2015-08-07,"Dan Jones & Associates/UtahPolicy.com","Clinton",29,"D",459
-22646,"2016",NA,2015-08-07,"Dan Jones & Associates/UtahPolicy.com","Trump",38,"R",459
-24689,"2016","VA",2016-06-13,"PPP (D)","Clinton",42,"D",148
+22584,"2016","PA",2015-08-07,"Quinnipiac","Clinton",45,"D",459
+24725,"2016","UT",2016-06-08,"Dan Jones & Associates/UtahPolicy.com","Clinton",27,"D",153
+24725,"2016","UT",2016-06-08,"Dan Jones & Associates/UtahPolicy.com","Trump",36,"R",153
+24658,"2016","UT",2016-06-02,"SurveyUSA/Salt Lake Tribune/Hinckley Institute","Clinton",35,"D",159
+24658,"2016","UT",2016-06-02,"SurveyUSA/Salt Lake Tribune/Hinckley Institute","Trump",35,"R",159
+24624,"2016","UT",2016-05-31,"Gravis Marketing","Clinton",29,"D",161
+24624,"2016","UT",2016-05-31,"Gravis Marketing","Trump",36,"R",161
+24602,"2016","UT",2016-03-08,"Dan Jones & Associates/Deseret News/KSL","Trump",36,"R",245
+24602,"2016","UT",2016-03-08,"Dan Jones & Associates/Deseret News/KSL","Clinton",38,"D",245
+24491,"2016","UT",2016-05-02,"Dan Jones & Associates/UtahPolicy.com","Clinton",30,"D",190
+24491,"2016","UT",2016-05-02,"Dan Jones & Associates/UtahPolicy.com","Trump",43,"R",190
+24297,"2016","UT",2016-03-23,"Dan Jones & Associates/UtahPolicy.com","Clinton",38,"D",230
+24297,"2016","UT",2016-03-23,"Dan Jones & Associates/UtahPolicy.com","Trump",38,"R",230
+23503,"2016","UT",2015-12-08,"Dan Jones & Associates/UtahPolicy.com","Clinton",28,"D",336
+23503,"2016","UT",2015-12-08,"Dan Jones & Associates/UtahPolicy.com","Trump",33,"R",336
+22646,"2016","UT",2015-08-07,"Dan Jones & Associates/UtahPolicy.com","Clinton",29,"D",459
+22646,"2016","UT",2015-08-07,"Dan Jones & Associates/UtahPolicy.com","Trump",38,"R",459
 24689,"2016","VA",2016-06-13,"PPP (D)","Trump",39,"R",148
-24563,"2016","VA",2016-05-24,"Gravis Marketing","Clinton",45,"D",168
+24689,"2016","VA",2016-06-13,"PPP (D)","Clinton",42,"D",148
 24563,"2016","VA",2016-05-24,"Gravis Marketing","Trump",41,"R",168
+24563,"2016","VA",2016-05-24,"Gravis Marketing","Clinton",45,"D",168
 24534,"2016","VA",2016-05-09,"Roanoke College","Clinton",38,"D",183
 24534,"2016","VA",2016-05-09,"Roanoke College","Trump",38,"R",183
-24242,"2016","VA",2016-03-23,"Christopher Newport","Clinton",44,"D",230
 24242,"2016","VA",2016-03-23,"Christopher Newport","Trump",35,"R",230
-23701,"2016","VA",2016-01-18,"Roanoke College","Clinton",52,"D",295
+24242,"2016","VA",2016-03-23,"Christopher Newport","Clinton",44,"D",230
 23701,"2016","VA",2016-01-18,"Roanoke College","Trump",35,"R",295
-23178,"2016","VA",2015-11-09,"Roanoke College","Clinton",50,"D",365
+23701,"2016","VA",2016-01-18,"Roanoke College","Clinton",52,"D",295
 23178,"2016","VA",2015-11-09,"Roanoke College","Trump",36,"R",365
-22896,"2016","VA",2015-09-29,"Christopher Newport","Clinton",47,"D",406
+23178,"2016","VA",2015-11-09,"Roanoke College","Clinton",50,"D",365
 22896,"2016","VA",2015-09-29,"Christopher Newport","Trump",40,"R",406
-22619,"2016","VA",2015-08-10,"Roanoke College","Clinton",45,"D",456
+22896,"2016","VA",2015-09-29,"Christopher Newport","Clinton",47,"D",406
 22619,"2016","VA",2015-08-10,"Roanoke College","Trump",32,"R",456
-22389,"2016","VA",2015-07-13,"PPP (D)","Clinton",49,"D",484
+22619,"2016","VA",2015-08-10,"Roanoke College","Clinton",45,"D",456
 22389,"2016","VA",2015-07-13,"PPP (D)","Trump",39,"R",484
-24685,"2016","WI",2016-06-09,"Marquette Law School","Clinton",46,"D",152
+22389,"2016","VA",2015-07-13,"PPP (D)","Clinton",49,"D",484
+24790,"2016","WI",2016-06-22,"PPP (D-Americans United for Change/Constitutional Responsibility Project) ","Trump",39,"R",139
+24790,"2016","WI",2016-06-22,"PPP (D-Americans United for Change/Constitutional Responsibility Project) ","Clinton",47,"D",139
+24768,"2016","WI",2016-06-21,"CBS/YouGov","Trump",36,"R",140
+24768,"2016","WI",2016-06-21,"CBS/YouGov","Clinton",41,"D",140
 24685,"2016","WI",2016-06-09,"Marquette Law School","Trump",37,"R",152
-24567,"2016","WI",2016-05-10,"Public Opinion Strategies (R)/Federation for Children","Clinton",43,"D",182
+24685,"2016","WI",2016-06-09,"Marquette Law School","Clinton",46,"D",152
 24567,"2016","WI",2016-05-10,"Public Opinion Strategies (R)/Federation for Children","Trump",31,"R",182
-24316,"2016","WI",2016-04-12,"St Norbert/WPR/WPTV","Clinton",46,"D",210
+24567,"2016","WI",2016-05-10,"Public Opinion Strategies (R)/Federation for Children","Clinton",43,"D",182
 24316,"2016","WI",2016-04-12,"St Norbert/WPR/WPTV","Trump",34,"R",210
-24195,"2016","WI",2016-03-30,"Emerson College Polling Society","Clinton",47,"D",223
+24316,"2016","WI",2016-04-12,"St Norbert/WPR/WPTV","Clinton",46,"D",210
 24195,"2016","WI",2016-03-30,"Emerson College Polling Society","Trump",37,"R",223
-24182,"2016","WI",2016-03-28,"Fox News","Clinton",49,"D",225
+24195,"2016","WI",2016-03-30,"Emerson College Polling Society","Clinton",47,"D",223
 24182,"2016","WI",2016-03-28,"Fox News","Trump",35,"R",225
-24172,"2016","WI",2016-03-24,"Marquette Law School","Clinton",47,"D",229
+24182,"2016","WI",2016-03-28,"Fox News","Clinton",49,"D",225
 24172,"2016","WI",2016-03-24,"Marquette Law School","Trump",37,"R",229
-23872,"2016","WI",2016-02-18,"Marquette Law School","Clinton",48,"D",264
+24172,"2016","WI",2016-03-24,"Marquette Law School","Clinton",47,"D",229
 23872,"2016","WI",2016-02-18,"Marquette Law School","Trump",37,"R",264
-23623,"2016","WI",2016-01-21,"Marquette Law School","Clinton",47,"D",292
+23872,"2016","WI",2016-02-18,"Marquette Law School","Clinton",48,"D",264
 23623,"2016","WI",2016-01-21,"Marquette Law School","Trump",38,"R",292
-23197,"2016","WI",2015-11-12,"Marquette Law School","Clinton",48,"D",362
+23623,"2016","WI",2016-01-21,"Marquette Law School","Clinton",47,"D",292
 23197,"2016","WI",2015-11-12,"Marquette Law School","Trump",38,"R",362
-22973,"2016","WI",2015-10-14,"St Norbert/WPR/WPTV","Clinton",50,"D",391
+23197,"2016","WI",2015-11-12,"Marquette Law School","Clinton",48,"D",362
 22973,"2016","WI",2015-10-14,"St Norbert/WPR/WPTV","Trump",39,"R",391
-22823,"2016","WI",2015-09-24,"Marquette Law School","Clinton",50,"D",411
+22973,"2016","WI",2015-10-14,"St Norbert/WPR/WPTV","Clinton",50,"D",391
 22823,"2016","WI",2015-09-24,"Marquette Law School","Trump",36,"R",411
-22596,"2016","WI",2015-08-13,"Marquette Law School","Clinton",51,"D",453
+22823,"2016","WI",2015-09-24,"Marquette Law School","Clinton",50,"D",411
 22596,"2016","WI",2015-08-13,"Marquette Law School","Trump",35,"R",453
+22596,"2016","WI",2015-08-13,"Marquette Law School","Clinton",51,"D",453
