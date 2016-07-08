@@ -349,7 +349,7 @@ map<-statebins(dat
           ,labels=c("R+++","R++","R+","R","Neutral","D","D+","D++","D+++")
           ,brewer_pal="RdBu"
           ,text_color="black"
-          ,font_size=5
+          ,font_size=6
           ,legend_title="Odds of Winning"
           ,legend_position="bottom"
           )
@@ -413,7 +413,8 @@ for(i in 1:length(relevant_list)){
     theme(legend.position = "none")+
     scale_color_manual(values=c("deepskyblue", "firebrick1"))+
     theme(axis.title.y=element_blank())+
-    theme(axis.title.x=element_blank())
+    theme(axis.title.x=element_blank())+
+    scale_y_continuous(limits = c(0, 100))
   plots[[i]]<-plot
 }
 
