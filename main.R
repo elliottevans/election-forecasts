@@ -254,7 +254,6 @@ from state_odds so
                   
 
 n<-10000
-n<-5
 dem_wins<-0
 electoral_vote_list<-c()
 for(i in 1:n){
@@ -385,7 +384,8 @@ simulated_result<-ggplot(hist_data, aes(x=electoral_votes, fill=candidate)) +
     theme(legend.text = element_text(size = 19, face = "bold"))+
     geom_segment(aes(x = round(sum_dat[sum_dat$candidate=='Clinton',2]), y = 0, xend = round(sum_dat[sum_dat$candidate=='Clinton',2]), yend = line_lengths[line_lengths$candidate=='Clinton','counter']), colour = "blue",linetype='dashed',size=1)+
     geom_segment(aes(x = round(sum_dat[sum_dat$candidate=='Trump',2]), y = 0, xend = round(sum_dat[sum_dat$candidate=='Trump',2]), yend = line_lengths[line_lengths$candidate=='Trump','counter']), colour = "red3",linetype='dashed',size=1)+
-    geom_segment(aes(x = 270, y = 0, xend = 270, yend = 360),linetype='dashed',size=1)
+    geom_segment(aes(x = 270, y = 0, xend = 270, yend = 360),linetype='dashed',size=1)+
+    theme(legend.position = "bottom")
 #########################################################################################################################################
 # VISUALIZATION: HISTOGRAMS
 #########################################################################################################################################
@@ -489,7 +489,19 @@ if(dem_prob>=.5){
   loser_prob<-paste0(100-round(100*dem_prob,1),'%')
   winning_electoral_votes<-round(mean(electoral_vote_list),0)
   losing_electoral_votes<-538-winning_electoral_votes
-
+  
+  num_states_won<-nrow(state_odds[state_odds$mean>0,])
+  
+  if(state_odds[state_odds$state=='Washington DC','mean']>0){
+    plus_dc<-", plus DC,"
+    num_states_won<-num_states_won-1
+  }else{plus_dc<-","}
+  
+  winner_pronoun<-"She"
+  loser_pronoun<-"He"
+  
+  if(round(100*dem_prob,1)<90 && round(100*dem_prob,1)>=80){a_or_an<-'an'}else{ a_or_an<-'a'}
+  
 }else{
   winner<-'Donald Trump'
   loser<-'Hillary Clinton'
@@ -497,15 +509,28 @@ if(dem_prob>=.5){
   loser_prob<-paste0(round(100*dem_prob,1),'%')
   winning_electoral_votes<-538-round(mean(electoral_vote_list),0)
   losing_electoral_votes<-round(mean(electoral_vote_list),0)
+  
+  num_states_won<-nrow(state_odds[state_odds$mean<0,])
+
+  if(state_odds[state_odds$state=='Washington DC','mean']<0){
+    plus_dc<-', plus DC,'
+    num_states_won<-num_states_won-1
+  }else{plus_dc<-","}
+  
+  winner_pronoun<-'He'
+  loser_pronoun<-'She'
+  
+  if(100-round(100*dem_prob,1)<90 && 100-round(100*dem_prob,1)>=80 ){a_or_an<-'an'}else{ a_or_an<-'a'}
+
 }
 
-
-par(mar = c(0,0,0,0))
-plot(c(0, 1), c(0, 1), ann = F, bty = 'n', type = 'n', xaxt = 'n', yaxt = 'n')
-text(x = 0.5, y = 0.5, paste("The following is text that'll appear in a plot window.\n",
-                             "As you can see, it's in the plot window\n",
-                             "One might imagine useful informaiton here"), 
-     cex = 1.6, col = "black")
+ 
+ # par(mar = c(0,0,0,0))
+ # plot(c(0, 1), c(0, 1), ann = F, bty = 'n', type = 'n', xaxt = 'n', yaxt = 'n')
+ # text(x = 0.5, y = 0.5, paste0(winner," has ",a_or_an," ",winner_prob," chance of being president"),
+ #      cex = 2, col = "black",font=2)
+ # text(x = 0.5, y = 0.45, paste0(winner_pronoun," will win ", num_states_won," states",plus_dc," winning the electoral college ",winning_electoral_votes,"-",losing_electoral_votes),
+ #      cex = 1.6, col = "grey41",font=2)
 
 
 #########################################################################################################################################

@@ -46,7 +46,6 @@ end.rcode-->
   </head>
 
   <body>
-
     <div class="container">
       <!-- Static navbar -->
       <div class="navbar navbar-default" role="navigation">
@@ -66,6 +65,15 @@ end.rcode-->
       <!-- Main component for a primary marketing message or call to action -->
 
       <div class="container">
+<!--begin.rcode echo=FALSE,fig.align='center',fig.width=15, fig.height=3
+ par(mar = c(0,0,0,0))
+ plot(c(0, 1), c(0, 1), ann = F, bty = 'n', type = 'n', xaxt = 'n', yaxt = 'n')
+ text(x = 0.5, y = 0.5, paste0(winner," has ",a_or_an," ",winner_prob," chance of being president"),
+      cex = 3.2, col = "black",font=2)
+ text(x = 0.5, y = 0.34, paste0(winner_pronoun," will win ", num_states_won," states",plus_dc," winning the electoral college ",winning_electoral_votes,"-",losing_electoral_votes),
+      cex = 2.3, col = "grey41",font=2)
+end.rcode-->
+      
 <!--begin.rcode echo=FALSE,fig.align='center',fig.width=15, fig.height=8
 simulated_result
 end.rcode-->
@@ -108,7 +116,7 @@ end.rcode-->
     </div> <!-- /container -->
       <p></p>
       <p></p>
-      <p>Updated <!--rinline Sys.Date() --></p>
+
 
     <!-- Bootstrap core JavaScript
     ================================================== -->
