@@ -26,9 +26,27 @@ library("FNN", lib.loc="~/R/win-library/3.2")
 library("fGarch", lib.loc="~/R/win-library/3.2")
 library("statebins", lib.loc="~/R/win-library/3.2")
 library("scales", lib.loc="~/R/win-library/3.2")
+library("condMVNorm", lib.loc="~/R/win-library/3.2")
 library(rgdal)
 library(rgeos)
 library(maptools)
+
+getMargin<-function(known_state,known_margin,unknown_state){
+  corr<-data.frame(
+    as.numeric((t(master_state_ref[master_state_ref$abb==known_state,]))[12:15,])
+    ,as.numeric((t(master_state_ref[master_state_ref$ab==unknown_state,]))[12:15,])
+    )     
+  names(corr)<-c(known_state,unknown_state)
+  cor_calc<-cor(corr)[1,2] 
+  
+  updated_mean<-state_odds_rand[state_odds_rand$abb==unknown_state,'mean'] + 
+    cor_calc*(state_odds_rand[state_odds_rand$abb==unknown_state,'sd']/state_odds_rand[state_odds_rand$abb==known_state,'sd'])*
+    (known_margin-state_odds_rand[state_odds_rand$abb==known_state,'mean'])
+  updated_sd<-sqrt(state_odds_rand[state_odds_rand$abb==unknown_state,'sd']^2*(1-cor_calc^2))
+  margin<-rnorm(1,updated_mean,updated_sd)
+  if(margin>0){win_or_lose<-1}else{win_or_lose<-0}  
+  return(c(margin,win_or_lose))
+}
 
 # Multiple plot function
 #
@@ -179,6 +197,20 @@ polls_2004<-sql(
 #Add on days before general election
 polls_2004<-data.frame(cbind(polls_2004,difftime(as.Date('2004-11-02'),polls_2004$Date,units="days")))
 names(polls_2004)[ncol(polls_2004)]<-'days_till_election'
+polls_2004$days_till_election<-as.numeric(polls_2004$days_till_election)
+polls_2004<-sql("
+select
+  election_year
+  ,State
+  ,Date 
+  ,Candidate
+  ,party
+  ,days_till_election
+  ,min(id) as id
+  ,avg(value) as value
+from polls_2004
+  group by 1,2,3,4,5,6
+")
 ###########################
 # 2004 Polling
 ###########################
@@ -203,6 +235,20 @@ polls_2008<-sql(
 #Add on days before general election
 polls_2008<-data.frame(cbind(polls_2008,difftime(as.Date('2008-11-05'),polls_2008$Date,units="days")))
 names(polls_2008)[ncol(polls_2008)]<-'days_till_election'
+polls_2008$days_till_election<-as.numeric(polls_2008$days_till_election)
+polls_2008<-sql("
+select
+  election_year
+  ,State
+  ,Date 
+  ,Candidate
+  ,party
+  ,days_till_election
+  ,min(id) as id
+  ,avg(value) as value
+from polls_2008
+  group by 1,2,3,4,5,6
+")
 ###########################
 # 2008 Polling
 ###########################
@@ -228,6 +274,20 @@ polls_2000<-sql(
 #Add on days before general election
 polls_2000<-data.frame(cbind(polls_2000,difftime(as.Date('2000-11-07'),polls_2000$Date,units="days")))
 names(polls_2000)[ncol(polls_2000)]<-'days_till_election'
+polls_2000$days_till_election<-as.numeric(polls_2000$days_till_election)
+polls_2000<-sql("
+select
+  election_year
+  ,State
+  ,Date 
+  ,Candidate
+  ,party
+  ,days_till_election
+  ,min(id) as id
+  ,avg(value) as value
+from polls_2000
+  group by 1,2,3,4,5,6
+")
 ###########################
 # 2000 Polling
 ###########################
@@ -250,7 +310,7 @@ for(i in 1:length(states)){
       id
       ,'2012' as election_year
       ,state as State
-      ,start_date
+      ,end_date
       ,pollster as Pollster
       ,choice as Candidate
       ,value
@@ -267,7 +327,20 @@ names(polls_2012)[4]<-'Date'
 #Add on days before general election
 polls_2012<-data.frame(cbind(polls_2012,difftime(as.Date('2012-11-06'),polls_2012$Date,units="days")))
 names(polls_2012)[ncol(polls_2012)]<-'days_till_election'
-
+polls_2012$days_till_election<-as.numeric(polls_2012$days_till_election)
+polls_2012<-sql("
+select
+  election_year
+  ,State
+  ,Date 
+  ,Candidate
+  ,party
+  ,days_till_election
+  ,min(id) as id
+  ,avg(value) as value
+from polls_2012
+  group by 1,2,3,4,5,6
+")
 #Write 2012 polls to csv file
 write.csv(polls_2012,'polls\\polls_2012.csv',row.names = FALSE)
 ###########################
@@ -292,7 +365,7 @@ for(i in 1:length(states)){
       id
       ,'2016' as election_year
       ,state as State
-      ,start_date
+      ,end_date
       ,pollster as Pollster
       ,choice as Candidate
       ,value
@@ -310,7 +383,20 @@ names(polls_2016)[4]<-'Date'
 #Add on days before general election
 polls_2016<-data.frame(cbind(polls_2016,difftime(as.Date('2016-11-08'),polls_2016$Date,units="days")))
 names(polls_2016)[ncol(polls_2016)]<-'days_till_election'
-
+polls_2016$days_till_election<-as.numeric(polls_2016$days_till_election)
+polls_2016<-sql("
+select
+  election_year
+  ,State
+  ,Date
+  ,Candidate
+  ,party
+  ,days_till_election
+  ,min(id) as id
+  ,avg(value) as value
+from polls_2016
+  group by 1,2,3,4,5,6
+")
 #Write 2016 polls to csv file
 write.csv(polls_2016,'polls\\polls_2016.csv',row.names = FALSE)
 ###########################
@@ -323,6 +409,21 @@ write.csv(polls_2016,'polls\\polls_2016.csv',row.names = FALSE)
 polls<-data.frame(rbind(polls_2000,polls_2004,polls_2008,polls_2012,polls_2016))
 
 polls$days_till_election<-as.numeric(polls$days_till_election)
+
+polls$days_till_election<-as.numeric(polls$days_till_election)
+polls<-sql("
+select
+  election_year
+  ,State
+  ,Date 
+  ,Candidate
+  ,party
+  ,days_till_election
+  ,min(id) as id
+  ,avg(value) as value
+from polls
+  group by 1,2,3,4,5,6
+")
 
 #Write all polls to a master csv file
 write.csv(polls,'polls\\polls_total.csv',row.names = FALSE)

@@ -11,7 +11,87 @@ source("prep.R")
 #   6. polls_2016
 #   7. polls
 
+run_date<-as.Date('2012-07-13')
 
+polls_2000$days_till_election<-as.numeric(polls_2000$days_till_election)
+polls_2000<-sql("
+select
+  election_year
+  ,State
+  ,Date 
+  ,Candidate
+  ,party
+  ,days_till_election
+  ,min(id) as id
+  ,avg(value) as value
+from polls_2000
+  group by 1,2,3,4,5,6
+")
+
+polls_2004$days_till_election<-as.numeric(polls_2004$days_till_election)
+polls_2004<-sql("
+select
+  election_year
+  ,State
+  ,Date 
+  ,Candidate
+  ,party
+  ,days_till_election
+  ,min(id) as id
+  ,avg(value) as value
+from polls_2004
+  group by 1,2,3,4,5,6
+")
+
+polls_2008$days_till_election<-as.numeric(polls_2008$days_till_election)
+polls_2008<-sql("
+select
+  election_year
+  ,State
+  ,Date 
+  ,Candidate
+  ,party
+  ,days_till_election
+  ,min(id) as id
+  ,avg(value) as value
+from polls_2008
+  group by 1,2,3,4,5,6
+")
+
+polls_2012$days_till_election<-as.numeric(polls_2012$days_till_election)
+polls_2012<-sql("
+select
+  election_year
+  ,State
+  ,Date 
+  ,Candidate
+  ,party
+  ,days_till_election
+  ,min(id) as id
+  ,avg(value) as value
+from polls_2012
+  group by 1,2,3,4,5,6
+")
+polls_2012<-polls_2012[polls_2012$Date<=run_date,]
+
+polls$days_till_election<-as.numeric(polls$days_till_election)
+polls<-sql("
+select
+  election_year
+  ,State
+  ,Date 
+  ,Candidate
+  ,party
+  ,days_till_election
+  ,min(id) as id
+  ,avg(value) as value
+from polls
+  group by 1,2,3,4,5,6
+")
+polls<-polls[polls$Date<=run_date,]
+
+polls<-polls[polls$election_year!=2016,]
+master_state_ref<-master_state_ref[,-c(11,15)]
 
 #########################################################################################################################################
 # CREATE WEIGHTED POLLING AVERAGES
@@ -26,13 +106,15 @@ Select
   ,sum(case when party='D' then value else 0 end) -
     sum(case when party='R' then value else 0 end) as dem_plus_minus
 from polls
+where election_year<>2016
 group by 1,2,3
 ")
 names(temp1)<-c('id','election_year','state','date','days_till_election','dem_plus_minus')
 
 #Create running averages of polling margins
-years<-c(2000,2004,2008,2012,2016)
+years<-c(2000,2004,2008,2012)
 polls_altered<-data.frame()
+#use_last_n_polls<-TRUE
 for(i in 1:length(years)){
   year<-years[i]
   temp2<-temp1[temp1$election_year==year,]
@@ -45,8 +127,8 @@ for(i in 1:length(years)){
     weighted_running_average<-c()
     for(k in 1:nrow(temp4)){
       #Note that we give more weight to polls closer to the election day
-      running_average<-append(running_average,sum(temp4$dem_plus_minus[1:k])/k)
-      weighted_running_average<-append(weighted_running_average,sum(temp4$dem_plus_minus[1:k] * (sort(temp4$days_till_election[1:k]))/sum(temp4$days_till_election[1:k])))
+        running_average<-append(running_average,sum(temp4$dem_plus_minus[1:k])/k)
+        weighted_running_average<-append(weighted_running_average,sum(temp4$dem_plus_minus[1:k] * (sort(temp4$days_till_election[1:k]))/sum(temp4$days_till_election[1:k])))
     }
     temp5<-data.frame(cbind(temp4,running_average,weighted_running_average))
     polls_altered<-data.frame(rbind(polls_altered,temp5))
@@ -58,7 +140,7 @@ select
   temp1.*
   ,case when actual='D' then 1
         when actual='R' then 0
-        when election_year=2016 then '' end as actual_binary_dem
+        when election_year=2012 then '' end as actual_binary_dem
 from
 (
   select
@@ -67,18 +149,16 @@ from
     ,case when pa.election_year=2000 then msr.`2000`
           when pa.election_year=2004 then msr.`2004`
           when pa.election_year=2008 then msr.`2008`
-          when pa.election_year=2012 then msr.`2012`
-          when pa.election_year=2016 then '' end as actual
+          when pa.election_year=2012 then '' end as actual
     ,case when pa.election_year=2000 then msr.`2000_dem_margin`
           when pa.election_year=2004 then msr.`2004_dem_margin`
           when pa.election_year=2008 then msr.`2008_dem_margin`
-          when pa.election_year=2012 then msr.`2012_dem_margin`
-          when pa.election_year=2016 then '' end as actual_dem_margin
+          when pa.election_year=2012 then '' end as actual_dem_margin
   from polls_altered pa 
     inner join master_state_ref msr on msr.abb=pa.state
 ) as temp1
 ")
-polls_altered[polls_altered$election_year==2016,'actual_binary_dem']<-''
+polls_altered[polls_altered$election_year==2012,'actual_binary_dem']<-''
 #########################################################################################################################################
 # CREATE WEIGHTED POLLING AVERAGES
 #########################################################################################################################################
@@ -90,8 +170,9 @@ polls_altered[polls_altered$election_year==2016,'actual_binary_dem']<-''
 #########################################################################################################################################
 # NEAREST NEIGHBOR LEARNING
 #########################################################################################################################################
-k_run<-30
+k_run<-100
 temp<-polls_altered
+#standardize metrics for nearest neighbor algorithm
 temp$days_till_election<-temp$days_till_election-mean(temp$days_till_election)
 temp$days_till_election<-temp$days_till_election/sd(temp$days_till_election)
 temp$weighted_running_average<-temp$weighted_running_average-mean(temp$weighted_running_average)
@@ -101,22 +182,22 @@ temp$hist_dem_prob<-temp$hist_dem_prob/sd(temp$hist_dem_prob)
 
 ##########################
 #Take equal parts from each year for nearest neighbor alg
-#Creates indices_2000,indices_2000,indices_2008,indices_2012
-#Creates train_2000,train_2004,train_2008,train_2012
+#Creates indices_2000,indices_2000,indices_2008
+#Creates train_2000,train_2004,train_2008
 ##########################
-years<-c(2000,2004,2008,2012)
+years<-c(2000,2004,2008)
 for(i in 1:length(years)){
   train_year<-paste0("train","_",years[i])
   assign(train_year,temp[temp$election_year==years[i],])
   train_temp<-temp[temp$election_year==years[i],]
-  k_run_update<-floor((nrow(train_temp)/nrow(temp[temp$election_year!=2016,]))*k_run)
+  k_run_update<-floor((nrow(train_temp)/nrow(temp[temp$election_year!=2012,]))*k_run)
   nearest<-get.knnx(
           train_temp[,c(
             "days_till_election"
             ,"weighted_running_average"
             ,"hist_dem_prob"
             )]
-        ,temp[temp$election_year==2016,c(
+        ,temp[temp$election_year==2012,c(
             "days_till_election"
             ,"weighted_running_average"
             ,"hist_dem_prob"
@@ -131,52 +212,30 @@ for(i in 1:length(years)){
 #Take equal parts from each year for nearest neighbor alg
 ##########################
 
-polls_altered_2016<-polls_altered[polls_altered$election_year==2016,]
+polls_altered_2012<-polls_altered[polls_altered$election_year==2012,]
 
 means<-c()
 sds<-c()
 probs<-c()
-for(i in 1:nrow(polls_altered_2016)){
+for(i in 1:nrow(polls_altered_2012)){
   margins<-c(train_2000[indices_2000[i,],]$actual_dem_margin
              ,train_2004[indices_2004[i,],]$actual_dem_margin
-             ,train_2008[indices_2008[i,],]$actual_dem_margin
-             ,train_2012[indices_2012[i,],]$actual_dem_margin)
-  means<-mean(margins)
-  sds<-sd(margins)
-  probability<-pnorm(q=0,mean=means,sd=sds,lower.tail = FALSE)
-  #probability<-1-psnorm(q=0
-  #      ,(snormFit(margins))$par[1]
-  #      ,(snormFit(margins))$par[2]
-  #      ,(snormFit(margins))$par[3]
-  #      )
-  
+             ,train_2008[indices_2008[i,],]$actual_dem_margin)
+  means<-append(means,mean(margins))
+  sds<-append(sds,sd(margins))
+  probability<-pnorm(q=0,mean=mean(margins),sd=sd(margins),lower.tail = FALSE)
   probs<-append(probs,probability)
 }
 
 
-polls_altered_2016$probs<-probs
+polls_altered_2012$probs<-probs
+polls_altered_2012$mean<-means
+polls_altered_2012$sd<-sds
 #########################################################################################################################################
 # NEAREST NEIGHBOR LEARNING
 #########################################################################################################################################
 
-
-
-
-
-states<-unique(polls_altered$state)
-
-temp<-polls_altered
-
-#Fit the linear regression models to each state using weighted polling
-fit_weighted<-glm(as.numeric(actual_binary_dem)~
-                    days_till_election+
-                    hist_dem_prob+
-                    weighted_running_average,data=temp[temp$actual!='',],family=binomial())
-prob_weighted_dem<-predict(fit_weighted,temp,type='response')
-prob_weighted_rep<-1-prob_weighted_dem
-
-temp2<-data.frame(cbind(temp,prob_weighted_dem,prob_weighted_rep))
-polls_altered_final<-temp2
+polls_altered_final<-data.frame(cbind(polls_altered,prob_weighted_dem=NA,prob_weighted_rep=NA))
 
 polls_altered_final<-melt(polls_altered_final,id=c('id','election_year','state','date','days_till_election','dem_plus_minus',
                                    'running_average','weighted_running_average','hist_dem_prob','actual','actual_dem_margin','actual_binary_dem'))
@@ -185,16 +244,15 @@ names(polls_altered_final)[ncol(polls_altered_final)-1]<-'prediction'
 polls_altered_final<-sql("
 select 
   paf.*
+  ,mean 
+  ,sd
   ,case when prediction='prob_weighted_rep' then 1-probs
        when prediction='prob_weighted_dem' then probs
   end as nearest_neighbor_value
-  ,((case when prediction='prob_weighted_rep' then 1-probs
-       when prediction='prob_weighted_dem' then probs
-  end) + paf.value)/2 as blended_prob
 from polls_altered_final paf
-  left join polls_altered_2016 pa on pa.id=paf.id
+  left join polls_altered_2012 pa on pa.id=paf.id
 ")
-
+polls_altered_final<-polls_altered_final[,!(colnames(polls_altered_final) %in% c('value'))]
 
 ####################################
 # Actually create the models
@@ -226,10 +284,6 @@ write.csv(polls_altered_final,'forecasts\\polls_altered_final.csv',row.names = F
 # Set indicators for the state's most current prediction date
 ####################################
 
-############################################################################
-#Create the logistic models
-############################################################################
-
 
 
 #########################################################################################################################################
@@ -242,6 +296,8 @@ select
   ,abb
   ,electoral_votes
   ,ifnull(dem_prob,msr.hist_dem_prob) as dem_prob
+  ,mean  
+  ,sd
 from master_state_ref msr
   left join 
 (
@@ -249,23 +305,62 @@ select
   state 
   ,hist_dem_prob
   ,nearest_neighbor_value as dem_prob
+  ,mean 
+  ,sd
 from polls_altered_final paf
 where final_prediction_ind=1
-  and election_year=2016
+  and election_year=2012
   and prediction='prob_weighted_dem'
 ) as t1
  on msr.abb=t1.state
 ")
 
-n<-20000
+state_odds<-sql("
+select
+  so.state
+  ,so.abb
+  ,so.electoral_votes
+  ,dem_prob
+  ,ifnull(mean,(`2000_dem_margin`+`2004_dem_margin`+`2008_dem_margin`)/3) as mean 
+  ,ifnull(sd,sqrt(power((((`2000_dem_margin`+`2004_dem_margin`+`2008_dem_margin`)/3)-`2000_dem_margin`),2)+
+    power((((`2000_dem_margin`+`2004_dem_margin`+`2008_dem_margin`)/3)-`2004_dem_margin`),2)+
+    power((((`2000_dem_margin`+`2004_dem_margin`+`2008_dem_margin`)/3)-`2008_dem_margin`),2))) as sd
+from state_odds so
+  inner join master_state_ref msr on so.state=msr.state
+")
+                  
+
+n<-5000
 dem_wins<-0
 electoral_vote_list<-c()
 for(i in 1:n){
+  state_odds_rand<-state_odds[sample(nrow(state_odds)),]
   electoral_votes<-0
-  for(j in 1:nrow(state_odds)){
-    win_or_lose<-rbinom(1,1,state_odds[j,'dem_prob'])
+  margins<-c()
+  for(j in 1:nrow(state_odds_rand)){
+    if(j==1){
+      margin<-rnorm(1,state_odds_rand$mean[j],state_odds_rand$sd[j])
+      if(margin>=0){win_or_lose<-1}else{win_or_lose<-0}
+      margins<-append(margins,margin)
+      }
+    else {
+      corr<-t(master_state_ref)
+      colnames(corr)<-corr['abb',]
+      corr<-data.frame(corr[11:13,],stringsAsFactors = FALSE)
+      corr<-sapply(corr,as.numeric)
+      corr<-cor(corr[,state_odds_rand$abb[(j-1):j]])
+      correlation<-corr[1,2]
+      updated_mean<-state_odds_rand$mean[j] + 
+        correlation*(state_odds_rand$sd[(j-1)]/state_odds_rand$sd[j])*
+        (margins[(j-1)]-state_odds_rand$mean[(j-1)])
+      updated_sd<-sqrt(state_odds_rand$sd[j]^2*(1-correlation^2))
+      margin<-rnorm(1,updated_mean,updated_sd)
+      if(margin>=0){win_or_lose<-1}else{win_or_lose<-0}
+      margins<-append(margins,margin)
+    }
+    
     if(win_or_lose==1){
-      electoral_votes<-electoral_votes+state_odds[j,'electoral_votes']
+      electoral_votes<-electoral_votes+state_odds_rand[j,'electoral_votes']
     }
   }
   electoral_vote_list<-append(electoral_vote_list,electoral_votes)
@@ -273,13 +368,50 @@ for(i in 1:n){
     dem_wins<-dem_wins+1
   }
 }
+ 
+ dem_prob<-dem_wins/n
 
-dem_prob<-dem_wins/n
+
 #########################################################################################################################################
 #ELECTION SIMULATION
 #########################################################################################################################################
 
 
+#########################################################################################################################################
+# VISUALIZATION: STATE MARGINS
+#########################################################################################################################################
+state_odds_temp<-state_odds[is.na(state_odds$mean)==FALSE,]
+state_odds_temp<-state_odds_temp[order(state_odds_temp$mean),]
+#80% confidence intervals
+ci_bands<-aes(ymax=mean+1.28*sd,ymin=mean-1.28*sd)
+dodge <- position_dodge(width=0.9)
+
+
+ggplot(data=state_odds_temp, aes(x=reorder(state, -mean), y=mean,fill=mean)) +
+    geom_bar(stat="identity") +
+    geom_crossbar(ci_bands, position=dodge, width=0.25,alpha=.5,colour='darkgrey')+
+    coord_flip() + 
+     scale_fill_gradient2(
+       low = "red"
+       ,high = "blue"
+       ,mid = "grey"
+       ,midpoint = 0) +
+    labs(title = "State Margins of Victory")+
+    theme(plot.title=element_text(face="bold",hjust=0,vjust=2,colour="#3C3C3C",size=31))+
+    ylab("Margin of Victory")+
+    scale_y_continuous(breaks = c(-50,0,50), labels = c("+50", "0", "+50"))+
+    theme(axis.text=element_text(size=13))+
+    theme(axis.title=element_text(size=22))+
+    theme(legend.text = element_text(size = 19, face = "bold"))+
+    theme(axis.title.y=element_blank())+
+  
+  #geom_line(aes(y=mean,fill='Red' ,colour="Trump"),size=3.0) +   #red
+ # geom_line(aes(y=mean,colour="Clinton"),size=3.0)+ #blue
+  theme(legend.position = "none")
+  
+#########################################################################################################################################
+# VISUALIZATION: STATE MARGINS
+#########################################################################################################################################
 
 
 
@@ -289,20 +421,20 @@ dem_prob<-dem_wins/n
 hist_data<-
 data.frame(
   rbind(
-    cbind(rep('Clinton',length(electoral_vote_list)),electoral_vote_list)
-    ,cbind(rep('Trump',length(electoral_vote_list)),538-electoral_vote_list)
+    cbind(rep('Obama',length(electoral_vote_list)),electoral_vote_list)
+    ,cbind(rep('Romney',length(electoral_vote_list)),538-electoral_vote_list)
   )
 )
 names(hist_data)<-c('candidate','electoral_votes')
 hist_data$electoral_votes<-as.numeric(as.character(hist_data$electoral_votes))
 sum_dat<-ddply(hist_data, "candidate", summarise, electoral_votes.mean=mean(electoral_votes))
 
-if(sum_dat[sum_dat$candidate=='Clinton',2]>=270){
-    clinton_label_spot<-sum_dat[sum_dat$candidate=='Clinton',2]+9
-    trump_label_spot<-sum_dat[sum_dat$candidate=='Trump',2]-9
+if(sum_dat[sum_dat$candidate=='Obama',2]>=270){
+    clinton_label_spot<-sum_dat[sum_dat$candidate=='Obama',2]+12
+    trump_label_spot<-sum_dat[sum_dat$candidate=='Romney',2]-12
 }else{
-    clinton_label_spot<-sum_dat[sum_dat$candidate=='Clinton',2]-9
-    trump_label_spot<-sum_dat[sum_dat$candidate=='Trump',2]+9
+    clinton_label_spot<-sum_dat[sum_dat$candidate=='Obama',2]-12
+    trump_label_spot<-sum_dat[sum_dat$candidate=='Romney',2]+12
 }
 
 line_lengths<-sql("
@@ -317,9 +449,9 @@ group by 1
 simulated_result<-ggplot(hist_data, aes(x=electoral_votes, fill=candidate)) +
     geom_histogram(binwidth=5, alpha=.5, position="identity")+
     scale_fill_manual(values=c("deepskyblue", "firebrick1"))+
-    geom_text(aes(x=clinton_label_spot, label=round(sum_dat[sum_dat$candidate=='Clinton',2]), y=60), colour="blue",size=8)+
-    geom_text(aes(x=trump_label_spot, label=round(sum_dat[sum_dat$candidate=='Trump',2]), y=60), colour="red3",size=8)+
-    geom_text(aes(x=270, label='270 to Win', y=1000),size=8)+
+    geom_text(aes(x=clinton_label_spot, label=round(sum_dat[sum_dat$candidate=='Obama',2]), y=60), colour="blue",size=8)+
+    geom_text(aes(x=trump_label_spot, label=round(sum_dat[sum_dat$candidate=='Romney',2]), y=60), colour="red3",size=8)+
+    geom_text(aes(x=270, label='270 to Win', y=380),size=8)+
     ggtitle("Electoral Votes")+
     ylab("Frequency")+
     xlab("Electoral Votes")+
@@ -328,14 +460,12 @@ simulated_result<-ggplot(hist_data, aes(x=electoral_votes, fill=candidate)) +
     theme(axis.text=element_text(size=18))+
     theme(axis.title=element_text(size=22))+
     theme(legend.text = element_text(size = 19, face = "bold"))+
-    geom_segment(aes(x = round(sum_dat[sum_dat$candidate=='Clinton',2]), y = 0, xend = round(sum_dat[sum_dat$candidate=='Clinton',2]), yend = line_lengths[line_lengths$candidate=='Clinton','counter']), colour = "blue",linetype='dashed',size=1)+
-    geom_segment(aes(x = round(sum_dat[sum_dat$candidate=='Trump',2]), y = 0, xend = round(sum_dat[sum_dat$candidate=='Trump',2]), yend = line_lengths[line_lengths$candidate=='Trump','counter']), colour = "red3",linetype='dashed',size=1)+
-    geom_segment(aes(x = 270, y = 0, xend = 270, yend = 960),linetype='dashed',size=1)
+    geom_segment(aes(x = round(sum_dat[sum_dat$candidate=='Obama',2]), y = 0, xend = round(sum_dat[sum_dat$candidate=='Obama',2]), yend = line_lengths[line_lengths$candidate=='Obama','counter']), colour = "blue",linetype='dashed',size=1)+
+    geom_segment(aes(x = round(sum_dat[sum_dat$candidate=='Romney',2]), y = 0, xend = round(sum_dat[sum_dat$candidate=='Romney',2]), yend = line_lengths[line_lengths$candidate=='Romney','counter']), colour = "red3",linetype='dashed',size=1)+
+    geom_segment(aes(x = 270, y = 0, xend = 270, yend = 360),linetype='dashed',size=1)
 #########################################################################################################################################
 # VISUALIZATION: HISTOGRAMS
 #########################################################################################################################################
-
-
 
 
 
@@ -376,13 +506,10 @@ from polls_altered_final paf
          end) = p.party
     and p.id=paf.id
   inner join master_state_ref msr on paf.state=msr.abb
-where paf.election_year=2016
+where paf.election_year=2012
 ")
 relevant_list<-sort(unique(temp$state_full))
 relevant_list_abb<-unique(temp[order(temp$state_full),'state'])
-#HERE TO EDIT
-#temp$value<-100*as.numeric(temp$value)
-#temp$value<-100*as.numeric(temp$blended_prob)
 temp$value<-100*as.numeric(temp$nearest_neighbor_value)
 
 temp<-sql("
