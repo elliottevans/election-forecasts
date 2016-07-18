@@ -48,6 +48,10 @@ getMargin<-function(known_state,known_margin,unknown_state){
   return(c(margin,win_or_lose))
 }
 
+expChoose<-function(num,exp){
+  return(num^exp)
+}
+
 # Multiple plot function
 #
 # ggplot objects can be passed in ..., or to plotlist (as a list of ggplot objects)
@@ -417,7 +421,7 @@ select
   ,State
   ,Date 
   ,Candidate
-  ,party
+  ,case when Candidate in ('Clinton','Obama','Kerry','Gore') then 'D' else 'R' end as party
   ,days_till_election
   ,min(id) as id
   ,avg(value) as value
@@ -430,6 +434,57 @@ write.csv(polls,'polls\\polls_total.csv',row.names = FALSE)
 ###########################
 # Create data frame of all the polls
 ###########################
+
+
+
+
+###################################
+# Get Rid of States without sufficient polling (<5 polls)
+###################################
+
+
+
+###################################
+# Get Rid of States without sufficient polling (<5 polls)
+###################################
+polls<-sql("
+select
+*
+from polls
+where not 
+(State in
+(select State from
+  (
+    select
+      State 
+      ,election_year
+      ,count(distinct id) as num
+    from polls p
+    group by 1,2
+    having (num between 1 and 2) and election_year=2016
+  )
+)
+and election_year=2016)
+")
+
+
+
+
+###################################
+# Fix some polls not picked up by huffpollster
+###################################
+
+#huffpollster didn't include a poll with third party candidates included
+
+#PA POLL http://www.qu.edu/news-and-events/quinnipiac-university-poll/2016-presidential-swing-state-polls/release-detail?ReleaseID=2365
+polls[polls$id==24871,'value']<-c(34,40)
+
+#FL POLL http://www.qu.edu/news-and-events/quinnipiac-university-poll/2016-presidential-swing-state-polls/release-detail?ReleaseID=2365
+polls[polls$id==24869,'value']<-c(36,41)
+
+#OH POLL http://www.qu.edu/news-and-events/quinnipiac-university-poll/2016-presidential-swing-state-polls/release-detail?ReleaseID=2365
+polls[polls$id==24870,'value']<-c(36,37)
+
 
 
 
