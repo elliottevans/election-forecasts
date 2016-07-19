@@ -146,6 +146,19 @@ select
   ,case when num_dem_victories=0 then round(round(1,10)/round(11,10),4)
         when num_dem_victories=10 then round(round(10,10)/round(11,10),4)
   else round(round(num_dem_victories,10)/round(10,10),4) end hist_dem_prob
+  ,case when num_dem_victories_2012=0 then round(round(1,10)/round(10,10),4)
+        when num_dem_victories_2012=9 then round(round(9,10)/round(10,10),4)
+  else round(round(num_dem_victories_2012,10)/round(9,10),4) end hist_dem_prob_2012
+  ,case when num_dem_victories_2008=0 then round(round(1,10)/round(9,10),4)
+        when num_dem_victories_2008=9 then round(round(9,10)/round(9,10),4)
+  else round(round(num_dem_victories_2008,10)/round(8,10),4) end hist_dem_prob_2008
+  ,case when num_dem_victories_2004=0 then round(round(1,10)/round(8,10),4)
+        when num_dem_victories_2004=9 then round(round(9,10)/round(8,10),4)
+  else round(round(num_dem_victories_2004,10)/round(7,10),4) end hist_dem_prob_2004
+  ,case when num_dem_victories_2000=0 then round(round(1,10)/round(7,10),4)
+        when num_dem_victories_2000=9 then round(round(9,10)/round(7,10),4)
+  else round(round(num_dem_victories_2000,10)/round(6,10),4) end hist_dem_prob_2000
+
 from
 (
   select
@@ -160,6 +173,40 @@ from
       +case when `2004`='D' then 1 else 0 end
       +case when `2008`='D' then 1 else 0 end
       +case when `2012`='D' then 1 else 0 end) as num_dem_victories
+    ,sum(case when `1976`='D' then 1 else 0 end
+      +case when `1980`='D' then 1 else 0 end
+      +case when `1984`='D' then 1 else 0 end
+      +case when `1988`='D' then 1 else 0 end
+      +case when `1992`='D' then 1 else 0 end
+      +case when `1996`='D' then 1 else 0 end
+      +case when `2000`='D' then 1 else 0 end
+      +case when `2004`='D' then 1 else 0 end
+      +case when `2008`='D' then 1 else 0 end
+      ) as num_dem_victories_2012
+    ,sum(case when `1976`='D' then 1 else 0 end
+      +case when `1980`='D' then 1 else 0 end
+      +case when `1984`='D' then 1 else 0 end
+      +case when `1988`='D' then 1 else 0 end
+      +case when `1992`='D' then 1 else 0 end
+      +case when `1996`='D' then 1 else 0 end
+      +case when `2000`='D' then 1 else 0 end
+      +case when `2004`='D' then 1 else 0 end
+      ) as num_dem_victories_2008
+    ,sum(case when `1976`='D' then 1 else 0 end
+      +case when `1980`='D' then 1 else 0 end
+      +case when `1984`='D' then 1 else 0 end
+      +case when `1988`='D' then 1 else 0 end
+      +case when `1992`='D' then 1 else 0 end
+      +case when `1996`='D' then 1 else 0 end
+      +case when `2000`='D' then 1 else 0 end
+      ) as num_dem_victories_2004
+    ,sum(case when `1976`='D' then 1 else 0 end
+      +case when `1980`='D' then 1 else 0 end
+      +case when `1984`='D' then 1 else 0 end
+      +case when `1988`='D' then 1 else 0 end
+      +case when `1992`='D' then 1 else 0 end
+      +case when `1996`='D' then 1 else 0 end
+      ) as num_dem_victories_2000
   from state_election_results ser 
   group by 1
 )
@@ -170,6 +217,10 @@ sql("
 select
   temp1.*
   ,temp2.hist_dem_prob
+  ,temp2.hist_dem_prob_2012
+  ,temp2.hist_dem_prob_2008
+  ,temp2.hist_dem_prob_2004
+  ,temp2.hist_dem_prob_2000
 from temp1 inner join temp2 using (state)
 ")
 ##########################################################################################

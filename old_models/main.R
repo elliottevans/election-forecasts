@@ -33,63 +33,26 @@ names(temp1)<-c('id','election_year','state','date','days_till_election','dem_pl
 #Create running averages of polling margins
 years<-c(2000,2004,2008,2012,2016)
 polls_altered<-data.frame()
-prop_weights<-c()
-prop_weight_list<-c()
-#1:length(years)
-for(l in 1:length(years)){
-  year<-years[l]
+#use_last_n_polls<-TRUE
+for(i in 1:length(years)){
+  year<-years[i]
   temp2<-temp1[temp1$election_year==year,]
   states<-unique(temp2$state)
-  #1:length(states)
-  for(m in 1:length(states)){
-    state<-states[m]
+  for(j in 1:length(states)){
+    state<-states[j]
     temp3<-temp2[temp2$state==state,]
     temp4<-temp3[order(-temp3$days_till_election),]
-    exp_weighted_avg<-c()
-    running_avg<-c()
-    prop_weighted_avg<-c()
-    
-    for(p in 1:nrow(temp4)){
+    running_average<-c()
+    weighted_running_average<-c()
+    for(k in 1:nrow(temp4)){
       #Note that we give more weight to polls closer to the election day
-      
-      #EXPONENTIAL WEIGHTING
-      temp5<-temp4[1:p,]
-      n<-nrow(temp5)
-      exp_weights<-c()
-      weight_sum<-0
-      for(i in 1:n){ 
-        sum<-1
-        j<-1
-        while(j >=1 && j<=(n-1)){
-          sum_temp<-0
-          k<-i
-          while(k>=i && k<=j){
-            sum_temp<-sum_temp+temp5$days_till_election[k]/temp5$days_till_election[k+1]
-            k<-k+1
-          }
-          if(i>j){sum<-sum+0}else{sum<-sum+(1.5^sum_temp)}
-          j<-j+1
-        }
-        sum<-(1-weight_sum)*(sum^(-1))
-        weight_sum<-weight_sum+sum
-        exp_weights<-append(exp_weights,sum)
-      }
-
-      exp_weighted_avg<-append(exp_weighted_avg,sum(temp5$dem_plus_minus*exp_weights))      
-      
-      #PROPORTIONAL WEIGHTING
-      running_avg<-append(running_avg,sum(temp4$dem_plus_minus[1:p])/p)
-      prop_weighted_avg<-append(prop_weighted_avg,sum(temp4$dem_plus_minus[1:p] * (sort(temp4$days_till_election[1:p]))/sum(temp4$days_till_election[1:p])))
-      prop_weights<-(sort(temp4$days_till_election[1:p]))/sum(temp4$days_till_election[1:p])
-          
+        running_average<-append(running_average,sum(temp4$dem_plus_minus[1:k])/k)
+        weighted_running_average<-append(weighted_running_average,sum(temp4$dem_plus_minus[1:k] * (sort(temp4$days_till_election[1:k]))/sum(temp4$days_till_election[1:k])))
     }
-    prop_weight_list<-append(prop_weight_list,prop_weights)
-    temp5<-data.frame(cbind(temp5,exp_weighted_avg,exp_weights,prop_weighted_avg))
+    temp5<-data.frame(cbind(temp4,running_average,weighted_running_average))
     polls_altered<-data.frame(rbind(polls_altered,temp5))
   }
 }
-polls_altered<-data.frame(cbind(polls_altered,prop_weight_list))
-names(polls_altered)[ncol(polls_altered)]<-'prop_weights'
 
 polls_altered<-sql("
 select
@@ -133,8 +96,8 @@ temp<-polls_altered
 #standardize metrics for nearest neighbor algorithm
 temp$days_till_election<-temp$days_till_election-mean(temp$days_till_election)
 temp$days_till_election<-temp$days_till_election/sd(temp$days_till_election)
-temp$exp_weighted_avg<-temp$exp_weighted_avg-mean(temp$exp_weighted_avg)
-temp$exp_weighted_avg<-temp$exp_weighted_avg/sd(temp$exp_weighted_avg)
+temp$weighted_running_average<-temp$weighted_running_average-mean(temp$weighted_running_average)
+temp$weighted_running_average<-temp$weighted_running_average/sd(temp$weighted_running_average)
 temp$hist_dem_prob<-temp$hist_dem_prob-mean(temp$hist_dem_prob)
 temp$hist_dem_prob<-temp$hist_dem_prob/sd(temp$hist_dem_prob)
 
@@ -152,13 +115,13 @@ for(i in 1:length(years)){
   nearest<-get.knnx(
           train_temp[,c(
             "days_till_election"
-            ,"exp_weighted_avg"
-#            ,"hist_dem_prob"
+            ,"weighted_running_average"
+            ,"hist_dem_prob"
             )]
         ,temp[temp$election_year==2016,c(
             "days_till_election"
-            ,"exp_weighted_avg"
-#            ,"hist_dem_prob"
+            ,"weighted_running_average"
+            ,"hist_dem_prob"
             )]
         ,k=k_run_update)
          
@@ -190,6 +153,12 @@ for(i in 1:nrow(polls_altered_2016)){
 polls_altered_2016$probs<-probs
 polls_altered_2016$mean<-means
 polls_altered_2016$sd<-sds
+
+
+
+
+
+
 #########################################################################################################################################
 # NEAREST NEIGHBOR LEARNING
 #########################################################################################################################################
@@ -197,7 +166,7 @@ polls_altered_2016$sd<-sds
 polls_altered_final<-data.frame(cbind(polls_altered,prob_weighted_dem=NA,prob_weighted_rep=NA))
 
 polls_altered_final<-melt(polls_altered_final,id=c('id','election_year','state','date','days_till_election','dem_plus_minus',
-                                   'exp_weighted_avg','exp_weights','prop_weighted_avg','prop_weights','hist_dem_prob','actual','actual_dem_margin','actual_binary_dem'))
+                                   'running_average','weighted_running_average','hist_dem_prob','actual','actual_dem_margin','actual_binary_dem'))
 names(polls_altered_final)[ncol(polls_altered_final)-1]<-'prediction'
 
 polls_altered_final<-sql("
@@ -290,12 +259,11 @@ from state_odds so
 ")
                   
 
-print("RUNNING ELECTION SIMULATIONS",quote=FALSE)
 n<-10000
 dem_wins<-0
 electoral_vote_list<-c()
 for(i in 1:n){
-  if(i %% 1000 == 0){print(paste('CURRENTLY ON ELECTION SIMULATION:',i),quote=FALSE)}
+  if(i %% 1000 == 0){print(paste('CURRENTLY ON ELECTION SIMULATION:',i))}
   state_odds_rand<-state_odds[sample(nrow(state_odds)),]
   electoral_votes<-0
   margins<-c()
@@ -367,11 +335,7 @@ state_margins<-ggplot(data=state_odds_temp, aes(x=reorder(state, -mean), y=mean,
     theme(axis.title=element_text(size=25))+
     theme(legend.text = element_text(size = 19, face = "bold"))+
     theme(legend.position = "none")+
-    theme(axis.title.y=element_text(face='bold'))+
-    theme(panel.grid.minor = element_blank()
-          ,panel.background = element_rect(fill = "white")
-          ,panel.grid.major = element_line(colour = "gray93")
-    )
+    theme(axis.title.y=element_text(face='bold'))
 
 #########################################################################################################################################
 # VISUALIZATION: STATE MARGINS
@@ -427,13 +391,7 @@ simulated_result<-ggplot(hist_data, aes(x=electoral_votes, fill=candidate)) +
     geom_segment(aes(x = round(sum_dat[sum_dat$candidate=='Clinton',2]), y = 0, xend = round(sum_dat[sum_dat$candidate=='Clinton',2]), yend = line_lengths[line_lengths$candidate=='Clinton','counter']), colour = "blue",linetype='dashed',size=1)+
     geom_segment(aes(x = round(sum_dat[sum_dat$candidate=='Trump',2]), y = 0, xend = round(sum_dat[sum_dat$candidate=='Trump',2]), yend = line_lengths[line_lengths$candidate=='Trump','counter']), colour = "red3",linetype='dashed',size=1)+
     geom_segment(aes(x = 270, y = 0, xend = 270, yend = 360),linetype='dashed',size=1)+
-    theme(legend.position = "bottom")+
-    theme(panel.grid.minor = element_blank()
-          ,panel.background = element_rect(fill = "white")
-          ,panel.grid.major = element_line(colour = "gray93")
-          ,axis.line.x = element_line(color="black")
-    )
-
+    theme(legend.position = "bottom")
 #########################################################################################################################################
 # VISUALIZATION: HISTOGRAMS
 #########################################################################################################################################
@@ -504,7 +462,7 @@ for(i in 1:length(relevant_list)){
   poll_temp<-temp_new[temp_new$final_prediction_ind==1,]
 
   plot<- ggplot(data=temp_new,aes(x=date,y=value,colour=candidate,group=candidate)) + 
-    geom_line(size=1.2) + 
+    geom_line(size=1.5) + 
     theme(axis.text.x=element_blank(),axis.ticks.x=element_blank())+
     ggtitle(
       paste(state_label," - ",as.character(poll_temp[which.max(poll_temp$value),'candidate']),sub(" ", "",paste(poll_temp[which.max(poll_temp$value),'poll_data_value_label'],"%"),fixed=TRUE))
@@ -514,14 +472,7 @@ for(i in 1:length(relevant_list)){
     scale_color_manual(values=c("deepskyblue", "firebrick1"))+
     theme(axis.title.y=element_blank())+
     theme(axis.title.x=element_blank())+
-    scale_y_continuous(limits = c(0, 100))+
-    theme(panel.grid.minor = element_blank()
-          ,panel.background = element_rect(fill = "white")
-          ,panel.grid.major = element_line(colour = "gray93")
-          ,axis.line.x = element_line(color="black")
-          ,axis.line.y = element_line(color="black")
-        )
-          
+    scale_y_continuous(limits = c(0, 100))
   plots[[i]]<-plot
 }
 
@@ -531,6 +482,39 @@ for(i in 1:length(relevant_list)){
 #########################################################################################################################################
 
 
+
+#########################################################################################################################################
+# VISUALIZATION: PROBABILITY
+#########################################################################################################################################
+national<-read.csv('forecasts\\national_forecasts.csv')
+names(national)[2]<-'Clinton'
+national$date<-as.Date(national$date,format='%d-%b')
+national$Trump<-100-national$Clinton
+national<-melt(national,id=('date'))
+names(national)[3]<-'Probability'
+names(national)[2]<-'Candidate'
+rbind(national,c(as.Date("2016-11-05"),NA,NA))
+min_date<-min(national$date)
+
+
+plot<- ggplot(data=national,aes(x=date,y=Probability,colour=Candidate,group=Candidate)) + 
+    geom_line(size=1.5) + 
+    scale_x_date(limits = c(min_date, as.Date('2016-11-05')))
+    theme(axis.text.x=element_blank(),axis.ticks.x=element_blank())+
+    ggtitle(
+      paste(state_label," - ",as.character(poll_temp[which.max(poll_temp$value),'candidate']),sub(" ", "",paste(poll_temp[which.max(poll_temp$value),'poll_data_value_label'],"%"),fixed=TRUE))
+    )+
+    theme(plot.title=element_text(face="bold",hjust=0,vjust=2,colour="#3C3C3C",size=23))+
+    theme(legend.position = "none")+
+    scale_color_manual(values=c("deepskyblue", "firebrick1"))+
+    theme(axis.title.y=element_blank())+
+    theme(axis.title.x=element_blank())+
+    scale_y_continuous(limits = c(0, 100))
+
+
+#########################################################################################################################################
+# VISUALIZATION: PROBABILITY
+#########################################################################################################################################
 
 
 

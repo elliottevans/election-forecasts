@@ -23,7 +23,7 @@ tr:nth-child(even){background-color: #f2f2f2}
   
 <!--begin.rcode warning=FALSE,echo=FALSE, include=FALSE
 setwd("~/election_forecasts")
-source("main2.R")
+source("main.R")
 end.rcode-->
 
     <meta charset="utf-8">
@@ -65,7 +65,7 @@ end.rcode-->
       <!-- Main component for a primary marketing message or call to action -->
 
       <div class="container">
-<!--begin.rcode echo=FALSE,fig.align='center',fig.width=15, fig.height=3
+<!--begin.rcode winner, echo=FALSE,fig.align='center',fig.width=15, fig.height=3
  par(mar = c(0,0,0,0))
  plot(c(0, 1), c(0, 1), ann = F, bty = 'n', type = 'n', xaxt = 'n', yaxt = 'n')
  text(x = 0.5, y = 0.5, paste0(winner," has ",a_or_an," ",winner_prob," chance of being president"),
@@ -74,7 +74,7 @@ end.rcode-->
       cex = 2.3, col = "grey41",font=2)
 end.rcode-->
       
-<!--begin.rcode echo=FALSE,fig.align='center',fig.width=15, fig.height=8
+<!--begin.rcode simulations, echo=FALSE,fig.align='center',fig.width=15, fig.height=8
 simulated_result
 end.rcode-->
       </div>      
@@ -86,7 +86,7 @@ end.rcode-->
         <p>Here's the electoral map based on margins of victory. In darker blue states, Clinton is favored to win by a wider margin, while in darker red states, Trump is favored.</p>
       </div>
       <div class="container">
-<!--begin.rcode echo=FALSE,fig.align='center',fig.width=15, fig.height=10
+<!--begin.rcode map, echo=FALSE,fig.align='center',fig.width=15, fig.height=10
 map
 end.rcode-->
       </div>  
@@ -96,7 +96,7 @@ end.rcode-->
         <p>Odds of a candidate's victory are updated whenever new polling information is available. Here are the forecasted odds (over time) that each candidate wins each state. We'll leave out states that don't have any reliable polling data yet.</p>
       </div>
       <div class="container">
-<!--begin.rcode echo=FALSE,fig.align='center',fig.width=15, fig.height=16
+<!--begin.rcode states, echo=FALSE,fig.align='center',fig.width=15, fig.height=16
 multiplot(plotlist = plots,cols=3)
 end.rcode-->
       </div>
@@ -108,7 +108,7 @@ end.rcode-->
         <p>Here's how the margins of victory will probably play out. The error bars are 80% confidence intervals.</p>
       </div>
       <div class="container">
-<!--begin.rcode echo=FALSE,fig.align='center',fig.width=15, fig.height=23
+<!--begin.rcode margins, echo=FALSE,fig.align='center',fig.width=15, fig.height=23
 suppressWarnings(print(state_margins))
 end.rcode-->
       </div>  
