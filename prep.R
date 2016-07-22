@@ -14,22 +14,18 @@
 ##########################################################################################
 # LIBRARIES AND CUSTOM FUNCTIONS
 ##########################################################################################
-library("sqldf", lib.loc="~/R/win-library/3.2")
-library("sqldf", lib.loc="~/R/win-library/3.2")
-library("reshape2", lib.loc="~/R/win-library/3.2")
-library("pollstR", lib.loc="~/R/win-library/3.2")
-library("ggplot2", lib.loc="~/R/win-library/3.2")
-library("stringr", lib.loc="~/R/win-library/3.2")
-library("plyr", lib.loc="~/R/win-library/3.2")
-library("arm", lib.loc="~/R/win-library/3.2")
-library("FNN", lib.loc="~/R/win-library/3.2")
-library("fGarch", lib.loc="~/R/win-library/3.2")
-library("statebins", lib.loc="~/R/win-library/3.2")
-library("scales", lib.loc="~/R/win-library/3.2")
-library("condMVNorm", lib.loc="~/R/win-library/3.2")
-library(rgdal)
-library(rgeos)
-library(maptools)
+library("sqldf", lib.loc="~/R/win-library/3.3")
+library("reshape2", lib.loc="~/R/win-library/3.3")
+library("pollstR", lib.loc="~/R/win-library/3.3")
+library("ggplot2", lib.loc="~/R/win-library/3.3")
+library("stringr", lib.loc="~/R/win-library/3.3")
+library("plyr", lib.loc="~/R/win-library/3.3")
+library("arm", lib.loc="~/R/win-library/3.3")
+library("FNN", lib.loc="~/R/win-library/3.3")
+library("fGarch", lib.loc="~/R/win-library/3.3")
+library("statebins", lib.loc="~/R/win-library/3.3")
+library("scales", lib.loc="~/R/win-library/3.3")
+library("condMVNorm", lib.loc="~/R/win-library/3.3")
 
 getMargin<-function(known_state,known_margin,unknown_state){
   corr<-data.frame(
@@ -536,6 +532,25 @@ polls[polls$id==24869,'value']<-c(36,41)
 #OH POLL http://www.qu.edu/news-and-events/quinnipiac-university-poll/2016-presidential-swing-state-polls/release-detail?ReleaseID=2365
 polls[polls$id==24870,'value']<-c(36,37)
 
+#This poll lacks a clinton value:
+#24941          2016    PA 2016-06-28                                                      Gravis Marketing/OANN     Trump    47     R
 
 
+#This poll also lacks a clinton value:
+#24940          2016    OH 2016-06-28                                                      Gravis Marketing/OANN     Trump    47     R
+
+
+polls<-rbind(polls,c(2016,'OH','2016-06-28','Clinton','D',difftime(as.Date('2016-11-08'),'2016-06-28',units="days"),24940,46))
+polls<-rbind(polls,c(2016,'PA','2016-06-28','Clinton','D',difftime(as.Date('2016-11-08'),'2016-06-28',units="days"),24941,48))
+
+
+polls<-sql("select distinct * from polls")
+
+polls$State<-as.factor(polls$State)
+polls$Date<-as.Date(polls$Date)
+polls$Candidate<-as.character(polls$Candidate)
+polls$party<-as.character(polls$party)
+polls$days_till_election<-as.numeric(polls$days_till_election)
+polls$id<-as.numeric(polls$id)
+polls$value<-as.numeric(polls$value)
 

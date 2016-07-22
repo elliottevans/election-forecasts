@@ -1,10 +1,69 @@
 <!DOCTYPE html>
 <html>
   <head>
-<!--begin.rcode warning=FALSE,echo=FALSE, include=FALSE
-setwd("~/election_forecasts")
-source("main.R")
-end.rcode-->
+<style type="text/css">
+.knitr .inline {
+  background-color: #f7f7f7;
+  border:solid 1px #B0B0B0;
+}
+.error {
+	font-weight: bold;
+	color: #FF0000;
+}
+.warning {
+	font-weight: bold;
+}
+.message {
+	font-style: italic;
+}
+.source, .output, .warning, .error, .message {
+	padding: 0 1em;
+  border:solid 1px #F7F7F7;
+}
+.source {
+  background-color: #f5f5f5;
+}
+.rimage .left {
+  text-align: left;
+}
+.rimage .right {
+  text-align: right;
+}
+.rimage .center {
+  text-align: center;
+}
+.hl.num {
+  color: #AF0F91;
+}
+.hl.str {
+  color: #317ECC;
+}
+.hl.com {
+  color: #AD95AF;
+  font-style: italic;
+}
+.hl.opt {
+  color: #000000;
+}
+.hl.std {
+  color: #585858;
+}
+.hl.kwa {
+  color: #295F94;
+  font-weight: bold;
+}
+.hl.kwb {
+  color: #B05A65;
+}
+.hl.kwc {
+  color: #55aa55;
+}
+.hl.kwd {
+  color: #BC5A65;
+  font-weight: bold;
+}
+</style>
+
     <title>2016 General Election Forecasts</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <!--
@@ -44,18 +103,11 @@ end.rcode-->
         <div class="span8">
           <h1><u>Who Will be the Next President?</u></h1>
       <div class="container" style="text-align: center;">
-<!--begin.rcode winner, echo=FALSE,fig.align='center',fig.width=15, fig.height=3
- par(mar = c(0,0,0,0))
- plot(c(0, 1), c(0, 1), ann = F, bty = 'n', type = 'n', xaxt = 'n', yaxt = 'n')
- text(x = 0.5, y = 0.5, paste0(winner," has ",a_or_an," ",winner_prob," chance of being president"),
-      cex = 3.2, col = "black",font=2)
- text(x = 0.5, y = 0.34, paste0(winner_pronoun," will win ", num_states_won," states",plus_dc," winning the electoral college ",winning_electoral_votes,"-",losing_electoral_votes),
-      cex = 2.2, col = "grey41",font=2)
-end.rcode-->      
+<div class="chunk" id="winner"><div class="rimage center"><img src="figure/winner-1.png" title="plot of chunk winner" alt="plot of chunk winner" class="plot" /></div></div>
       </div>
         </div>
       </div>
-      <p></p>
+
       <div class="row" id="overview">
         <div class="span12">
           <center>
@@ -66,11 +118,9 @@ end.rcode-->
       </div>
 
       <div class="container" style="text-align: center;">
-<!--begin.rcode simulations, echo=FALSE,fig.align='center',fig.width=15, fig.height=8
-simulated_result
-end.rcode-->
+<div class="chunk" id="simulations"><div class="rimage center"><img src="figure/simulations-1.png" title="plot of chunk simulations" alt="plot of chunk simulations" class="plot" /></div></div>
       </div>  
-      <p></p>
+
       <div class="row" id="map">
         <div class="span12">
           <center>
@@ -81,11 +131,9 @@ end.rcode-->
       </div>
 
       <div class="container" style="text-align: center;">
-<!--begin.rcode map, echo=FALSE,fig.align='center',fig.width=15, fig.height=10
-map
-end.rcode-->
+<div class="chunk" id="map"><div class="rimage center"><img src="figure/map-1.png" title="plot of chunk map" alt="plot of chunk map" class="plot" /></div></div>
       </div>  
-      <p></p>
+
       <div class="row" id="statelevel">
         <div class="span12">
           <center>
@@ -96,11 +144,9 @@ end.rcode-->
       </div>
 
       <div class="container" style="text-align: center;">
-<!--begin.rcode states, echo=FALSE,fig.align='center',fig.width=15, fig.height=16
-multiplot(plotlist = plots,cols=3)
-end.rcode-->
+<div class="chunk" id="states"><div class="rimage center"><img src="figure/states-1.png" title="plot of chunk states" alt="plot of chunk states" class="plot" /></div></div>
       </div>
-      <p></p>
+      
       <div class="row" id="margins">
         <div class="span12">
           <center>
@@ -111,9 +157,7 @@ end.rcode-->
       </div>
       
       <div class="container" style="text-align: center;">
-<!--begin.rcode margins, echo=FALSE,fig.align='center',fig.width=15, fig.height=23
-suppressWarnings(print(state_margins))
-end.rcode-->
+<div class="chunk" id="margins"><div class="rimage center"><img src="figure/margins-1.png" title="plot of chunk margins" alt="plot of chunk margins" class="plot" /></div></div>
       </div>
     
     </div>
