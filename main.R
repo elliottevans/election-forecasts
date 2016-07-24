@@ -11,7 +11,7 @@ source("prep.R")
 #   6. polls_2016
 #   7. polls
 
-#polls<-polls[polls$Date<=as.Date("2016-06-12"),]
+#polls<-polls[polls$Date<=as.Date("2016-06-29"),]
 
 #########################################################################################################################################
 # CREATE WEIGHTED POLLING AVERAGES
@@ -362,9 +362,9 @@ for(i in 1:n){
   }
 }
  
- dem_prob<-dem_wins/n
+dem_prob<-dem_wins/n
 
-
+state_odds$tested_odds<-round(100*pnorm(q=0,mean=state_odds$mean,sd=state_odds$sd,lower.tail = FALSE),1)
 #########################################################################################################################################
 #ELECTION SIMULATION
 #########################################################################################################################################
@@ -575,7 +575,7 @@ if(dem_prob>=.5){
   loser_prob<-paste0(100-round(100*dem_prob,1),'%')
   winning_electoral_votes<-round(mean(electoral_vote_list),0)
   losing_electoral_votes<-538-winning_electoral_votes
-  
+  color<-'dodgerblue'
   num_states_won<-nrow(state_odds[state_odds$mean>0,])
   
   if(state_odds[state_odds$state=='Washington DC','mean']>0){
@@ -595,7 +595,7 @@ if(dem_prob>=.5){
   loser_prob<-paste0(round(100*dem_prob,1),'%')
   winning_electoral_votes<-538-round(mean(electoral_vote_list),0)
   losing_electoral_votes<-round(mean(electoral_vote_list),0)
-  
+  color<-'firebrick1'
   num_states_won<-nrow(state_odds[state_odds$mean<0,])
 
   if(state_odds[state_odds$state=='Washington DC','mean']<0){
@@ -610,15 +610,52 @@ if(dem_prob>=.5){
 
 }
 
- 
+ # par(bg = color)
  # par(mar = c(0,0,0,0))
  # plot(c(0, 1), c(0, 1), ann = F, bty = 'n', type = 'n', xaxt = 'n', yaxt = 'n')
  # text(x = 0.5, y = 0.5, paste0(winner," has ",a_or_an," ",winner_prob," chance of being president"),
- #      cex = 2, col = "black",font=2)
+ #      cex = 2, col = "white",font=2)
  # text(x = 0.5, y = 0.45, paste0(winner_pronoun," will win ", num_states_won," states",plus_dc," winning the electoral college ",winning_electoral_votes,"-",losing_electoral_votes),
- #      cex = 1.6, col = "grey41",font=2)
+ #      cex = 1.6, col = "grey88",font=2)
 
 
 #########################################################################################################################################
 # RESULTS
 #########################################################################################################################################
+
+
+
+#########################################################################################################################################
+# HTML TABLE
+#########################################################################################################################################
+
+for(i in 1:nrow(state_odds)){
+  margin<-paste0(state_odds$abb[i],'_MARGIN')
+  assign(margin,paste0('+',abs(round(state_odds$mean[i],1))))
+  
+  ev<-paste0(state_odds$abb[i],'_EV')
+  assign(ev,state_odds$electoral_votes[i])
+  
+  if(state_odds$mean[i]<0){
+    odds_temp_temp<-100-state_odds$tested_odds[i]
+  }else{odds_temp_temp<-state_odds$tested_odds[i]}
+  
+  if(odds_temp_temp==100){odds_temp<-'>99.9%'}
+  else if(odds_temp_temp==0){odds_temp<-'<0.1%'}
+  else{odds_temp<-paste0(odds_temp_temp,'%')}
+  
+  probs<-paste0(state_odds$abb[i],'_ODDS')
+  assign(probs,odds_temp)
+  
+  winners<-paste0(state_odds$abb[i],'_WINNER')
+  if(state_odds$mean[i]>=0){winner_temp<-'Clinton'}else{winner_temp<-'Trump'}
+  assign(winners,winner_temp)
+
+}
+
+
+#########################################################################################################################################
+# HTML TABLE
+#########################################################################################################################################
+
+
