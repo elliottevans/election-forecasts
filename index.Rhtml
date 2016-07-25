@@ -20,15 +20,16 @@ th {
 
 <style>
 .republican{
-  background-color:#FF9059;
+  background-color:rgba(255,48,48,.4);
 }
 .democrat{
-  background-color:#59C8FF;
+  background-color:rgba(0, 191, 255,.5);
 }
 </style>
 
 
   <head>
+  <link rel="icon" href="C:\Users\Elliott\election_forecasts\E.png">
 <!--begin.rcode warning=FALSE,echo=FALSE, include=FALSE
 setwd("~/election_forecasts")
 source("main.R")
@@ -170,7 +171,7 @@ end.rcode-->
           <center>
             <h1>Current Forecasts</h1>
           </center>
-          <p class="lead">Here are the current forecasts for the general election.</p>
+          <p class="lead">Here are all of the current forecasts for the general election. The model predicts that <!--rinline I(winner) --> will win <!--rinline I(num_states_won) --> of 51 contests, including DC. </p>
         </div>
       </div>
       

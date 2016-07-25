@@ -11,7 +11,7 @@ source("prep.R")
 #   6. polls_2016
 #   7. polls
 
-#polls<-polls[polls$Date<=as.Date("2016-06-30"),]
+#polls<-polls[polls$Date<=as.Date("2016-07-12"),]
 
 #########################################################################################################################################
 # CREATE WEIGHTED POLLING AVERAGES
@@ -578,11 +578,6 @@ if(dem_prob>=.5){
   color<-'dodgerblue'
   num_states_won<-nrow(state_odds[state_odds$mean>0,])
   
-  if(state_odds[state_odds$state=='Washington DC','mean']>0){
-    plus_dc<-", plus DC,"
-    num_states_won<-num_states_won-1
-  }else{plus_dc<-","}
-  
   winner_pronoun<-"She"
   loser_pronoun<-"He"
   
@@ -598,10 +593,6 @@ if(dem_prob>=.5){
   color<-'firebrick1'
   num_states_won<-nrow(state_odds[state_odds$mean<0,])
 
-  if(state_odds[state_odds$state=='Washington DC','mean']<0){
-    plus_dc<-', plus DC,'
-    num_states_won<-num_states_won-1
-  }else{plus_dc<-","}
   
   winner_pronoun<-'He'
   loser_pronoun<-'She'
