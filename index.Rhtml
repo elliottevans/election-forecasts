@@ -16,9 +16,18 @@ th {
     padding: 8px;
     font-size: 20px;
 }
-
-tr:nth-child(even){background-color: #f2f2f2}
 </style>
+
+<style>
+.republican{
+  background-color:#FF9059;
+}
+.democrat{
+  background-color:#59C8FF;
+}
+</style>
+
+
   <head>
 <!--begin.rcode warning=FALSE,echo=FALSE, include=FALSE
 setwd("~/election_forecasts")
@@ -33,6 +42,20 @@ end.rcode-->
     -->
     <link href="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.1/css/bootstrap-combined.min.css" rel="stylesheet">
     <script src="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.1/js/bootstrap.min.js"></script>
+    <script src="http://code.jquery.com/jquery-1.10.2.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+    <script>
+        $(function(){
+        $("tr").each(function(){
+          var col_val = $(this).find("td:eq(2)").text();
+          if ($.trim(col_val) == "Trump"){
+            $(this).addClass('republican');  //the republican class colors the row red//
+          } else if($.trim(col_val) == "Clinton") {
+            $(this).addClass('democrat');
+          }
+        });
+      });
+    </script>
   </head>
   <body style="padding-top: 50px;">
     <div class="navbar navbar-fixed-top">
@@ -43,7 +66,7 @@ end.rcode-->
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </a>
-          <a class="brand" href="#overview"><strong>General Election Forecasts 2016</strong></a>
+          <a class="brand" href="#title"><strong>General Election Forecasts 2016</strong></a>
           <div class="nav-collapse collapse">
             <ul class="nav pull-right">
               <li><a href="#overview">National Forecasts</a></li>
@@ -61,14 +84,25 @@ end.rcode-->
     <div class="container">
 
       <div class="row" style="padding-bottom: 30px;">
-        <div class="span8">
+        <div class="span8" id="title">
           <h1><u>Who Will be the Next President?</u></h1>
+          <p></p>
+          <p></p>
       <div class="container" style="text-align: center;">
         <h1><div class="alert alert-info" role="alert"><!--rinline I(winner) --> has a <!--rinline I(winner_prob) --> chance of being president</div></h1>    
       </div>
         </div>
+          <div style="text-align:right;">
+            <h5 id="demo">
+                    <script>
+                      var d = new Date();
+                      var str = "Updated"
+                      var sentence = str + " " + d.toDateString();
+                      document.getElementById("demo").innerHTML = sentence
+                    </script> 
+            </h5>
+          </div>  
       </div>
-
       <div class="row" id="overview">
         <div class="span12">
           <center>
@@ -150,354 +184,354 @@ end.rcode-->
             <th>Margin of Victory</th>
           </tr>
           <tr>
-            <th>Alabama</th>
-            <th><!--rinline I(AL_EV) --></th>
-            <th><!--rinline I(AL_WINNER) --></th>
-            <th><!--rinline I(AL_ODDS) --></th>
-            <th><!--rinline I(AL_MARGIN) --></th>
+            <td>Alabama</td>
+            <td><!--rinline I(AL_EV) --></td>
+            <td><!--rinline I(AL_WINNER) --></td>
+            <td><!--rinline I(AL_ODDS) --></td>
+            <td><!--rinline I(AL_MARGIN) --></td>
           </tr>
           <tr>
-            <th>Alaska</th>
-            <th><!--rinline I(AK_EV) --></th>
-            <th><!--rinline I(AK_WINNER) --></th>
-            <th><!--rinline I(AK_ODDS) --></th>
-            <th><!--rinline I(AK_MARGIN) --></th>
+            <td>Alaska</td>
+            <td><!--rinline I(AK_EV) --></td>
+            <td><!--rinline I(AK_WINNER) --></td>
+            <td><!--rinline I(AK_ODDS) --></td>
+            <td><!--rinline I(AK_MARGIN) --></td>
           </tr>
           <tr>
-            <th>Arizona</th>
-            <th><!--rinline I(AZ_EV) --></th>
-            <th><!--rinline I(AZ_WINNER) --></th>
-            <th><!--rinline I(AZ_ODDS) --></th>
-            <th><!--rinline I(AZ_MARGIN) --></th>
+            <td>Arizona</td>
+            <td><!--rinline I(AZ_EV) --></td>
+            <td><!--rinline I(AZ_WINNER) --></td>
+            <td><!--rinline I(AZ_ODDS) --></td>
+            <td><!--rinline I(AZ_MARGIN) --></td>
           </tr>
           <tr>
-            <th>Arkansas</th>
-            <th><!--rinline I(AR_EV) --></th>
-            <th><!--rinline I(AR_WINNER) --></th>
-            <th><!--rinline I(AR_ODDS) --></th>
-            <th><!--rinline I(AR_MARGIN) --></th>
+            <td>Arkansas</td>
+            <td><!--rinline I(AR_EV) --></td>
+            <td><!--rinline I(AR_WINNER) --></td>
+            <td><!--rinline I(AR_ODDS) --></td>
+            <td><!--rinline I(AR_MARGIN) --></td>
           </tr>
           <tr>
-            <th>California</th>
-            <th><!--rinline I(CA_EV) --></th>
-            <th><!--rinline I(CA_WINNER) --></th>
-            <th><!--rinline I(CA_ODDS) --></th>
-            <th><!--rinline I(CA_MARGIN) --></th>
+            <td>California</td>
+            <td><!--rinline I(CA_EV) --></td>
+            <td><!--rinline I(CA_WINNER) --></td>
+            <td><!--rinline I(CA_ODDS) --></td>
+            <td><!--rinline I(CA_MARGIN) --></td>
           </tr>
           <tr>
-            <th>Colorado</th>
-            <th><!--rinline I(CO_EV) --></th>
-            <th><!--rinline I(CO_WINNER) --></th>
-            <th><!--rinline I(CO_ODDS) --></th>
-            <th><!--rinline I(CO_MARGIN) --></th>
+            <td>Colorado</td>
+            <td><!--rinline I(CO_EV) --></td>
+            <td><!--rinline I(CO_WINNER) --></td>
+            <td><!--rinline I(CO_ODDS) --></td>
+            <td><!--rinline I(CO_MARGIN) --></td>
           </tr>
           <tr>
-            <th>Delaware</th>
-            <th><!--rinline I(DE_EV) --></th>
-            <th><!--rinline I(DE_WINNER) --></th>
-            <th><!--rinline I(DE_ODDS) --></th>
-            <th><!--rinline I(DE_MARGIN) --></th>
+            <td>Delaware</td>
+            <td><!--rinline I(DE_EV) --></td>
+            <td><!--rinline I(DE_WINNER) --></td>
+            <td><!--rinline I(DE_ODDS) --></td>
+            <td><!--rinline I(DE_MARGIN) --></td>
           </tr>
           <tr>
-            <th>Washington DC</th>
-            <th><!--rinline I(DC_EV) --></th>
-            <th><!--rinline I(DC_WINNER) --></th>
-            <th><!--rinline I(DC_ODDS) --></th>
-            <th><!--rinline I(DC_MARGIN) --></th>
+            <td>Washington DC</td>
+            <td><!--rinline I(DC_EV) --></td>
+            <td><!--rinline I(DC_WINNER) --></td>
+            <td><!--rinline I(DC_ODDS) --></td>
+            <td><!--rinline I(DC_MARGIN) --></td>
           </tr>
           <tr>
-            <th>Florida</th>
-            <th><!--rinline I(FL_EV) --></th>
-            <th><!--rinline I(FL_WINNER) --></th>
-            <th><!--rinline I(FL_ODDS) --></th>
-            <th><!--rinline I(FL_MARGIN) --></th>
+            <td>Florida</td>
+            <td><!--rinline I(FL_EV) --></td>
+            <td><!--rinline I(FL_WINNER) --></td>
+            <td><!--rinline I(FL_ODDS) --></td>
+            <td><!--rinline I(FL_MARGIN) --></td>
           </tr>
           <tr>
-            <th>Georgia</th>
-            <th><!--rinline I(GA_EV) --></th>
-            <th><!--rinline I(GA_WINNER) --></th>
-            <th><!--rinline I(GA_ODDS) --></th>
-            <th><!--rinline I(GA_MARGIN) --></th>
+            <td>Georgia</td>
+            <td><!--rinline I(GA_EV) --></td>
+            <td><!--rinline I(GA_WINNER) --></td>
+            <td><!--rinline I(GA_ODDS) --></td>
+            <td><!--rinline I(GA_MARGIN) --></td>
           </tr>
           <tr>
-            <th>Hawaii</th>
-            <th><!--rinline I(HI_EV) --></th>
-            <th><!--rinline I(HI_WINNER) --></th>
-            <th><!--rinline I(HI_ODDS) --></th>
-            <th><!--rinline I(HI_MARGIN) --></th>
+            <td>Hawaii</td>
+            <td><!--rinline I(HI_EV) --></td>
+            <td><!--rinline I(HI_WINNER) --></td>
+            <td><!--rinline I(HI_ODDS) --></td>
+            <td><!--rinline I(HI_MARGIN) --></td>
           </tr>
           <tr>
-            <th>Idaho</th>
-            <th><!--rinline I(ID_EV) --></th>
-            <th><!--rinline I(ID_WINNER) --></th>
-            <th><!--rinline I(ID_ODDS) --></th>
-            <th><!--rinline I(ID_MARGIN) --></th>
+            <td>Idaho</td>
+            <td><!--rinline I(ID_EV) --></td>
+            <td><!--rinline I(ID_WINNER) --></td>
+            <td><!--rinline I(ID_ODDS) --></td>
+            <td><!--rinline I(ID_MARGIN) --></td>
           </tr>
           <tr>
-            <th>Illinois</th>
-            <th><!--rinline I(IL_EV) --></th>
-            <th><!--rinline I(IL_WINNER) --></th>
-            <th><!--rinline I(IL_ODDS) --></th>
-            <th><!--rinline I(IL_MARGIN) --></th>
+            <td>Illinois</td>
+            <td><!--rinline I(IL_EV) --></td>
+            <td><!--rinline I(IL_WINNER) --></td>
+            <td><!--rinline I(IL_ODDS) --></td>
+            <td><!--rinline I(IL_MARGIN) --></td>
           </tr>
           <tr>
-            <th>Indiana</th>
-            <th><!--rinline I(IN_EV) --></th>
-            <th><!--rinline I(IN_WINNER) --></th>
-            <th><!--rinline I(IN_ODDS) --></th>
-            <th><!--rinline I(IN_MARGIN) --></th>
+            <td>Indiana</td>
+            <td><!--rinline I(IN_EV) --></td>
+            <td><!--rinline I(IN_WINNER) --></td>
+            <td><!--rinline I(IN_ODDS) --></td>
+            <td><!--rinline I(IN_MARGIN) --></td>
           </tr>
           <tr>
-            <th>Iowa</th>
-            <th><!--rinline I(IA_EV) --></th>
-            <th><!--rinline I(IA_WINNER) --></th>
-            <th><!--rinline I(IA_ODDS) --></th>
-            <th><!--rinline I(IA_MARGIN) --></th>
+            <td>Iowa</td>
+            <td><!--rinline I(IA_EV) --></td>
+            <td><!--rinline I(IA_WINNER) --></td>
+            <td><!--rinline I(IA_ODDS) --></td>
+            <td><!--rinline I(IA_MARGIN) --></td>
           </tr>
           <tr>
-            <th>Kansas</th>
-            <th><!--rinline I(KS_EV) --></th>
-            <th><!--rinline I(KS_WINNER) --></th>
-            <th><!--rinline I(KS_ODDS) --></th>
-            <th><!--rinline I(KS_MARGIN) --></th>
+            <td>Kansas</td>
+            <td><!--rinline I(KS_EV) --></td>
+            <td><!--rinline I(KS_WINNER) --></td>
+            <td><!--rinline I(KS_ODDS) --></td>
+            <td><!--rinline I(KS_MARGIN) --></td>
           </tr>
           <tr>
-            <th>Kentucky</th>
-            <th><!--rinline I(KY_EV) --></th>
-            <th><!--rinline I(KY_WINNER) --></th>
-            <th><!--rinline I(KY_ODDS) --></th>
-            <th><!--rinline I(KY_MARGIN) --></th>
+            <td>Kentucky</td>
+            <td><!--rinline I(KY_EV) --></td>
+            <td><!--rinline I(KY_WINNER) --></td>
+            <td><!--rinline I(KY_ODDS) --></td>
+            <td><!--rinline I(KY_MARGIN) --></td>
           </tr>
           <tr>
-            <th>Louisiana</th>
-            <th><!--rinline I(LA_EV) --></th>
-            <th><!--rinline I(LA_WINNER) --></th>
-            <th><!--rinline I(LA_ODDS) --></th>
-            <th><!--rinline I(LA_MARGIN) --></th>
+            <td>Louisiana</td>
+            <td><!--rinline I(LA_EV) --></td>
+            <td><!--rinline I(LA_WINNER) --></td>
+            <td><!--rinline I(LA_ODDS) --></td>
+            <td><!--rinline I(LA_MARGIN) --></td>
           </tr>
           <tr>
-            <th>Maine</th>
-            <th><!--rinline I(ME_EV) --></th>
-            <th><!--rinline I(ME_WINNER) --></th>
-            <th><!--rinline I(ME_ODDS) --></th>
-            <th><!--rinline I(ME_MARGIN) --></th>
+            <td>Maine</td>
+            <td><!--rinline I(ME_EV) --></td>
+            <td><!--rinline I(ME_WINNER) --></td>
+            <td><!--rinline I(ME_ODDS) --></td>
+            <td><!--rinline I(ME_MARGIN) --></td>
           </tr>
           <tr>
-            <th>Maryland</th>
-            <th><!--rinline I(MD_EV) --></th>
-            <th><!--rinline I(MD_WINNER) --></th>
-            <th><!--rinline I(MD_ODDS) --></th>
-            <th><!--rinline I(MD_MARGIN) --></th>
+            <td>Maryland</td>
+            <td><!--rinline I(MD_EV) --></td>
+            <td><!--rinline I(MD_WINNER) --></td>
+            <td><!--rinline I(MD_ODDS) --></td>
+            <td><!--rinline I(MD_MARGIN) --></td>
           </tr>
           <tr>
-            <th>Massachusetts</th>
-            <th><!--rinline I(MA_EV) --></th>
-            <th><!--rinline I(MA_WINNER) --></th>
-            <th><!--rinline I(MA_ODDS) --></th>
-            <th><!--rinline I(MA_MARGIN) --></th>
+            <td>Massachusetts</td>
+            <td><!--rinline I(MA_EV) --></td>
+            <td><!--rinline I(MA_WINNER) --></td>
+            <td><!--rinline I(MA_ODDS) --></td>
+            <td><!--rinline I(MA_MARGIN) --></td>
           </tr>
           <tr>
-            <th>Michigan</th>
-            <th><!--rinline I(MI_EV) --></th>
-            <th><!--rinline I(MI_WINNER) --></th>
-            <th><!--rinline I(MI_ODDS) --></th>
-            <th><!--rinline I(MI_MARGIN) --></th>
+            <td>Michigan</td>
+            <td><!--rinline I(MI_EV) --></td>
+            <td><!--rinline I(MI_WINNER) --></td>
+            <td><!--rinline I(MI_ODDS) --></td>
+            <td><!--rinline I(MI_MARGIN) --></td>
           </tr>
           <tr>
-            <th>Minnesota</th>
-            <th><!--rinline I(MN_EV) --></th>
-            <th><!--rinline I(MN_WINNER) --></th>
-            <th><!--rinline I(MN_ODDS) --></th>
-            <th><!--rinline I(MN_MARGIN) --></th>
+            <td>Minnesota</td>
+            <td><!--rinline I(MN_EV) --></td>
+            <td><!--rinline I(MN_WINNER) --></td>
+            <td><!--rinline I(MN_ODDS) --></td>
+            <td><!--rinline I(MN_MARGIN) --></td>
           </tr>
           <tr>
-            <th>Mississippi</th>
-            <th><!--rinline I(MS_EV) --></th>
-            <th><!--rinline I(MS_WINNER) --></th>
-            <th><!--rinline I(MS_ODDS) --></th>
-            <th><!--rinline I(MS_MARGIN) --></th>
+            <td>Mississippi</td>
+            <td><!--rinline I(MS_EV) --></td>
+            <td><!--rinline I(MS_WINNER) --></td>
+            <td><!--rinline I(MS_ODDS) --></td>
+            <td><!--rinline I(MS_MARGIN) --></td>
           </tr>
           <tr>
-            <th>Missouri</th>
-            <th><!--rinline I(MO_EV) --></th>
-            <th><!--rinline I(MO_WINNER) --></th>
-            <th><!--rinline I(MO_ODDS) --></th>
-            <th><!--rinline I(MO_MARGIN) --></th>
+            <td>Missouri</td>
+            <td><!--rinline I(MO_EV) --></td>
+            <td><!--rinline I(MO_WINNER) --></td>
+            <td><!--rinline I(MO_ODDS) --></td>
+            <td><!--rinline I(MO_MARGIN) --></td>
           </tr>
           <tr>
-            <th>Montana</th>
-            <th><!--rinline I(MT_EV) --></th>
-            <th><!--rinline I(MT_WINNER) --></th>
-            <th><!--rinline I(MT_ODDS) --></th>
-            <th><!--rinline I(MT_MARGIN) --></th>
+            <td>Montana</td>
+            <td><!--rinline I(MT_EV) --></td>
+            <td><!--rinline I(MT_WINNER) --></td>
+            <td><!--rinline I(MT_ODDS) --></td>
+            <td><!--rinline I(MT_MARGIN) --></td>
           </tr>
           <tr>
-            <th>Nebraska</th>
-            <th><!--rinline I(NE_EV) --></th>
-            <th><!--rinline I(NE_WINNER) --></th>
-            <th><!--rinline I(NE_ODDS) --></th>
-            <th><!--rinline I(NE_MARGIN) --></th>
+            <td>Nebraska</td>
+            <td><!--rinline I(NE_EV) --></td>
+            <td><!--rinline I(NE_WINNER) --></td>
+            <td><!--rinline I(NE_ODDS) --></td>
+            <td><!--rinline I(NE_MARGIN) --></td>
           </tr>
           <tr>
-            <th>Nevada</th>
-            <th><!--rinline I(NV_EV) --></th>
-            <th><!--rinline I(NV_WINNER) --></th>
-            <th><!--rinline I(NV_ODDS) --></th>
-            <th><!--rinline I(NV_MARGIN) --></th>
+            <td>Nevada</td>
+            <td><!--rinline I(NV_EV) --></td>
+            <td><!--rinline I(NV_WINNER) --></td>
+            <td><!--rinline I(NV_ODDS) --></td>
+            <td><!--rinline I(NV_MARGIN) --></td>
           </tr>
           <tr>
-            <th>New Hampshire</th>
-            <th><!--rinline I(NH_EV) --></th>
-            <th><!--rinline I(NH_WINNER) --></th>
-            <th><!--rinline I(NH_ODDS) --></th>
-            <th><!--rinline I(NH_MARGIN) --></th>
+            <td>New Hampshire</td>
+            <td><!--rinline I(NH_EV) --></td>
+            <td><!--rinline I(NH_WINNER) --></td>
+            <td><!--rinline I(NH_ODDS) --></td>
+            <td><!--rinline I(NH_MARGIN) --></td>
           </tr>
           <tr>
-            <th>New Jersey</th>
-            <th><!--rinline I(NJ_EV) --></th>
-            <th><!--rinline I(NJ_WINNER) --></th>
-            <th><!--rinline I(NJ_ODDS) --></th>
-            <th><!--rinline I(NJ_MARGIN) --></th>
+            <td>New Jersey</td>
+            <td><!--rinline I(NJ_EV) --></td>
+            <td><!--rinline I(NJ_WINNER) --></td>
+            <td><!--rinline I(NJ_ODDS) --></td>
+            <td><!--rinline I(NJ_MARGIN) --></td>
           </tr>
           <tr>
-            <th>New Mexico</th>
-            <th><!--rinline I(NM_EV) --></th>
-            <th><!--rinline I(NM_WINNER) --></th>
-            <th><!--rinline I(NM_ODDS) --></th>
-            <th><!--rinline I(NM_MARGIN) --></th>
+            <td>New Mexico</td>
+            <td><!--rinline I(NM_EV) --></td>
+            <td><!--rinline I(NM_WINNER) --></td>
+            <td><!--rinline I(NM_ODDS) --></td>
+            <td><!--rinline I(NM_MARGIN) --></td>
           </tr>
           <tr>
-            <th>New York</th>
-            <th><!--rinline I(NY_EV) --></th>
-            <th><!--rinline I(NY_WINNER) --></th>
-            <th><!--rinline I(NY_ODDS) --></th>
-            <th><!--rinline I(NY_MARGIN) --></th>
+            <td>New York</td>
+            <td><!--rinline I(NY_EV) --></td>
+            <td><!--rinline I(NY_WINNER) --></td>
+            <td><!--rinline I(NY_ODDS) --></td>
+            <td><!--rinline I(NY_MARGIN) --></td>
           </tr>
           <tr>
-            <th>North Carolina</th>
-            <th><!--rinline I(NC_EV) --></th>
-            <th><!--rinline I(NC_WINNER) --></th>
-            <th><!--rinline I(NC_ODDS) --></th>
-            <th><!--rinline I(NC_MARGIN) --></th>
+            <td>North Carolina</td>
+            <td><!--rinline I(NC_EV) --></td>
+            <td><!--rinline I(NC_WINNER) --></td>
+            <td><!--rinline I(NC_ODDS) --></td>
+            <td><!--rinline I(NC_MARGIN) --></td>
           </tr>
           <tr>
-            <th>North Dakota</th>
-            <th><!--rinline I(ND_EV) --></th>
-            <th><!--rinline I(ND_WINNER) --></th>
-            <th><!--rinline I(ND_ODDS) --></th>
-            <th><!--rinline I(ND_MARGIN) --></th>
+            <td>North Dakota</td>
+            <td><!--rinline I(ND_EV) --></td>
+            <td><!--rinline I(ND_WINNER) --></td>
+            <td><!--rinline I(ND_ODDS) --></td>
+            <td><!--rinline I(ND_MARGIN) --></td>
           </tr>
           <tr>
-            <th>Ohio</th>
-            <th><!--rinline I(OH_EV) --></th>
-            <th><!--rinline I(OH_WINNER) --></th>
-            <th><!--rinline I(OH_ODDS) --></th>
-            <th><!--rinline I(OH_MARGIN) --></th>
+            <td>Ohio</td>
+            <td><!--rinline I(OH_EV) --></td>
+            <td><!--rinline I(OH_WINNER) --></td>
+            <td><!--rinline I(OH_ODDS) --></td>
+            <td><!--rinline I(OH_MARGIN) --></td>
           </tr>
           <tr>
-            <th>Oklahoma</th>
-            <th><!--rinline I(OK_EV) --></th>
-            <th><!--rinline I(OK_WINNER) --></th>
-            <th><!--rinline I(OK_ODDS) --></th>
-            <th><!--rinline I(OK_MARGIN) --></th>
+            <td>Oklahoma</td>
+            <td><!--rinline I(OK_EV) --></td>
+            <td><!--rinline I(OK_WINNER) --></td>
+            <td><!--rinline I(OK_ODDS) --></td>
+            <td><!--rinline I(OK_MARGIN) --></td>
           </tr>
           <tr>
-            <th>Oregon</th>
-            <th><!--rinline I(OR_EV) --></th>
-            <th><!--rinline I(OR_WINNER) --></th>
-            <th><!--rinline I(OR_ODDS) --></th>
-            <th><!--rinline I(OR_MARGIN) --></th>
+            <td>Oregon</td>
+            <td><!--rinline I(OR_EV) --></td>
+            <td><!--rinline I(OR_WINNER) --></td>
+            <td><!--rinline I(OR_ODDS) --></td>
+            <td><!--rinline I(OR_MARGIN) --></td>
           </tr>
           <tr>
-            <th>Pennsylvania</th>
-            <th><!--rinline I(PA_EV) --></th>
-            <th><!--rinline I(PA_WINNER) --></th>
-            <th><!--rinline I(PA_ODDS) --></th>
-            <th><!--rinline I(PA_MARGIN) --></th>
+            <td>Pennsylvania</td>
+            <td><!--rinline I(PA_EV) --></td>
+            <td><!--rinline I(PA_WINNER) --></td>
+            <td><!--rinline I(PA_ODDS) --></td>
+            <td><!--rinline I(PA_MARGIN) --></td>
           </tr>
           <tr>
-            <th>Rhode Island</th>
-            <th><!--rinline I(RI_EV) --></th>
-            <th><!--rinline I(RI_WINNER) --></th>
-            <th><!--rinline I(RI_ODDS) --></th>
-            <th><!--rinline I(RI_MARGIN) --></th>
+            <td>Rhode Island</td>
+            <td><!--rinline I(RI_EV) --></td>
+            <td><!--rinline I(RI_WINNER) --></td>
+            <td><!--rinline I(RI_ODDS) --></td>
+            <td><!--rinline I(RI_MARGIN) --></td>
           </tr>
           <tr>
-            <th>South Carolina</th>
-            <th><!--rinline I(SC_EV) --></th>
-            <th><!--rinline I(SC_WINNER) --></th>
-            <th><!--rinline I(SC_ODDS) --></th>
-            <th><!--rinline I(SC_MARGIN) --></th>
+            <td>South Carolina</td>
+            <td><!--rinline I(SC_EV) --></td>
+            <td><!--rinline I(SC_WINNER) --></td>
+            <td><!--rinline I(SC_ODDS) --></td>
+            <td><!--rinline I(SC_MARGIN) --></td>
           </tr>
           <tr>
-            <th>South Dakota</th>
-            <th><!--rinline I(SD_EV) --></th>
-            <th><!--rinline I(SD_WINNER) --></th>
-            <th><!--rinline I(SD_ODDS) --></th>
-            <th><!--rinline I(SD_MARGIN) --></th>
+            <td>South Dakota</td>
+            <td><!--rinline I(SD_EV) --></td>
+            <td><!--rinline I(SD_WINNER) --></td>
+            <td><!--rinline I(SD_ODDS) --></td>
+            <td><!--rinline I(SD_MARGIN) --></td>
           </tr>
           <tr>
-            <th>Tennessee</th>
-            <th><!--rinline I(TN_EV) --></th>
-            <th><!--rinline I(TN_WINNER) --></th>
-            <th><!--rinline I(TN_ODDS) --></th>
-            <th><!--rinline I(TN_MARGIN) --></th>
+            <td>Tennessee</td>
+            <td><!--rinline I(TN_EV) --></td>
+            <td><!--rinline I(TN_WINNER) --></td>
+            <td><!--rinline I(TN_ODDS) --></td>
+            <td><!--rinline I(TN_MARGIN) --></td>
           </tr>
           <tr>
-            <th>Texas</th>
-            <th><!--rinline I(TX_EV) --></th>
-            <th><!--rinline I(TX_WINNER) --></th>
-            <th><!--rinline I(TX_ODDS) --></th>
-            <th><!--rinline I(TX_MARGIN) --></th>
+            <td>Texas</td>
+            <td><!--rinline I(TX_EV) --></td>
+            <td><!--rinline I(TX_WINNER) --></td>
+            <td><!--rinline I(TX_ODDS) --></td>
+            <td><!--rinline I(TX_MARGIN) --></td>
           </tr>
           <tr>
-            <th>Utah</th>
-            <th><!--rinline I(UT_EV) --></th>
-            <th><!--rinline I(UT_WINNER) --></th>
-            <th><!--rinline I(UT_ODDS) --></th>
-            <th><!--rinline I(UT_MARGIN) --></th>
+            <td>Utah</td>
+            <td><!--rinline I(UT_EV) --></td>
+            <td><!--rinline I(UT_WINNER) --></td>
+            <td><!--rinline I(UT_ODDS) --></td>
+            <td><!--rinline I(UT_MARGIN) --></td>
           </tr>
           <tr>
-            <th>Vermont</th>
-            <th><!--rinline I(VT_EV) --></th>
-            <th><!--rinline I(VT_WINNER) --></th>
-            <th><!--rinline I(VT_ODDS) --></th>
-            <th><!--rinline I(VT_MARGIN) --></th>
+            <td>Vermont</td>
+            <td><!--rinline I(VT_EV) --></td>
+            <td><!--rinline I(VT_WINNER) --></td>
+            <td><!--rinline I(VT_ODDS) --></td>
+            <td><!--rinline I(VT_MARGIN) --></td>
           </tr>
           <tr>
-            <th>Virginia</th>
-            <th><!--rinline I(VA_EV) --></th>
-            <th><!--rinline I(VA_WINNER) --></th>
-            <th><!--rinline I(VA_ODDS) --></th>
-            <th><!--rinline I(VA_MARGIN) --></th>
+            <td>Virginia</td>
+            <td><!--rinline I(VA_EV) --></td>
+            <td><!--rinline I(VA_WINNER) --></td>
+            <td><!--rinline I(VA_ODDS) --></td>
+            <td><!--rinline I(VA_MARGIN) --></td>
           </tr>
           <tr>
-            <th>Washington</th>
-            <th><!--rinline I(WA_EV) --></th>
-            <th><!--rinline I(WA_WINNER) --></th>
-            <th><!--rinline I(WA_ODDS) --></th>
-            <th><!--rinline I(WA_MARGIN) --></th>
+            <td>Washington</td>
+            <td><!--rinline I(WA_EV) --></td>
+            <td><!--rinline I(WA_WINNER) --></td>
+            <td><!--rinline I(WA_ODDS) --></td>
+            <td><!--rinline I(WA_MARGIN) --></td>
           </tr>
           <tr>
-            <th>West Virginia</th>
-            <th><!--rinline I(WV_EV) --></th>
-            <th><!--rinline I(WV_WINNER) --></th>
-            <th><!--rinline I(WV_ODDS) --></th>
-            <th><!--rinline I(WV_MARGIN) --></th>
+            <td>West Virginia</td>
+            <td><!--rinline I(WV_EV) --></td>
+            <td><!--rinline I(WV_WINNER) --></td>
+            <td><!--rinline I(WV_ODDS) --></td>
+            <td><!--rinline I(WV_MARGIN) --></td>
           </tr>
           <tr>
-            <th>Wisconsin</th>
-            <th><!--rinline I(WI_EV) --></th>
-            <th><!--rinline I(WI_WINNER) --></th>
-            <th><!--rinline I(WI_ODDS) --></th>
-            <th><!--rinline I(WI_MARGIN) --></th>
+            <td>Wisconsin</td>
+            <td><!--rinline I(WI_EV) --></td>
+            <td><!--rinline I(WI_WINNER) --></td>
+            <td><!--rinline I(WI_ODDS) --></td>
+            <td><!--rinline I(WI_MARGIN) --></td>
           </tr>
           <tr>
-            <th>Wyoming</th>
-            <th><!--rinline I(WY_EV) --></th>
-            <th><!--rinline I(WY_WINNER) --></th>
-            <th><!--rinline I(WY_ODDS) --></th>
-            <th><!--rinline I(WY_MARGIN) --></th>
+            <td>Wyoming</td>
+            <td><!--rinline I(WY_EV) --></td>
+            <td><!--rinline I(WY_WINNER) --></td>
+            <td><!--rinline I(WY_ODDS) --></td>
+            <td><!--rinline I(WY_MARGIN) --></td>
           </tr>
         </table>
       </div>

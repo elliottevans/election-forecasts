@@ -6,3 +6,4 @@ banner_dem<-"alert alert-info"
 
 banner_color<-'red'
 
+trump_str<-'Trump'

@@ -11,7 +11,7 @@ source("prep.R")
 #   6. polls_2016
 #   7. polls
 
-#polls<-polls[polls$Date<=as.Date("2016-06-29"),]
+#polls<-polls[polls$Date<=as.Date("2016-06-30"),]
 
 #########################################################################################################################################
 # CREATE WEIGHTED POLLING AVERAGES
@@ -479,12 +479,12 @@ dat[dat$value>=50,'value']<-dat[dat$value>=50,'value']/2
 dat[dat$value<=-50,'value']<-dat[dat$value<=-50,'value']/2
 
 map<-statebins(dat
-          ,breaks=9
-          ,labels=c("R+++","R++","R+","R","Neutral","D","D+","D++","D+++")
+          ,breaks=7
+          ,labels=c("Solid R","Likely R","Lean R","Tossup","Lean D","Likely D","Solid D")
           ,brewer_pal="RdBu"
           ,text_color="black"
           ,font_size=6
-          ,legend_title="Odds of Winning"
+          ,legend_title=""
           ,legend_position="bottom"
           )
 #########################################################################################################################################

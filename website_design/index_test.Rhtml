@@ -18,9 +18,16 @@ th {
     font-size: 20px;
 }
 
-tr:nth-child(even){background-color: #f2f2f2}
 </style>
 
+<style>
+.republican{
+  background-color:#FF9059;
+}
+.democrat{
+  background-color:#59C8FF;
+}
+</style>
 
   <head>
 <!--begin.rcode warning=FALSE,echo=FALSE, include=FALSE
@@ -36,6 +43,22 @@ end.rcode-->
     -->
     <link href="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.1/css/bootstrap-combined.min.css" rel="stylesheet">
     <script src="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.1/js/bootstrap.min.js"></script>
+    <script src="http://code.jquery.com/jquery-1.10.2.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+    <script>
+        $(function(){
+        $("tr").each(function(){
+          var col_val = $(this).find("td:eq(2)").text();
+          if ($.trim(col_val) == "Trump"){
+            $(this).addClass('republican');  //the republican class colors the row green//
+          } else if($.trim(col_val) == "Clinton") {
+            $(this).addClass('democrat');
+          }
+        });
+      });
+    </script>
+
+
   </head>
   <body style="padding-top: 50px;">
     <div class="navbar navbar-fixed-top">
@@ -46,7 +69,7 @@ end.rcode-->
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </a>
-          <a class="brand" href="#overview"><strong>General Election Forecasts 2016</strong></a>
+          <a class="brand" href="#title"><strong>General Election Forecasts 2016</strong></a>
           <div class="nav-collapse collapse">
             <ul class="nav pull-right">
               <li><a href="#overview">National Forecasts</a></li>
@@ -62,9 +85,11 @@ end.rcode-->
     
     <div class="container">
 
-      <div class="row" style="padding-bottom: 30px;">
+      <div class="row" id="title" style="padding-bottom: 30px;">
         <div class="span8">
-          <h1><u>Who Will be the Next President?</u></h1>
+
+            <h1><u>Who Will be the Next President?</u></h1>
+
       <div class="container" style="text-align: center;">
 
 
@@ -75,6 +100,16 @@ end.rcode-->
 
 
       </div>
+        </div>
+        <div style="text-align:right;">
+          <h5 id="demo">
+                  <script>
+                    var d = new Date();
+                    var str = "Updated"
+                    var sentence = str + " " + d.toDateString();
+                    document.getElementById("demo").innerHTML = sentence
+                  </script> 
+          </h5>
         </div>
       </div>
 
@@ -140,40 +175,40 @@ end.rcode-->
       </div>
       
       <div class="container" style="text-align: center;" class="span3">
+        
+
         <table>
           <tr>
-            <th>Political Climate</th>
-            <th>Expected Result</th>
-            <th>Victor</th>
+            <th>State</th>
+            <th>Electoral Votes</th>
+            <th>Winner</th>
+            <th>Odds of Victory</th>
+            <th>Margin of Victory</th>
           </tr>
           <tr>
-            <td>Arkansas</td>
-            <td>2012</td>
-            <td>2012</td>
+          <tr>
+            <td>Alabama</td>
+            <td>4</td>
+            <td>Trump</td>
+            <td>96%</td>
+            <td>+31</td>
           </tr>
           <tr>
-            <td>2004</td>
-            <td>2012</td>
-            <td>2012</td>
-          </tr>
-          <tr>
-            <td>2008</td>
-            <td>2012</td>
-            <td>2012</td>
-          </tr>
-          <tr>
-            <td>2012</td>
-            <td>2012</td>
-            <td>2012</td>
+            <td>California</td>
+            <td>55</td>
+            <td>Clinton</td>
+            <td>96%</td>
+            <td>+31</td>
           </tr>
         </table>
 
       </div>
+      
+ 
 
 
     
     </div>
-
     <script src="http://code.jquery.com/jquery.js"></script>
   </body>
 </html>

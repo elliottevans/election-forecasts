@@ -26,6 +26,7 @@ library("fGarch", lib.loc="~/R/win-library/3.3")
 library("statebins", lib.loc="~/R/win-library/3.3")
 library("scales", lib.loc="~/R/win-library/3.3")
 library("condMVNorm", lib.loc="~/R/win-library/3.3")
+library("RCurl", lib.loc="~/R/win-library/3.3")
 
 getMargin<-function(known_state,known_margin,unknown_state){
   corr<-data.frame(
@@ -346,54 +347,10 @@ from polls_2000
 ###########################
 # 2012 Polling
 ###########################
-#Use HuffPollster API
-polls_2012<-data.frame()
-states<-append(state.abb,"DC")
-for(i in 1:length(states)){
-  print(noquote(paste("CURRENTLY GETTING STATE:",states[i])))
-  temp1<-pollstr_polls(topic='2012-president',showall=FALSE,state=states[i],max_pages=50)
-  temp2<-temp1$polls
-  temp3<-temp1$question
-  if(dim(temp3)[1]==0) next
-  temp4<-sql(
-    "
-    select 
-      id
-      ,'2012' as election_year
-      ,state as State
-      ,end_date
-      ,pollster as Pollster
-      ,choice as Candidate
-      ,value
-      ,case when choice='Obama' then 'D' else 'R' end as party
-    from temp2 
-      inner join temp3 using (id) 
-    where topic='2012-president'
-      and choice in ('Romney','Obama')
-    "
-  )
-  polls_2012<-rbind(polls_2012,temp4)
-}
-names(polls_2012)[4]<-'Date'
-#Add on days before general election
-polls_2012<-data.frame(cbind(polls_2012,difftime(as.Date('2012-11-06'),polls_2012$Date,units="days")))
-names(polls_2012)[ncol(polls_2012)]<-'days_till_election'
-polls_2012$days_till_election<-as.numeric(polls_2012$days_till_election)
-polls_2012<-sql("
-select
-  election_year
-  ,State
-  ,Date 
-  ,Candidate
-  ,party
-  ,days_till_election
-  ,min(id) as id
-  ,avg(value) as value
-from polls_2012
-  group by 1,2,3,4,5,6
-")
-#Write 2012 polls to csv file
-write.csv(polls_2012,'polls\\polls_2012.csv',row.names = FALSE)
+#Used HuffPollster API to get the .csv
+
+polls_2012<-read.csv("polls\\polls_2012.csv")
+polls_2012$election_year<-as.character(polls_2012$election_year)
 ###########################
 # 2012 Polling
 ###########################
@@ -403,52 +360,68 @@ write.csv(polls_2012,'polls\\polls_2012.csv',row.names = FALSE)
 ###########################
 #Use HuffPollster API
 polls_2016<-data.frame()
-states<-append(state.abb,"DC")
-for(i in 1:length(states)){
-  print(noquote(paste("CURRENTLY GETTING STATE:",states[i])))
-  temp1<-pollstr_polls(topic='2016-president',showall=FALSE,state=states[i],max_pages=50)
-  temp2<-temp1$polls
-  temp3<-temp1$question
-  if(dim(temp3)[1]==0) next
-  temp4<-sql(
-    "
-    select 
-      id
-      ,'2016' as election_year
-      ,state as State
-      ,end_date
-      ,pollster as Pollster
-      ,choice as Candidate
+state_names_original<-state.name
+state_names_abb<-state.abb
+state_names_nice<-tolower(state.name)
+state_names_nice<-gsub( " ", "-", state_names_nice)
+for(i in 1:length(state_names_abb)){
+  print(noquote(paste("CURRENTLY GETTING STATE:",state_names_abb[i])))
+  url<-paste0('http://elections.huffingtonpost.com/pollster/2016-',state_names_nice[i],'-president-trump-vs-clinton.csv')
+  url_alt<-paste0('http://elections.huffingtonpost.com/pollster/2016-',state_names_nice[i],'-presidential-general-election-trump-vs-clinton.csv')
+  file<-getURL(url,ssl.verifyhost=FALSE, ssl.verifypeer=FALSE)
+  file_alt<-getURL(url_alt,ssl.verifyhost=FALSE, ssl.verifypeer=FALSE)
+  temp1<-read.csv(textConnection(file),head=T)
+  temp1_alt<-read.csv(textConnection(file_alt),head=T)
+  
+  if(ncol(temp1)==1 && ncol(temp1_alt)==1){
+    #No polls found for this state, skip
+    next
+  }else if(ncol(temp1)==1 && ncol(temp1_alt)>1){
+    #Found polls, temp1_alt is the one we want
+    temp2<-temp1_alt
+  }else{
+    #Found polls, temp1 is the one we want
+    temp2<-temp1
+  }
+  id<-as.numeric(str_sub(temp2$Pollster.URL,-5,-1))
+  temp2<-temp2[,c('Pollster','Start.Date','End.Date',"Clinton",'Trump')]
+  temp2$id<-id
+  temp2<-melt(temp2,id=c("Pollster","Start.Date","End.Date","id"))
+  temp2$State<-state_names_abb[i]
+  
+  temp2<-sql("
+    select
+      2016 as election_year
+      ,State
+      ,`End.Date` as Date 
+      ,variable as Candidate
+      ,case when variable='Clinton' then 'D' else 'R' end as party
+      ,id
       ,value
-      ,case when choice='Clinton' then 'D' else 'R' end as party
-    from temp2 
-      inner join temp3 using (id) 
-    where topic='2016-president'
-      and choice in ('Trump','Clinton')
-    "
-  )
-  temp4$State<-states[i]
-  polls_2016<-rbind(polls_2016,temp4)
+    from temp2
+    order by id
+  ")
+
+  polls_2016<-rbind(polls_2016,temp2)
 }
-names(polls_2016)[4]<-'Date'
-#Add on days before general election
-polls_2016<-data.frame(cbind(polls_2016,difftime(as.Date('2016-11-08'),polls_2016$Date,units="days")))
+
+polls_2016<-data.frame(cbind(polls_2016,round(difftime(as.Date('2016-11-08'),polls_2016$Date,units="days"))))
 names(polls_2016)[ncol(polls_2016)]<-'days_till_election'
 polls_2016$days_till_election<-as.numeric(polls_2016$days_till_election)
 polls_2016<-sql("
-select
-  election_year
-  ,State
-  ,Date
-  ,Candidate
-  ,party
-  ,days_till_election
-  ,min(id) as id
-  ,avg(value) as value
-from polls_2016
-  group by 1,2,3,4,5,6
+    select
+      election_year
+      ,State
+      ,Date 
+      ,Candidate
+      ,party
+      ,days_till_election
+      ,min(id) as id
+      ,round(avg(value)) as value
+    from polls_2016
+    group by 1,2,3,4,5,6
 ")
-#Write 2016 polls to csv file
+polls_2016$election_year<-as.character(polls_2016$election_year)
 write.csv(polls_2016,'polls\\polls_2016.csv',row.names = FALSE)
 ###########################
 # 2016 Polling
