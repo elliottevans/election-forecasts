@@ -513,10 +513,6 @@ polls[polls$id==24870,'value']<-c(36,37)
 #24940          2016    OH 2016-06-28                                                      Gravis Marketing/OANN     Trump    47     R
 
 
-polls<-rbind(polls,c(2016,'OH','2016-06-28','Clinton','D',difftime(as.Date('2016-11-08'),'2016-06-28',units="days"),24940,46))
-polls<-rbind(polls,c(2016,'PA','2016-06-28','Clinton','D',difftime(as.Date('2016-11-08'),'2016-06-28',units="days"),24941,48))
-
-
 polls<-sql("select distinct * from polls")
 
 polls$State<-as.factor(polls$State)

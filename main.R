@@ -448,7 +448,7 @@ simulated_result<-ggplot(hist_data, aes(x=electoral_votes, fill=candidate)) +
     geom_text(aes(x=trump_label_spot, label=round(sum_dat[sum_dat$candidate=='Trump',2]), y=60), colour="red3",size=8)+
     geom_text(aes(x=270, label='270 to Win', y=380),size=8)+
     ggtitle("Electoral Votes")+
-    ylab("Frequency")+
+    ylab("Simulations")+
     xlab("Electoral Votes")+
     guides(fill=guide_legend(title=NULL))+
     theme(plot.title=element_text(face="bold",hjust=0,vjust=2,colour="#3C3C3C",size=31))+
