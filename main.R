@@ -11,7 +11,10 @@ source("prep.R")
 #   6. polls_2016
 #   7. polls
 
-#polls<-polls[polls$Date<=as.Date("2016-07-12"),]
+run_date<-as.Date(Sys.Date())
+#run_date<-as.Date("2016-07-22")
+
+polls<-polls[polls$Date<=run_date,]
 
 #########################################################################################################################################
 # CREATE WEIGHTED POLLING AVERAGES
@@ -326,6 +329,7 @@ n<-10000
 dem_wins<-0
 electoral_vote_list<-c()
 for(i in 1:n){
+  set.seed(seed = NULL)
   if(i %% 1000 == 0){print(paste('CURRENTLY ON ELECTION SIMULATION:',i),quote=FALSE)}
   state_odds_rand<-state_odds[sample(nrow(state_odds)),]
   electoral_votes<-0
@@ -363,11 +367,69 @@ for(i in 1:n){
 }
  
 dem_prob<-dem_wins/n
-
 state_odds$tested_odds<-round(100*pnorm(q=0,mean=state_odds$mean,sd=state_odds$sd,lower.tail = FALSE),1)
 #########################################################################################################################################
 #ELECTION SIMULATION
 #########################################################################################################################################
+
+
+
+#########################################################################################################################################
+#NATIONAL FORECAST OVER TIME
+#########################################################################################################################################
+national_forecasts<-read.csv("forecasts\\national_forecasts.csv")
+national_forecasts$date<-as.Date(national_forecasts$date,format='%m/%d/%Y')
+
+if(nrow(national_forecasts[national_forecasts$date==run_date,])==0){
+  #Entry hasn't been created yet
+  national_forecasts<-rbind(national_forecasts,c(as.character(run_date),round(100*dem_prob,1),100-round(100*dem_prob,1)))
+}else if(nrow(national_forecasts[national_forecasts$date==run_date,])!=0){
+  national_forecasts[national_forecasts$date==run_date,]<-c(as.character(run_date),round(100*dem_prob,1),100-round(100*dem_prob,1))
+}
+
+write.csv(national_forecasts,'national_forecasts.csv',row.names = FALSE)
+
+names(national_forecasts)<-c('Date','Clinton','Trump')
+national_forecasts<-melt(national_forecasts,id=c('Date'))
+names(national_forecasts)<-c('date','candidate','value')
+national_forecasts$value<-as.numeric(national_forecasts$value)
+
+
+odds_over_time<- ggplot(data=national_forecasts,aes(x=date,y=value,colour=candidate,group=candidate)) + 
+  geom_line(size=2.3) + 
+  #theme(axis.text.x=element_blank(),axis.ticks.x=element_blank())+
+  ggtitle("Odds Over Time")+
+  theme(plot.title=element_text(face="bold",hjust=0,vjust=2,colour="#3C3C3C",size=23))+
+  theme(legend.position = "bottom")+
+  scale_color_manual(values=c("deepskyblue", "firebrick1"))+
+  theme(axis.title.y=element_blank())+
+  theme(axis.title.x=element_blank())+
+  theme(legend.title=element_blank())+
+  scale_y_continuous(limits = c(0.0, 100.0))+
+  theme(panel.grid.minor = element_blank()
+        ,panel.background = element_rect(fill = "white")
+        ,panel.grid.major = element_line(colour = "gray93")
+        ,axis.line.x = element_line(color="black")
+        ,axis.line.y = element_blank()
+      )+
+  scale_x_date(limits=c(as.Date('2016-06-01'),as.Date('2016-11-08')))+
+  geom_vline(linetype=2,aes(xintercept=as.numeric(as.Date('2016-11-08'))))+
+  geom_vline(linetype=1,aes(xintercept=as.numeric(run_date)))+
+  geom_text(aes(x=as.Date('2016-11-08')-7.5, label="Election Day\nNov 8", y=100), colour="grey38",size=5)+
+  geom_text(aes(x=run_date-7.5, label=as.character(run_date), y=100), colour="grey38",size=5)+
+  theme(legend.text = element_text(size = 19, face = "bold"))+
+  guides(fill=guide_legend(title=NULL))+
+  theme(axis.text=element_text(size=18))+
+  theme(axis.title=element_text(size=22))+
+  geom_text(aes(x=run_date+6, label=paste0(round(100*dem_prob,1),'%'), y=round(100*dem_prob,1)), colour="grey38",size=7)+
+  geom_text(aes(x=run_date+6, label=paste0(100-round(100*dem_prob,1),'%'), y=100-round(100*dem_prob,1)), colour="grey38",size=7)+
+  theme(plot.title=element_text(face="bold",hjust=0,vjust=2,colour="#3C3C3C",size=31))
+
+
+#########################################################################################################################################
+#NATIONAL FORECAST OVER TIME
+#########################################################################################################################################
+
 
 
 #########################################################################################################################################

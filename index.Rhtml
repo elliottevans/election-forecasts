@@ -27,11 +27,17 @@ th {
 }
 </style>
 
+<style>
+.imgContainer{
+    float:left;
+}
+</style>
 
   <head>
   <link rel="icon" href="C:\Users\Elliott\election_forecasts\E.png">
 <!--begin.rcode warning=FALSE,echo=FALSE, include=FALSE
 setwd("~/election_forecasts")
+rm(list = setdiff(ls(), lsf.str()))
 source("main.R")
 end.rcode-->
     <title>2016 General Election Forecasts</title>
@@ -70,7 +76,7 @@ end.rcode-->
           <a class="brand" href="#title"><strong>General Election Forecasts 2016</strong></a>
           <div class="nav-collapse collapse">
             <ul class="nav pull-right">
-              <li><a href="#overview">National Forecasts</a></li>
+              <li><a href="#overview">National Overview</a></li>
               <li><a href="#map">Map</a></li>
               <li><a href="#statelevel">State Trends</a></li>
               <li><a href="#margins">Margins of Victory</a></li>
@@ -107,17 +113,34 @@ end.rcode-->
       <div class="row" id="overview">
         <div class="span12">
           <center>
-            <h1>National Forecasts</h1>
+            <h1>National Overview</h1>
           </center>
-          <p class="lead">The model uses three driving forces to determine odds of victory: state polls, historical voting results, and the time left till the general election. State results are then rolled up to the national level. Here's the expected end result:</p>
         </div>
       </div>
 
-      <div class="container" style="text-align: center;">
-<!--begin.rcode simulations, echo=FALSE,fig.align='center',fig.width=15, fig.height=8
+      <div class="row">
+        <div class="span12">
+          <p class="lead">Presidential elections are all about who can get to 270 electoral votes. After simulating the election ten-thousand times, the model predicts a <!--rinline I(winning_electoral_votes) -->-<!--rinline I(losing_electoral_votes) --> electoral win for <!--rinline I(winner) -->.</p>
+        </div>
+      </div>
+      
+        <div class="span12" style="text-align: center;">
+<!--begin.rcode simulations, echo=FALSE,fig.align='center',fig.width=15, fig.height=6
 simulated_result
 end.rcode-->
-      </div>  
+        </div>
+        
+      <div class="row">
+        <div class="span12">
+          <p class="lead">Odds of a candidate's victory are always changing. Here are how those odds have changed over time.</p>
+        </div>
+      </div>
+        <div class="span12" style="text-align: center;">
+<!--begin.rcode oddsovertime, echo=FALSE,fig.align='center',fig.width=15, fig.height=6
+odds_over_time
+end.rcode-->
+        </div>
+    
       <p></p>
       <div class="row" id="map">
         <div class="span12">

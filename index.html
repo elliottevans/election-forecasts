@@ -27,6 +27,11 @@ th {
 }
 </style>
 
+<style>
+.imgContainer{
+    float:left;
+}
+</style>
 
   <head>
 <style type="text/css">
@@ -129,7 +134,7 @@ th {
           <a class="brand" href="#title"><strong>General Election Forecasts 2016</strong></a>
           <div class="nav-collapse collapse">
             <ul class="nav pull-right">
-              <li><a href="#overview">National Forecasts</a></li>
+              <li><a href="#overview">National Overview</a></li>
               <li><a href="#map">Map</a></li>
               <li><a href="#statelevel">State Trends</a></li>
               <li><a href="#margins">Margins of Victory</a></li>
@@ -149,7 +154,7 @@ th {
           <p></p>
           <p></p>
       <div class="container" style="text-align: center;">
-        <h1><div class="alert alert-info" role="alert">Hillary Clinton has a 76.6% chance of being president</div></h1>    
+        <h1><div class="alert alert-info" role="alert">Hillary Clinton has a 75.5% chance of being president</div></h1>    
       </div>
         </div>
           <div style="text-align:right;">
@@ -166,15 +171,30 @@ th {
       <div class="row" id="overview">
         <div class="span12">
           <center>
-            <h1>National Forecasts</h1>
+            <h1>National Overview</h1>
           </center>
-          <p class="lead">The model uses three driving forces to determine odds of victory: state polls, historical voting results, and the time left till the general election. State results are then rolled up to the national level. Here's the expected end result:</p>
         </div>
       </div>
 
-      <div class="container" style="text-align: center;">
+      <div class="row">
+        <div class="span12">
+          <p class="lead">Presidential elections are all about who can get to 270 electoral votes. After simulating the election ten-thousand times, the model predicts a 300-238 electoral win for Hillary Clinton.</p>
+        </div>
+      </div>
+      
+        <div class="span12" style="text-align: center;">
 <div class="chunk" id="simulations"><div class="rimage center"><img src="figure/simulations-1.png" title="plot of chunk simulations" alt="plot of chunk simulations" class="plot" /></div></div>
-      </div>  
+        </div>
+        
+      <div class="row">
+        <div class="span12">
+          <p class="lead">Odds of a candidate's victory are always changing. Here are how those odds have changed over time.</p>
+        </div>
+      </div>
+        <div class="span12" style="text-align: center;">
+<div class="chunk" id="oddsovertime"><div class="rimage center"><img src="figure/oddsovertime-1.png" title="plot of chunk oddsovertime" alt="plot of chunk oddsovertime" class="plot" /></div></div>
+        </div>
+    
       <p></p>
       <div class="row" id="map">
         <div class="span12">
@@ -222,7 +242,7 @@ th {
           <center>
             <h1>Current Forecasts</h1>
           </center>
-          <p class="lead">Here are all of the current forecasts for the general election. The model predicts that Hillary Clinton will win 27 of 51 contests, including DC. </p>
+          <p class="lead">Here are all of the current forecasts for the general election. The model predicts that Hillary Clinton will win 26 of 51 contests, including DC. </p>
         </div>
       </div>
       
@@ -302,8 +322,8 @@ th {
             <td>Georgia</td>
             <td>16</td>
             <td>Trump</td>
-            <td>61.2%</td>
-            <td>+2.6</td>
+            <td>59.8%</td>
+            <td>+2.2</td>
           </tr>
           <tr>
             <td>Hawaii</td>
@@ -427,9 +447,9 @@ th {
           <tr>
             <td>Nevada</td>
             <td>6</td>
-            <td>Clinton</td>
-            <td>57.7%</td>
-            <td>+1.9</td>
+            <td>Trump</td>
+            <td>50.6%</td>
+            <td>+0.1</td>
           </tr>
           <tr>
             <td>New Hampshire</td>
@@ -477,8 +497,8 @@ th {
             <td>Ohio</td>
             <td>18</td>
             <td>Clinton</td>
-            <td>68.4%</td>
-            <td>+4.4</td>
+            <td>65.1%</td>
+            <td>+3.6</td>
           </tr>
           <tr>
             <td>Oklahoma</td>
