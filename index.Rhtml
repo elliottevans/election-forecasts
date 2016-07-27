@@ -120,7 +120,7 @@ end.rcode-->
 
       <div class="row">
         <div class="span12">
-          <p class="lead">Presidential elections are all about who can get to 270 electoral votes. After simulating the election ten-thousand times, the model predicts a <!--rinline I(winning_electoral_votes) -->-<!--rinline I(losing_electoral_votes) --> electoral win for <!--rinline I(winner) -->.</p>
+          <p class="lead">Presidential elections are all about who can get to 270 electoral votes. After simulating the election ten-thousand times, the model predicts a <b><!--rinline I(winning_electoral_votes) -->-<!--rinline I(losing_electoral_votes) --></b> electoral win for <b><!--rinline I(winner) --></b>.</p>
         </div>
       </div>
       
@@ -132,7 +132,7 @@ end.rcode-->
         
       <div class="row">
         <div class="span12">
-          <p class="lead">Odds of a candidate's victory are always changing. Here are how those odds have changed over time.</p>
+          <p class="lead">Odds of a candidate's victory are always changing. Here's how the odds have changed over time.</p>
         </div>
       </div>
         <div class="span12" style="text-align: center;">
@@ -177,7 +177,7 @@ end.rcode-->
           <center>
             <h1>Margins of Victory</h1>
           </center>
-          <p class="lead">Here's how the margins of victory will probably play out. The error bars are 80% confidence intervals.</p>
+          <p class="lead">Which states will be close and which ones will be blowouts? Here's how the margins of victory will probably play out. For Trump, the biggest blowout should be <!--rinline I(republican_blowout) -->, where the model expects him to win by around <!--rinline I(republican_blowout_margin) --> points. Clinton's biggest blowout should be <!--rinline I(democratic_blowout) -->, where she is expected to win by <!--rinline I(democratic_blowout_margin) -->. The error bars are 80% confidence intervals.</p>
         </div>
       </div>
       
@@ -248,6 +248,13 @@ end.rcode-->
             <td><!--rinline I(CO_WINNER) --></td>
             <td><!--rinline I(CO_ODDS) --></td>
             <td><!--rinline I(CO_MARGIN) --></td>
+          </tr>
+          <tr>
+            <td>Connecticut</td>
+            <td><!--rinline I(CT_EV) --></td>
+            <td><!--rinline I(CT_WINNER) --></td>
+            <td><!--rinline I(CT_ODDS) --></td>
+            <td><!--rinline I(CT_MARGIN) --></td>
           </tr>
           <tr>
             <td>Delaware</td>

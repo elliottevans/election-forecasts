@@ -537,7 +537,7 @@ simulated_result<-ggplot(hist_data, aes(x=electoral_votes, fill=candidate)) +
 # VISUALIZATION: CARTOGRAM
 #########################################################################################################################################
 dat <- data.frame(state=as.character(state_odds$abb), value=state_odds$mean, stringsAsFactors=FALSE)
-dat[dat$value>=50,'value']<-dat[dat$value>=50,'value']/2
+dat[dat$value>=50,'value']<-dat[dat$value>=50,'value']/3
 dat[dat$value<=-50,'value']<-dat[dat$value<=-50,'value']/2
 
 map<-statebins(dat
@@ -630,6 +630,14 @@ for(i in 1:length(relevant_list)){
 #########################################################################################################################################
 # RESULTS
 #########################################################################################################################################
+
+#Biggest blowouts:
+republican_blowout<-state_odds[state_odds$mean==min(state_odds$mean),'state']
+republican_blowout_margin<-round(abs(state_odds[state_odds$mean==min(state_odds$mean),'mean']),0)
+
+democratic_blowout<-state_odds[state_odds$mean==max(state_odds$mean),'state']
+democratic_blowout_margin<-round(abs(state_odds[state_odds$mean==max(state_odds$mean),'mean']),0)
+
 if(dem_prob>=.5){
   winner<-'Hillary Clinton'
   loser<-'Donald Trump'
