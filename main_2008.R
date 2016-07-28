@@ -12,7 +12,7 @@ source("prep.R")
 #   7. polls
 
 #run_date<-as.Date(Sys.Date())
-run_date<-as.Date("2012-11-22")
+run_date<-as.Date("2008-11-22")
 
 polls<-polls[polls$Date<=run_date,]
 
@@ -34,7 +34,7 @@ group by 1,2,3
 names(temp1)<-c('id','election_year','state','date','days_till_election','dem_plus_minus')
 
 #Create running averages of polling margins
-years<-c(2000,2004,2008,2012)
+years<-c(2000,2004,2008)
 polls_altered<-data.frame()
 prop_weights<-c()
 prop_weight_list<-c()
@@ -99,7 +99,7 @@ select
   temp1.*
   ,case when actual='D' then 1
         when actual='R' then 0
-        when election_year=2012 then '' end as actual_binary_dem
+        when election_year=2008 then '' end as actual_binary_dem
 from
 (
   select

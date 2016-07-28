@@ -147,13 +147,13 @@ select
         when num_dem_victories_2012=9 then round(round(9,10)/round(10,10),4)
   else round(round(num_dem_victories_2012,10)/round(9,10),4) end hist_dem_prob_2012
   ,case when num_dem_victories_2008=0 then round(round(1,10)/round(9,10),4)
-        when num_dem_victories_2008=9 then round(round(9,10)/round(9,10),4)
+        when num_dem_victories_2008=8 then round(round(8,10)/round(9,10),4)
   else round(round(num_dem_victories_2008,10)/round(8,10),4) end hist_dem_prob_2008
   ,case when num_dem_victories_2004=0 then round(round(1,10)/round(8,10),4)
-        when num_dem_victories_2004=9 then round(round(9,10)/round(8,10),4)
+        when num_dem_victories_2004=7 then round(round(7,10)/round(8,10),4)
   else round(round(num_dem_victories_2004,10)/round(7,10),4) end hist_dem_prob_2004
   ,case when num_dem_victories_2000=0 then round(round(1,10)/round(7,10),4)
-        when num_dem_victories_2000=9 then round(round(9,10)/round(7,10),4)
+        when num_dem_victories_2000=6 then round(round(6,10)/round(7,10),4)
   else round(round(num_dem_victories_2000,10)/round(6,10),4) end hist_dem_prob_2000
 
 from

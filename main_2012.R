@@ -107,7 +107,7 @@ from
     ,case when pa.election_year=2000 then hist_dem_prob_2000
           when pa.election_year=2004 then hist_dem_prob_2004
           when pa.election_year=2008 then hist_dem_prob_2008
-          when pa.election_year=2012 then hist_dem_prob end as hist_dem_prob
+          when pa.election_year=2012 then hist_dem_prob_2012 end as hist_dem_prob
     ,case when pa.election_year=2000 then msr.`2000`
           when pa.election_year=2004 then msr.`2004`
           when pa.election_year=2008 then msr.`2008`
