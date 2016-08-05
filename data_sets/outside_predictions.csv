@@ -1,0 +1,52 @@
+state,state_abb,electoral_votes,elliott_forecast,five_thirty_eight
+Alabama,AL,9,0.1,0.073
+Alaska,AK,3,0.0909,0.231
+Arizona,AZ,11,0.29290867,0.476
+Arkansas,AR,6,0.3,0.1
+California,CA,55,0.99952911,0.985
+Colorado,CO,9,0.38595453,0.661
+Connecticut,CT,7,0.6,0.873
+Delaware,DE,3,0.7,0.928
+Washington DC,DC,3,0.9091,0.999
+Florida,FL,29,0.71738964,0.708
+Georgia,GA,16,0.34442375,0.382
+Hawaii,HI,4,0.9,0.996
+Idaho,ID,4,0.0909,0.042
+Illinois,IL,20,0.6,0.966
+Indiana,IN,11,0.1,0.245
+Iowa,IA,6,0.94044819,0.739
+Kansas,KS,6,0.27328489,0.274
+Kentucky,KY,8,0.3,0.114
+Louisiana,LA,8,0.3,0.073
+Maine,ME,4,0.6,0.815
+Maryland,MD,10,0.99977328,0.998
+Massachusetts,MA,11,0.8,0.989
+Michigan,MI,16,0.94968861,0.905
+Minnesota,MN,10,0.89290065,0.845
+Mississippi,MS,6,0.1,0.277
+Missouri,MO,10,0.38186939,0.421
+Montana,MT,3,0.1,0.223
+Nebraska,NE,5,0.0909,0.117
+Nevada,NV,6,0.4,0.701
+New Hampshire,NH,4,0.86741387,0.705
+New Jersey,NJ,14,0.98819678,0.907
+New Mexico,NM,5,0.5,0.858
+New York,NY,29,0.99999968,0.986
+North Carolina,NC,15,0.47111386,0.581
+North Dakota,ND,3,0.0909,0.242
+Ohio,OH,18,0.76822821,0.664
+Oklahoma,OK,7,0.0909,0.015
+Oregon,OR,7,0.7,0.865
+Pennsylvania,PA,20,0.96208828,0.783
+Rhode Island,RI,4,0.9,0.946
+South Carolina,SC,9,0.1,0.347
+South Dakota,SD,3,0.0909,0.259
+Tennessee,TN,11,0.3,0.146
+Texas,TX,38,0.1,0.245
+Utah,UT,6,0.09111514,0.195
+Vermont,VT,3,0.6,0.935
+Virginia,VA,13,0.60950564,0.767
+Washington,WA,12,0.7,0.912
+West Virginia,WV,5,0.5,0.025
+Wisconsin,WI,10,0.93741383,0.856
+Wyoming,WY,3,0.0909,0.047
