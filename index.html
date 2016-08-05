@@ -16,6 +16,7 @@ th {
     padding: 8px;
     font-size: 20px;
 }
+<<<<<<< HEAD
 .left {
     position:fixed;
     left:20px; top:92px; bottom: 0;
@@ -108,6 +109,23 @@ table#t1 th {
 .legend .scale8 { background-color: #F5A17E; }
 .legend .scale9 { background-color: #B2182B; }
 
+=======
+</style>
+
+<style>
+.republican{
+  background-color:rgba(255,48,48,.4);
+}
+.democrat{
+  background-color:rgba(0, 191, 255,.5);
+}
+</style>
+
+<style>
+.imgContainer{
+    float:left;
+}
+>>>>>>> update
 </style>
 
   <head>
@@ -173,13 +191,19 @@ table#t1 th {
   font-weight: bold;
 }
 </style>
+<<<<<<< HEAD
   <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.12/css/jquery.dataTables.min.css">
+=======
+>>>>>>> update
   <link rel="icon" href="C:\Users\Elliott\election_forecasts\E.png">
 
     <title>2016 General Election Forecasts</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<<<<<<< HEAD
     <meta property="og:description" content="Predictions for the Presidential Election" />
     <meta property="og:image" content="http://elliottevans.github.io/election_forecasts/figure/preview_map.png" />
+=======
+>>>>>>> update
     <!--
     production
     <link href="http://twitter.github.io/bootstrap/assets/css/bootstrap.css" rel="stylesheet">
@@ -189,6 +213,7 @@ table#t1 th {
     <script src="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.1/js/bootstrap.min.js"></script>
     <script src="http://code.jquery.com/jquery-1.10.2.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+<<<<<<< HEAD
     <script src="https://cdn.datatables.net/1.10.12/js/jquery.dataTables.min.js"></script>
     <script>
       $(document).ready(function() {
@@ -243,6 +268,22 @@ table#t1 th {
   fjs.parentNode.insertBefore(js, fjs);
 }(document, 'script', 'facebook-jssdk'));</script>
   
+=======
+    <script>
+        $(function(){
+        $("tr").each(function(){
+          var col_val = $(this).find("td:eq(2)").text();
+          if ($.trim(col_val) == "Trump"){
+            $(this).addClass('republican');  //the republican class colors the row red//
+          } else if($.trim(col_val) == "Clinton") {
+            $(this).addClass('democrat');
+          }
+        });
+      });
+    </script>
+  </head>
+  <body style="padding-top: 50px;">
+>>>>>>> update
     <div class="navbar navbar-fixed-top">
       <div class="navbar-inner">
         <div class="container">
@@ -251,6 +292,7 @@ table#t1 th {
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </a>
+<<<<<<< HEAD
           <a class="brand" href="#title"><strong>General Election Forecasts 2016</strong> <small>Updated Nov 08</small></a>
           <div class="nav-collapse collapse">
             <ul class="nav pull-right">
@@ -259,6 +301,15 @@ table#t1 th {
               <li><a href="#statelevel">State Trends</a></li>
               <li><a href="#margins">Margins of Victory</a></li>
               <li><a href="#scenarios">Scenarios</a></li>
+=======
+          <a class="brand" href="#title"><strong>General Election Forecasts 2016</strong></a>
+          <div class="nav-collapse collapse">
+            <ul class="nav pull-right">
+              <li><a href="#overview">National Overview</a></li>
+              <li><a href="#map">Map</a></li>
+              <li><a href="#statelevel">State Trends</a></li>
+              <li><a href="#margins">Margins of Victory</a></li>
+>>>>>>> update
               <li><a href="#currentforecasts">Current Forecasts</a></li>
             </ul>
           </div>
@@ -269,6 +320,7 @@ table#t1 th {
     
     <div class="container">
 
+<<<<<<< HEAD
     <div class="floated_div">
       <div class="leftBar">
       </div>
@@ -293,6 +345,27 @@ table#t1 th {
         <h2><a href="https://medium.com/@elliott.evans/were-forecasters-wrong-about-donald-trump-ae36e26a0c6a#.fopx1qerx">Clinton Lost, Trump Won; But Were Forecasters Wrong?</a></h2>
       </div>
         </div>
+=======
+      <div class="row" style="padding-bottom: 30px;">
+        <div class="span8" id="title">
+          <h1><u>Who Will be the Next President?</u></h1>
+          <p></p>
+          <p></p>
+      <div class="container" style="text-align: center;">
+        <h1><div class="alert alert-info" role="alert">Hillary Clinton has a 75.8% chance of being president</div></h1>    
+      </div>
+        </div>
+          <div style="text-align:right;">
+            <h5 id="demo">
+                    <script>
+                      var d = new Date();
+                      var str = "Updated"
+                      var sentence = str + " " + d.toDateString();
+                      document.getElementById("demo").innerHTML = sentence
+                    </script> 
+            </h5>
+          </div>  
+>>>>>>> update
       </div>
       <div class="row" id="overview">
         <div class="span12">
@@ -304,7 +377,11 @@ table#t1 th {
 
       <div class="row">
         <div class="span12">
+<<<<<<< HEAD
           <p class="lead">Presidential elections are all about who can get to 270 electoral votes. After simulating the election ten-thousand times, the model predicts a <b>316-222 electoral win for Hillary Clinton</b>. We expect her final margin in the popular vote to be around <b>+2.8</b> points, <b>down from +3.9 points</b> a week ago.</p>
+=======
+          <p class="lead">Presidential elections are all about who can get to 270 electoral votes. After simulating the election ten-thousand times, the model predicts a <b>300-238</b> electoral win for <b>Hillary Clinton</b>.</p>
+>>>>>>> update
         </div>
       </div>
       
@@ -314,7 +391,11 @@ table#t1 th {
         
       <div class="row">
         <div class="span12">
+<<<<<<< HEAD
           <p class="lead">Odds of a candidate's victory are always changing. <b>Here's how the odds have changed over time</b>.</p>
+=======
+          <p class="lead">Odds of a candidate's victory are always changing. Here's how the odds have changed over time.</p>
+>>>>>>> update
         </div>
       </div>
         <div class="span12" style="text-align: center;">
@@ -322,12 +403,16 @@ table#t1 th {
         </div>
     
       <p></p>
+<<<<<<< HEAD
       <p>&nbsp;</p>
+=======
+>>>>>>> update
       <div class="row" id="map">
         <div class="span12">
           <center>
             <h1>Where Will the Candidates Win?</h1>
           </center>
+<<<<<<< HEAD
           <p class="lead">Here are some electoral maps based on margins of victory. In darker blue states, Clinton is favored to win by a wider margin, while in darker red states, Trump is favored.</p>
         </div>
       </div>
@@ -394,12 +479,26 @@ table#t1 th {
       
       <p></p>
       <p>&nbsp;</p>
+=======
+          <p class="lead">Here's the electoral map based on margins of victory. In darker blue states, Clinton is favored to win by a wider margin, while in darker red states, Trump is favored.</p>
+        </div>
+      </div>
+
+      <div class="container" style="text-align: center;">
+<div class="chunk" id="map"><div class="rimage center"><img src="figure/map-1.png" title="plot of chunk map" alt="plot of chunk map" class="plot" /></div></div>
+      </div>  
+      <p></p>
+>>>>>>> update
       <div class="row" id="statelevel">
         <div class="span12">
           <center>
             <h1>State-by-State Trends</h1>
           </center>
+<<<<<<< HEAD
           <p class="lead">Odds of a candidate's victory are updated whenever new polling information is available. For states with enough polling data, <b>here's how the chances have evolved over time</b>.</p>
+=======
+          <p class="lead">Odds of a candidate's victory are updated whenever new polling information is available. Here's how the chances have evolved over time for states with enough polling data (states with insufficient polling can still be found in the Margins of Victory).</p>
+>>>>>>> update
         </div>
       </div>
 
@@ -407,13 +506,20 @@ table#t1 th {
 <div class="chunk" id="states"><div class="rimage center"><img src="figure/states-1.png" title="plot of chunk states" alt="plot of chunk states" class="plot" /></div></div>
       </div>
       <p></p>
+<<<<<<< HEAD
       <p>&nbsp;</p>
+=======
+>>>>>>> update
       <div class="row" id="margins">
         <div class="span12">
           <center>
             <h1>Margins of Victory</h1>
           </center>
+<<<<<<< HEAD
           <p class="lead"><b>Which states will be close and which ones will be blowouts?</b> Here's how the margins of victory will probably play out. For Trump, the biggest blowout should be Wyoming, where the model expects him to win by around 23 points. Clinton's biggest blowout should be Washington DC, where she is expected to win by 81 points. The error bars are 80% confidence intervals.</p>
+=======
+          <p class="lead">Which states will be close and which ones will be blowouts? Here's how the margins of victory will probably play out. For Trump, the biggest blowout should be Wyoming, where the model expects him to win by around 38 points. Clinton's biggest blowout should be Washington DC, where she is expected to win by 81 points. The error bars are 80% confidence intervals.</p>
+>>>>>>> update
         </div>
       </div>
       
@@ -421,6 +527,7 @@ table#t1 th {
 <div class="chunk" id="margins"><div class="rimage center"><img src="figure/margins-1.png" title="plot of chunk margins" alt="plot of chunk margins" class="plot" /></div></div>
       </div>
       
+<<<<<<< HEAD
       <p></p>
       <p>&nbsp;</p>
       <div class="row" id="scenarios">
@@ -883,6 +990,389 @@ table#t1 th {
           <p style="margin:5px;">Elliott Evans, University of Michigan</p>
         </center>
       </div>
+=======
+      
+      <p></p>
+      <div class="row" id="currentforecasts">
+        <div class="span12">
+          <center>
+            <h1>Current Forecasts</h1>
+          </center>
+          <p class="lead">Here are all of the current forecasts for the general election. The model predicts that Hillary Clinton will win 26 of 51 contests, including DC. </p>
+        </div>
+      </div>
+      
+      <div class="container" style="text-align: center;" class="span3">
+        <table>
+          <tr>
+            <th>State</th>
+            <th>Electoral Votes</th>
+            <th>Winner</th>
+            <th>Odds of Victory</th>
+            <th>Margin of Victory</th>
+          </tr>
+          <tr>
+            <td>Alabama</td>
+            <td>9</td>
+            <td>Trump</td>
+            <td>99.7%</td>
+            <td>+21.1</td>
+          </tr>
+          <tr>
+            <td>Alaska</td>
+            <td>3</td>
+            <td>Trump</td>
+            <td>96.9%</td>
+            <td>+23</td>
+          </tr>
+          <tr>
+            <td>Arizona</td>
+            <td>11</td>
+            <td>Trump</td>
+            <td>73.8%</td>
+            <td>+6.7</td>
+          </tr>
+          <tr>
+            <td>Arkansas</td>
+            <td>6</td>
+            <td>Trump</td>
+            <td>84%</td>
+            <td>+14.7</td>
+          </tr>
+          <tr>
+            <td>California</td>
+            <td>55</td>
+            <td>Clinton</td>
+            <td>96.6%</td>
+            <td>+16.2</td>
+          </tr>
+          <tr>
+            <td>Colorado</td>
+            <td>9</td>
+            <td>Clinton</td>
+            <td>70%</td>
+            <td>+4.9</td>
+          </tr>
+          <tr>
+            <td>Connecticut</td>
+            <td>7</td>
+            <td>Clinton</td>
+            <td>97.6%</td>
+            <td>+16.9</td>
+          </tr>
+          <tr>
+            <td>Delaware</td>
+            <td>3</td>
+            <td>Clinton</td>
+            <td>89.3%</td>
+            <td>+16.1</td>
+          </tr>
+          <tr>
+            <td>Washington DC</td>
+            <td>3</td>
+            <td>Clinton</td>
+            <td>>99.9%</td>
+            <td>+81.4</td>
+          </tr>
+          <tr>
+            <td>Florida</td>
+            <td>29</td>
+            <td>Clinton</td>
+            <td>65.4%</td>
+            <td>+3.7</td>
+          </tr>
+          <tr>
+            <td>Georgia</td>
+            <td>16</td>
+            <td>Trump</td>
+            <td>59.8%</td>
+            <td>+2.2</td>
+          </tr>
+          <tr>
+            <td>Hawaii</td>
+            <td>4</td>
+            <td>Clinton</td>
+            <td>82.1%</td>
+            <td>+28.8</td>
+          </tr>
+          <tr>
+            <td>Idaho</td>
+            <td>4</td>
+            <td>Trump</td>
+            <td>99.9%</td>
+            <td>+33.7</td>
+          </tr>
+          <tr>
+            <td>Illinois</td>
+            <td>20</td>
+            <td>Clinton</td>
+            <td>91.9%</td>
+            <td>+16.1</td>
+          </tr>
+          <tr>
+            <td>Indiana</td>
+            <td>11</td>
+            <td>Trump</td>
+            <td>76%</td>
+            <td>+11.4</td>
+          </tr>
+          <tr>
+            <td>Iowa</td>
+            <td>6</td>
+            <td>Clinton</td>
+            <td>71.6%</td>
+            <td>+5.8</td>
+          </tr>
+          <tr>
+            <td>Kansas</td>
+            <td>6</td>
+            <td>Trump</td>
+            <td>93.1%</td>
+            <td>+13.3</td>
+          </tr>
+          <tr>
+            <td>Kentucky</td>
+            <td>8</td>
+            <td>Trump</td>
+            <td>99.9%</td>
+            <td>+18.5</td>
+          </tr>
+          <tr>
+            <td>Louisiana</td>
+            <td>8</td>
+            <td>Trump</td>
+            <td>95.7%</td>
+            <td>+14.5</td>
+          </tr>
+          <tr>
+            <td>Maine</td>
+            <td>4</td>
+            <td>Clinton</td>
+            <td>88.4%</td>
+            <td>+11.7</td>
+          </tr>
+          <tr>
+            <td>Maryland</td>
+            <td>10</td>
+            <td>Clinton</td>
+            <td>95.5%</td>
+            <td>+17.2</td>
+          </tr>
+          <tr>
+            <td>Massachusetts</td>
+            <td>11</td>
+            <td>Clinton</td>
+            <td>>99.9%</td>
+            <td>+25.4</td>
+          </tr>
+          <tr>
+            <td>Michigan</td>
+            <td>16</td>
+            <td>Clinton</td>
+            <td>86.9%</td>
+            <td>+10.4</td>
+          </tr>
+          <tr>
+            <td>Minnesota</td>
+            <td>10</td>
+            <td>Clinton</td>
+            <td>84.8%</td>
+            <td>+11</td>
+          </tr>
+          <tr>
+            <td>Mississippi</td>
+            <td>6</td>
+            <td>Trump</td>
+            <td>99.2%</td>
+            <td>+15.3</td>
+          </tr>
+          <tr>
+            <td>Missouri</td>
+            <td>10</td>
+            <td>Trump</td>
+            <td>81.4%</td>
+            <td>+7.7</td>
+          </tr>
+          <tr>
+            <td>Montana</td>
+            <td>3</td>
+            <td>Trump</td>
+            <td>81.4%</td>
+            <td>+15.4</td>
+          </tr>
+          <tr>
+            <td>Nebraska</td>
+            <td>5</td>
+            <td>Trump</td>
+            <td>96.2%</td>
+            <td>+24.7</td>
+          </tr>
+          <tr>
+            <td>Nevada</td>
+            <td>6</td>
+            <td>Clinton</td>
+            <td>50.3%</td>
+            <td>+0.1</td>
+          </tr>
+          <tr>
+            <td>New Hampshire</td>
+            <td>4</td>
+            <td>Clinton</td>
+            <td>79.3%</td>
+            <td>+7.2</td>
+          </tr>
+          <tr>
+            <td>New Jersey</td>
+            <td>14</td>
+            <td>Clinton</td>
+            <td>93.1%</td>
+            <td>+12.5</td>
+          </tr>
+          <tr>
+            <td>New Mexico</td>
+            <td>5</td>
+            <td>Clinton</td>
+            <td>67.5%</td>
+            <td>+6.1</td>
+          </tr>
+          <tr>
+            <td>New York</td>
+            <td>29</td>
+            <td>Clinton</td>
+            <td>90.5%</td>
+            <td>+14.8</td>
+          </tr>
+          <tr>
+            <td>North Carolina</td>
+            <td>15</td>
+            <td>Trump</td>
+            <td>56.7%</td>
+            <td>+1.6</td>
+          </tr>
+          <tr>
+            <td>North Dakota</td>
+            <td>3</td>
+            <td>Trump</td>
+            <td>91.1%</td>
+            <td>+20.8</td>
+          </tr>
+          <tr>
+            <td>Ohio</td>
+            <td>18</td>
+            <td>Clinton</td>
+            <td>69.1%</td>
+            <td>+4.6</td>
+          </tr>
+          <tr>
+            <td>Oklahoma</td>
+            <td>7</td>
+            <td>Trump</td>
+            <td>99.9%</td>
+            <td>+29.5</td>
+          </tr>
+          <tr>
+            <td>Oregon</td>
+            <td>7</td>
+            <td>Clinton</td>
+            <td>74.4%</td>
+            <td>+8.3</td>
+          </tr>
+          <tr>
+            <td>Pennsylvania</td>
+            <td>20</td>
+            <td>Clinton</td>
+            <td>79%</td>
+            <td>+8.2</td>
+          </tr>
+          <tr>
+            <td>Rhode Island</td>
+            <td>4</td>
+            <td>Clinton</td>
+            <td>>99.9%</td>
+            <td>+26.3</td>
+          </tr>
+          <tr>
+            <td>South Carolina</td>
+            <td>9</td>
+            <td>Trump</td>
+            <td>97.1%</td>
+            <td>+13.1</td>
+          </tr>
+          <tr>
+            <td>South Dakota</td>
+            <td>3</td>
+            <td>Trump</td>
+            <td>94.2%</td>
+            <td>+17.7</td>
+          </tr>
+          <tr>
+            <td>Tennessee</td>
+            <td>11</td>
+            <td>Trump</td>
+            <td>86.9%</td>
+            <td>+13.4</td>
+          </tr>
+          <tr>
+            <td>Texas</td>
+            <td>38</td>
+            <td>Trump</td>
+            <td>97.9%</td>
+            <td>+17.9</td>
+          </tr>
+          <tr>
+            <td>Utah</td>
+            <td>6</td>
+            <td>Trump</td>
+            <td>86.4%</td>
+            <td>+10.5</td>
+          </tr>
+          <tr>
+            <td>Vermont</td>
+            <td>3</td>
+            <td>Clinton</td>
+            <td>87.3%</td>
+            <td>+25.7</td>
+          </tr>
+          <tr>
+            <td>Virginia</td>
+            <td>13</td>
+            <td>Trump</td>
+            <td>51.5%</td>
+            <td>+0.4</td>
+          </tr>
+          <tr>
+            <td>Washington</td>
+            <td>12</td>
+            <td>Clinton</td>
+            <td>87.2%</td>
+            <td>+11.2</td>
+          </tr>
+          <tr>
+            <td>West Virginia</td>
+            <td>5</td>
+            <td>Trump</td>
+            <td>84%</td>
+            <td>+14.8</td>
+          </tr>
+          <tr>
+            <td>Wisconsin</td>
+            <td>10</td>
+            <td>Clinton</td>
+            <td>89.4%</td>
+            <td>+12.6</td>
+          </tr>
+          <tr>
+            <td>Wyoming</td>
+            <td>3</td>
+            <td>Trump</td>
+            <td>>99.9%</td>
+            <td>+38.2</td>
+          </tr>
+        </table>
+      </div>
+
+    <p></p>
+>>>>>>> update
     </div>
 
     <script src="http://code.jquery.com/jquery.js"></script>

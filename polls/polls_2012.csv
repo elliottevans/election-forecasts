@@ -1,4 +1,7 @@
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> update
 "election_year","State","Date","Candidate","party","days_till_election","id","value"
 "2012","AL",2012-06-27,"Obama","D",132,14263,36
 "2012","AL",2012-06-27,"Romney","R",132,14263,51
@@ -2056,6 +2059,7 @@
 "2012","WV",2011-09-04,"Romney","R",429,15042,49
 "2012","WV",2011-10-02,"Obama","D",401,12592,33
 "2012","WV",2011-10-02,"Romney","R",401,12592,54
+<<<<<<< HEAD
 =======
 "id","election_year","State","Date","Pollster","Candidate","value","party","days_till_election"
 14263,"2012","AL",2012-06-07,"Capital Survey Research Center","Obama",36,"D",152
@@ -4531,3 +4535,5 @@
 15956,"2012","DC",2012-10-12,"PPP (D)/Washington City Paper/Kojo Nnamdi Show","Obama",88,"D",25
 15956,"2012","DC",2012-10-12,"PPP (D)/Washington City Paper/Kojo Nnamdi Show","Romney",8,"R",25
 >>>>>>> added files
+=======
+>>>>>>> update

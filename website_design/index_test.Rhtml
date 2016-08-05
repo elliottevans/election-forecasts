@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html>
+
+<style>
+table {
+    border-collapse: collapse;
+    width: 100%;
+}
+
+td {
+    text-align: left;
+    padding: 8px;
+    font-size: 18px;
+}
+th {
+    text-align: left;
+    padding: 8px;
+    font-size: 20px;
+}
+
+</style>
+
+<style>
+.republican{
+  background-color:rgba(255,48,48,.4);
+}
+.democrat{
+  background-color:rgba(0, 191, 255,.5);
+}
+</style>
+
+  <head>
+  <link rel="icon" href="C:\Users\Elliott\election_forecasts\website_design\E.png">
+<!--begin.rcode warning=FALSE,echo=FALSE, include=FALSE
+setwd("~/election_forecasts/website_design")
+source("main.R")
+end.rcode-->
+    <title>2016 General Election Forecasts</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!--
+    production
+    <link href="http://twitter.github.io/bootstrap/assets/css/bootstrap.css" rel="stylesheet">
+    <link href="http://twitter.github.io/bootstrap/assets/css/bootstrap.min.css" rel="stylesheet">
+    -->
+    <link href="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.1/css/bootstrap-combined.min.css" rel="stylesheet">
+    <script src="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.1/js/bootstrap.min.js"></script>
+    <script src="http://code.jquery.com/jquery-1.10.2.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+    <script>
+        $(function(){
+        $("tr").each(function(){
+          var col_val = $(this).find("td:eq(2)").text();
+          if ($.trim(col_val) == "Trump"){
+            $(this).addClass('republican');  //the republican class colors the row green//
+          } else if($.trim(col_val) == "Clinton") {
+            $(this).addClass('democrat');
+          }
+        });
+      });
+    </script>
+
+
+  </head>
+  <body style="padding-top: 50px;">
+    <div class="navbar navbar-fixed-top">
+      <div class="navbar-inner">
+        <div class="container">
+          <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </a>
+          <a class="brand" href="#title"><strong>General Election Forecasts 2016</strong></a>
+          <div class="nav-collapse collapse">
+            <ul class="nav pull-right">
+              <li><a href="#overview">National Forecasts</a></li>
+              <li><a href="#map">Map</a></li>
+              <li><a href="#statelevel">State Forecasts</a></li>
+              <li><a href="#margins">Margins of Victory</a></li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+<!--begin.rcode
+print(sample(1:10))
+end.rcode-->
+    
+    <div class="container">
+
+      <div class="row" id="title" style="padding-bottom: 30px;">
+        <div class="span8">
+
+            <h1><u>Who Will be the Next President?</u></h1>
+
+      <div class="container" style="text-align: center;">
+
+
+
+<div class="alert alert-info" role="alert"><h><!--rinline I(winner) --> has a <!--rinline I(dem_prob) -->% chance of being president</h></div>
+
+ 
+
+
+      </div>
+        </div>
+        <div style="text-align:right;">
+          <h5 id="demo">
+                  <script>
+                    var d = new Date();
+                    var str = "Updated"
+                    var sentence = str + " " + d.toDateString();
+                    document.getElementById("demo").innerHTML = sentence
+                  </script> 
+          </h5>
+        </div>
+      </div>
+
+      <div class="row" id="overview">
+        <div class="span12">
+          <center>
+            <h1>National Forecasts</h1>
+          </center>
+          <p class="lead">The model uses three driving forces to determine odds of victory: state polls, historical voting results, and the time left till the general election. State results are then rolled up to the national level. Here's the expected end result:</p>
+        </div>
+      </div>
+
+      <div class="container" style="text-align: center;">
+
+      </div>  
+      <p></p>
+      <div class="row" id="map">
+        <div class="span12">
+          <center>
+            <h1>Where Will the Candidates Win?</h1>
+          </center>
+          <p class="lead">Here's the electoral map based on margins of victory. In darker blue states, Clinton is favored to win by a wider margin, while in darker red states, Trump is favored.</p>
+        </div>
+      </div>
+
+      <div class="container" style="text-align: center;">
+
+      </div>  
+      <p></p>
+      <div class="row" id="statelevel">
+        <div class="span12">
+          <center>
+            <h1>State-by-State Forecasts</h1>
+          </center>
+          <p class="lead">Odds of a candidate's victory are updated whenever new polling information is available. Here's how the chances have evolved over time for states with enough polling data (states with insufficient polling can still be found in the Margins of Victory).</p>
+        </div>
+      </div>
+
+      
+      <p></p>
+      <div class="row" id="margins">
+        <div class="span12">
+          <center>
+            <h1>Margins of Victory</h1>
+          </center>
+          <p class="lead">Here's how the margins of victory will probably play out. The error bars are 80% confidence intervals.</p>
+        </div>
+      </div>
+      
+      
+      <div class="container" style="text-align: center;">
+
+      </div>
+      
+      <p></p>
+      <div class="row" id="margins">
+        <div class="span12">
+          <center>
+            <h1>Margins of Victory</h1>
+          </center>
+          <p class="lead">Here's how the margins of victory will probably play out. The error bars are 80% confidence intervals.</p>
+        </div>
+      </div>
+      
+      <div class="container" style="text-align: center;" class="span3">
+        
+
+        <table>
+          <tr>
+            <th>State</th>
+            <th>Electoral Votes</th>
+            <th>Winner</th>
+            <th>Odds of Victory</th>
+            <th>Margin of Victory</th>
+          </tr>
+          <tr>
+          <tr>
+            <td>Alabama</td>
+            <td>4</td>
+            <td>Trump</td>
+            <td>96%</td>
+            <td>+31</td>
+          </tr>
+          <tr>
+            <td>California</td>
+            <td>55</td>
+            <td>Clinton</td>
+            <td>96%</td>
+            <td>+31</td>
+          </tr>
+        </table>
+
+      </div>
+      
+ 
+
+
+    
+    </div>
+    <script src="http://code.jquery.com/jquery.js"></script>
+  </body>
+</html>
