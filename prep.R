@@ -11,6 +11,12 @@
 #   6. polls_2016
 #   7. polls
 
+#   8. nat_polls_2004
+#   9. nat_polls_2008
+#   10. nat_polls_2012
+#   11. nat_polls_2016
+#   12. nat_polls
+
 ##########################################################################################
 # LIBRARIES AND CUSTOM FUNCTIONS
 ##########################################################################################
@@ -263,6 +269,8 @@ select
 from polls_2004
   group by 1,2,3,4,5,6
 ")
+polls_2004<-polls_2004[polls_2004$Date>=as.Date('2004-05-01'),]
+polls_2004$Date<-as.Date(polls_2004$Date)
 ###########################
 # 2004 Polling
 ###########################
@@ -301,6 +309,8 @@ select
 from polls_2008
   group by 1,2,3,4,5,6
 ")
+polls_2008<-polls_2008[polls_2008$Date>=as.Date('2008-05-01'),]
+polls_2008$Date<-as.Date(polls_2008$Date)
 ###########################
 # 2008 Polling
 ###########################
@@ -340,6 +350,8 @@ select
 from polls_2000
   group by 1,2,3,4,5,6
 ")
+polls_2000<-polls_2000[polls_2000$Date>=as.Date('2000-05-01'),]
+polls_2000$Date<-as.Date(polls_2000$Date)
 ###########################
 # 2000 Polling
 ###########################
@@ -350,6 +362,9 @@ from polls_2000
 #Used HuffPollster API to get the .csv
 
 polls_2012<-read.csv("polls\\polls_2012.csv")
+polls_2012$Date<-as.Date(polls_2012$Date)
+polls_2012<-polls_2012[polls_2012$Date>=as.Date('2012-05-01'),]
+polls_2012$Date<-as.Date(polls_2012$Date)
 polls_2012$election_year<-as.character(polls_2012$election_year)
 ###########################
 # 2012 Polling
@@ -421,7 +436,9 @@ polls_2016<-sql("
     from polls_2016
     group by 1,2,3,4,5,6
 ")
+polls_2016<-polls_2016[polls_2016$Date>=as.Date('2016-05-01'),]
 polls_2016$election_year<-as.character(polls_2016$election_year)
+polls_2016$Date<-as.Date(polls_2016$Date)
 write.csv(polls_2016,'polls\\polls_2016.csv',row.names = FALSE)
 ###########################
 # 2016 Polling
@@ -522,4 +539,340 @@ polls$party<-as.character(polls$party)
 polls$days_till_election<-as.numeric(polls$days_till_election)
 polls$id<-as.numeric(polls$id)
 polls$value<-as.numeric(polls$value)
+
+
+
+##################################################################################################################################
+#PREP THE NATIONAL POLLS
+##################################################################################################################################
+
+#################################################
+# ELECTION 2016
+#################################################
+print("GETTING NATIONAL POLLS",quote=FALSE)
+#Get the current 2016 national polls
+#These are the polls that include Gary Johnson
+url<-'http://elections.huffingtonpost.com/pollster/2016-general-election-trump-vs-clinton.csv'
+file<-getURL(url,ssl.verifyhost=FALSE, ssl.verifypeer=FALSE)
+nat_polls_2016_temp<-read.csv(textConnection(file),head=T)
+nat_polls_2016_temp<-sql("
+  select
+    2016 as election_year
+    ,Pollster
+    ,`End.Date` as Date
+    ,case when lower(`Question.Text`) not like '%gary johnson%' then 1 else 0 end as lib_ind
+    ,max(`Number.of.Observations`) as num_observations
+    ,Clinton
+    ,Trump
+  from nat_polls_2016_temp npt
+  group by 1,2,3,4
+  order by Date desc
+")
+nat_polls_2016_temp$dem_plus_minus<-nat_polls_2016_temp$Clinton-nat_polls_2016_temp$Trump
+nat_polls_2016<-sql("
+  select
+    election_year
+    ,Date 
+    ,round(avg(dem_plus_minus)) as dem_plus_minus
+  from nat_polls_2016_temp
+  group by 1,2
+  order by Date asc
+")
+running_avg<-c()
+for(i in 1:nrow(nat_polls_2016)){
+  if(i<=5){
+    running_avg<-append(running_avg,mean(nat_polls_2016$dem_plus_minus[1:i]))
+  }else{
+    running_avg<-append(running_avg,mean(nat_polls_2016$dem_plus_minus[(i-4):i]))
+  }
+}
+nat_polls_2016$running_avg<-running_avg
+nat_polls_2016$Date<-as.Date(nat_polls_2016$Date)
+date_ref_2016<-data.frame(seq(min(as.Date(polls_2016[,'Date'])), Sys.Date(), "days"))
+names(date_ref_2016)<-'date'
+nat_polls_2016<-sql("
+select
+  dr.date as Date 
+  ,2016 as election_year
+  ,dem_plus_minus
+  ,running_avg
+from date_ref_2016 dr 
+  left join nat_polls_2016 np on np.date=dr.Date
+")
+nat_polls_2016<-data.frame(cbind(nat_polls_2016,round(difftime(as.Date('2016-11-08'),nat_polls_2016$Date,units="days"))))
+names(nat_polls_2016)[ncol(nat_polls_2016)]<-'days_till_election'
+nat_polls_2016$days_till_election<-as.numeric(nat_polls_2016$days_till_election)
+running_avg_diff<-c()
+for(i in 1:nrow(nat_polls_2016)){
+  if(i==1 && is.na(nat_polls_2016$running_avg[i])==TRUE){
+    nat_polls_2016$running_avg[i]<-nat_polls_2016[is.na(nat_polls_2016$running_avg)==FALSE,'running_avg'][1]
+    running_avg_diff<-append(running_avg_diff,0)      
+  }
+  else if(i!=1 && is.na(nat_polls_2016$running_avg[i])==TRUE){
+    nat_polls_2016$running_avg[i]<-nat_polls_2016$running_avg[i-1]
+    running_avg_diff<-append(running_avg_diff,nat_polls_2016$running_avg[i]-nat_polls_2016$running_avg[i-1])
+  }
+  else if(i==1 && is.na(nat_polls_2016$running_avg[i])==FALSE){
+    running_avg_diff<-append(running_avg_diff,0)    
+  }else{
+    running_avg_diff<-append(running_avg_diff,nat_polls_2016$running_avg[i]-nat_polls_2016$running_avg[i-1])
+  }
+}
+nat_polls_2016$running_avg_diff<-running_avg_diff
+#################################################
+# ELECTION 2016
+#################################################
+
+
+
+
+#################################################
+# ELECTION 2000
+#################################################
+nat_polls_2000<-read.csv('national_polls\\national_polls_2000.csv')
+nat_polls_2000$Date<-as.Date(nat_polls_2000$Date,format='%m/%d/%Y')
+nat_polls_2000$election_year<-2000
+nat_polls_2000<-sql("
+  select
+    election_year
+    ,Date 
+    ,round(avg(Gore-Bush)) as dem_plus_minus
+  from nat_polls_2000
+  group by 1,2
+  order by Date asc
+")
+#Calculate last 5 polls running avg
+running_avg<-c()
+for(i in 1:nrow(nat_polls_2000)){
+  if(i<=5){
+    running_avg<-append(running_avg,mean(nat_polls_2000$dem_plus_minus[1:i]))
+  }else{
+    running_avg<-append(running_avg,mean(nat_polls_2000$dem_plus_minus[(i-4):i]))
+  }
+}
+nat_polls_2000$running_avg<-running_avg
+date_ref_2000<-data.frame(seq(min(polls_2000[,'Date']), max(polls_2000[,'Date']), "days"))
+names(date_ref_2000)<-'date'
+nat_polls_2000<-sql("
+select
+  dr.date as Date 
+  ,2000 as election_year
+  ,dem_plus_minus
+  ,running_avg
+from date_ref_2000 dr 
+  left join nat_polls_2000 np on np.date=dr.Date
+")
+nat_polls_2000<-data.frame(cbind(nat_polls_2000,round(difftime(as.Date('2000-11-07'),nat_polls_2000$Date,units="days"))))
+names(nat_polls_2000)[ncol(nat_polls_2000)]<-'days_till_election'
+nat_polls_2000$days_till_election<-as.numeric(nat_polls_2000$days_till_election)
+running_avg_diff<-c()
+for(i in 1:nrow(nat_polls_2000)){
+  if(i==1 && is.na(nat_polls_2000$running_avg[i])==TRUE){
+    nat_polls_2000$running_avg[i]<-nat_polls_2000[is.na(nat_polls_2000$running_avg)==FALSE,'running_avg'][1]
+    running_avg_diff<-append(running_avg_diff,0)      
+  }
+  else if(i!=1 && is.na(nat_polls_2000$running_avg[i])==TRUE){
+    nat_polls_2000$running_avg[i]<-nat_polls_2000$running_avg[i-1]
+    running_avg_diff<-append(running_avg_diff,nat_polls_2000$running_avg[i]-nat_polls_2000$running_avg[i-1])
+  }
+  else if(i==1 && is.na(nat_polls_2000$running_avg[i])==FALSE){
+    running_avg_diff<-append(running_avg_diff,0)    
+  }else{
+    running_avg_diff<-append(running_avg_diff,nat_polls_2000$running_avg[i]-nat_polls_2000$running_avg[i-1])
+  }
+}
+nat_polls_2000$running_avg_diff<-running_avg_diff
+#################################################
+# ELECTION 2000
+#################################################
+
+
+#################################################
+# ELECTION 2004
+#################################################
+nat_polls_2004<-read.csv('national_polls\\national_polls_2004.csv')
+nat_polls_2004$Date<-as.Date(nat_polls_2004$Date,format='%m/%d/%Y')
+nat_polls_2004$election_year<-2004
+nat_polls_2004<-sql("
+  select
+    election_year
+    ,Date 
+    ,round(avg(Kerry-Bush)) as dem_plus_minus
+  from nat_polls_2004
+  group by 1,2
+  order by Date asc
+")
+running_avg<-c()
+for(i in 1:nrow(nat_polls_2004)){
+  if(i<=5){
+    running_avg<-append(running_avg,mean(nat_polls_2004$dem_plus_minus[1:i]))
+  }else{
+    running_avg<-append(running_avg,mean(nat_polls_2004$dem_plus_minus[(i-4):i]))
+  }
+}
+nat_polls_2004$running_avg<-running_avg
+date_ref_2004<-data.frame(seq(min(polls_2004[,'Date']), max(polls_2004[,'Date']), "days"))
+names(date_ref_2004)<-'date'
+nat_polls_2004<-sql("
+select
+  dr.date as Date 
+  ,2004 as election_year
+  ,dem_plus_minus
+  ,running_avg
+from date_ref_2004 dr 
+  left join nat_polls_2004 np on np.date=dr.Date
+")
+nat_polls_2004<-data.frame(cbind(nat_polls_2004,round(difftime(as.Date('2004-11-02'),nat_polls_2004$Date,units="days"))))
+names(nat_polls_2004)[ncol(nat_polls_2004)]<-'days_till_election'
+nat_polls_2004$days_till_election<-as.numeric(nat_polls_2004$days_till_election)
+running_avg_diff<-c()
+for(i in 1:nrow(nat_polls_2004)){
+  if(i==1 && is.na(nat_polls_2004$running_avg[i])==TRUE){
+    nat_polls_2004$running_avg[i]<-nat_polls_2004[is.na(nat_polls_2004$running_avg)==FALSE,'running_avg'][1]
+    running_avg_diff<-append(running_avg_diff,0)      
+  }
+  else if(i!=1 && is.na(nat_polls_2004$running_avg[i])==TRUE){
+    nat_polls_2004$running_avg[i]<-nat_polls_2004$running_avg[i-1]
+    running_avg_diff<-append(running_avg_diff,nat_polls_2004$running_avg[i]-nat_polls_2004$running_avg[i-1])
+  }
+  else if(i==1 && is.na(nat_polls_2004$running_avg[i])==FALSE){
+    running_avg_diff<-append(running_avg_diff,0)    
+  }else{
+    running_avg_diff<-append(running_avg_diff,nat_polls_2004$running_avg[i]-nat_polls_2004$running_avg[i-1])
+  }
+}
+nat_polls_2004$running_avg_diff<-running_avg_diff
+#################################################
+# ELECTION 2004
+#################################################
+
+#################################################
+# ELECTION 2008
+#################################################
+nat_polls_2008<-read.csv('national_polls\\national_polls_2008.csv')
+nat_polls_2008$Date<-as.Date(nat_polls_2008$Date)
+nat_polls_2008$election_year<-2008
+nat_polls_2008<-sql("
+  select
+    election_year
+    ,Date 
+    ,round(avg(Obama-McCain)) as dem_plus_minus
+  from nat_polls_2008
+  group by 1,2
+  order by Date asc
+")
+running_avg<-c()
+for(i in 1:nrow(nat_polls_2008)){
+  if(i<=5){
+    running_avg<-append(running_avg,mean(nat_polls_2008$dem_plus_minus[1:i]))
+  }else{
+    running_avg<-append(running_avg,mean(nat_polls_2008$dem_plus_minus[(i-4):i]))
+  }
+}
+nat_polls_2008$running_avg<-running_avg
+date_ref_2008<-data.frame(seq(min(polls_2008[,'Date']), max(polls_2008[,'Date']), "days"))
+names(date_ref_2008)<-'date'
+nat_polls_2008<-sql("
+select
+  dr.date as Date 
+  ,2008 as election_year
+  ,dem_plus_minus
+  ,running_avg
+from date_ref_2008 dr 
+  left join nat_polls_2008 np on np.date=dr.Date
+")
+nat_polls_2008<-data.frame(cbind(nat_polls_2008,round(difftime(as.Date('2008-11-04'),nat_polls_2008$Date,units="days"))))
+names(nat_polls_2008)[ncol(nat_polls_2008)]<-'days_till_election'
+nat_polls_2008$days_till_election<-as.numeric(nat_polls_2008$days_till_election)
+running_avg_diff<-c()
+for(i in 1:nrow(nat_polls_2008)){
+  if(i==1 && is.na(nat_polls_2008$running_avg[i])==TRUE){
+    nat_polls_2008$running_avg[i]<-nat_polls_2008[is.na(nat_polls_2008$running_avg)==FALSE,'running_avg'][1]
+    running_avg_diff<-append(running_avg_diff,0)      
+  }
+  else if(i!=1 && is.na(nat_polls_2008$running_avg[i])==TRUE){
+    nat_polls_2008$running_avg[i]<-nat_polls_2008$running_avg[i-1]
+    running_avg_diff<-append(running_avg_diff,nat_polls_2008$running_avg[i]-nat_polls_2008$running_avg[i-1])
+  }
+  else if(i==1 && is.na(nat_polls_2008$running_avg[i])==FALSE){
+    running_avg_diff<-append(running_avg_diff,0)    
+  }else{
+    running_avg_diff<-append(running_avg_diff,nat_polls_2008$running_avg[i]-nat_polls_2008$running_avg[i-1])
+  }
+}
+nat_polls_2008$running_avg_diff<-running_avg_diff
+#################################################
+# ELECTION 2008
+#################################################
+
+#################################################
+# ELECTION 2012
+#################################################
+nat_polls_2012<-read.csv('national_polls\\national_polls_2012.csv')
+nat_polls_2012$Date<-as.Date(nat_polls_2012$Date,format='%m/%d/%Y')
+nat_polls_2012$election_year<-2012
+nat_polls_2012<-sql("
+  select
+    election_year
+    ,Date 
+    ,round(avg(Obama-Romney)) as dem_plus_minus
+  from nat_polls_2012
+  group by 1,2
+  order by Date asc
+")
+running_avg<-c()
+for(i in 1:nrow(nat_polls_2012)){
+  if(i<=5){
+    running_avg<-append(running_avg,mean(nat_polls_2012$dem_plus_minus[1:i]))
+  }else{
+    running_avg<-append(running_avg,mean(nat_polls_2012$dem_plus_minus[(i-4):i]))
+  }
+}
+nat_polls_2012$running_avg<-running_avg
+date_ref_2012<-data.frame(seq(min(as.Date(polls_2012[,'Date'])), max(as.Date(polls_2012[,'Date'])), "days"))
+names(date_ref_2012)<-'date'
+nat_polls_2012<-sql("
+select
+  dr.date as Date 
+  ,2012 as election_year
+  ,dem_plus_minus
+  ,running_avg
+from date_ref_2012 dr 
+  left join nat_polls_2012 np on np.date=dr.Date
+")
+nat_polls_2012<-data.frame(cbind(nat_polls_2012,round(difftime(as.Date('2012-11-06'),nat_polls_2012$Date,units="days"))))
+names(nat_polls_2012)[ncol(nat_polls_2012)]<-'days_till_election'
+nat_polls_2012$days_till_election<-as.numeric(nat_polls_2012$days_till_election)
+running_avg_diff<-c()
+for(i in 1:nrow(nat_polls_2012)){
+  if(i==1 && is.na(nat_polls_2012$running_avg[i])==TRUE){
+    nat_polls_2012$running_avg[i]<-nat_polls_2012[is.na(nat_polls_2012$running_avg)==FALSE,'running_avg'][1]
+    running_avg_diff<-append(running_avg_diff,0)      
+  }
+  else if(i!=1 && is.na(nat_polls_2012$running_avg[i])==TRUE){
+    nat_polls_2012$running_avg[i]<-nat_polls_2012$running_avg[i-1]
+    running_avg_diff<-append(running_avg_diff,nat_polls_2012$running_avg[i]-nat_polls_2012$running_avg[i-1])
+  }
+  else if(i==1 && is.na(nat_polls_2012$running_avg[i])==FALSE){
+    running_avg_diff<-append(running_avg_diff,0)    
+  }else{
+    running_avg_diff<-append(running_avg_diff,nat_polls_2012$running_avg[i]-nat_polls_2012$running_avg[i-1])
+  }
+}
+nat_polls_2012$running_avg_diff<-running_avg_diff
+#################################################
+# ELECTION 2012
+#################################################
+
+
+
+nat_polls<-data.frame(rbind(nat_polls_2000,nat_polls_2004,nat_polls_2008,nat_polls_2012,nat_polls_2016))
+
+
+######################################################################################################
+#CREATE WEIGHTED POLLING FOR NATIONAL POLLS
+######################################################################################################
+
+
+
 

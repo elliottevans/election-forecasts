@@ -1,4 +1,4 @@
-setwd("~/election_forecasts")
+setwd("~/election_forecastsV2")
 source("prep.R")
 #Functions created: multiplot, sql
 
@@ -15,6 +15,7 @@ source("prep.R")
 run_date<-as.Date("2012-11-22")
 
 polls<-polls[polls$Date<=run_date,]
+nat_polls<-nat_polls[nat_polls$Date<=run_date,]
 
 #########################################################################################################################################
 # CREATE WEIGHTED POLLING AVERAGES
@@ -125,7 +126,82 @@ polls_altered[polls_altered$election_year==2012,'actual_binary_dem']<-''
 # CREATE WEIGHTED POLLING AVERAGES
 #########################################################################################################################################
 
+#########################################################################################################################################
+# NEW ADDITION
+#########################################################################################################################################
 
+polls_altered_new<-c()
+years<-c(2000,2004,2008,2012)
+#i in 1:length(years)
+for(i in 1:length(years)){
+  #Year level
+  year<-years[i]
+  print(paste("Integrating National Polls into Election Year:",year),quote=FALSE)
+  temp1<-polls_altered[polls_altered$election_year==year,]
+  states<-unique(temp1$state)
+  #j in 1:length(states)
+  for(j in 1:length(states)){
+    #state level
+    state<-states[j]
+    temp2<-temp1[temp1$state==state,]
+    hist_dem_prob<-temp2$hist_dem_prob[1]
+    actual<-temp2$actual[1]
+    actual_dem_margin<-temp2$actual_dem_margin[1]
+    actual_binary_dem<-temp2$actual_binary_dem[1]
+    temp2$nat_polls_delta<-NA
+    test<-sql(paste("select * from nat_polls where election_year=",year))
+    test<-test[!(test$Date %in% temp2$date),]
+    min_date<-min(temp2$date)
+    test<-test[test$Date>=min_date,]
+    test<-sql(paste("
+    select
+      null as id
+      ,election_year
+      ,
+     '",state,"' as state
+      ,Date
+      ,days_till_election as days_till_election
+      ,null as dem_plus_minus
+      ,null as exp_weighted_avg
+      ,null as exp_weights
+      ,null as prop_weighted_avg
+      ,null as prop_weights
+      ,
+     ",hist_dem_prob," as hist_dem_prob
+      ,    
+     '",actual,"' as actual
+      ,
+     ",actual_dem_margin," as actual_dem_margin
+      ,
+     '",actual_binary_dem,"' as actual_binary_dem
+      ,running_avg_diff as nat_polls_delta
+    from test"
+    ))
+    names(test)[4]<-'date'
+    test$state<-trimws(test$state)
+    test$actual<-trimws(test$actual)
+    test$actual_binary_dem<-trimws(test$actual_binary_dem)
+    test$election_year<-as.integer(test$election_year)  
+    test$date<-as.Date(test$date)
+    temp3<-rbind(temp2,test)
+    temp3<-sql("select * from temp3 order by date asc")
+    exp_weighted_avg_new<-c()
+    for(k in 1:nrow(temp3)){
+      if(is.na(temp3$exp_weighted_avg[k])==FALSE){exp_weighted_avg_new<-append(exp_weighted_avg_new,temp3$exp_weighted_avg[k])}
+      else{
+        exp_weighted_avg_new<-append(exp_weighted_avg_new,(as.numeric(exp_weighted_avg_new[k-1])+temp3$nat_polls_delta[k]))
+      }
+    }
+    temp3$exp_weighted_avg<-exp_weighted_avg_new
+    temp3<-temp3[,1:(ncol(temp3)-1)]
+    polls_altered_new<-rbind(polls_altered_new,temp3)
+  }
+}
+polls_altered<-polls_altered_new
+polls_altered$exp_weighted_avg<-as.numeric(polls_altered$exp_weighted_avg)
+#########################################################################################################################################
+# NEW ADDITION
+#########################################################################################################################################
 
 
 
@@ -150,7 +226,10 @@ temp$hist_dem_prob<-temp$hist_dem_prob/sd(temp$hist_dem_prob)
 
 #Take 15 distinct most similar states from each year to associate with curret states
 years<-c(2000,2004,2008)
+#1:length(years)
 for(i in 1:length(years)){
+  print(paste("Finding Nearest Neighbors for Election Year:",years[i]),quote=FALSE)
+  
   margins<-data.frame()
   train_year<-paste0("train","_",years[i])
   assign(train_year,temp[temp$election_year==years[i],])
@@ -158,29 +237,32 @@ for(i in 1:length(years)){
   train_temp<-temp[temp$election_year==years[i],c(
             "days_till_election"
             ,"exp_weighted_avg"
-            ,"hist_dem_prob"
+#            ,"hist_dem_prob"
   )]
   test_temp<-temp[temp$election_year==2012,c(
             "days_till_election"
             ,"exp_weighted_avg"
-            ,"hist_dem_prob"
+#            ,"hist_dem_prob"
   )]
   #1:nrow(test_temp)
   for(j in 1:nrow(test_temp)){
     #For each row in the testing set
+    if(j%%100==0){
+      print(paste("On row",j,"of",nrow(test_temp)),quote=FALSE)
+    }
     unique_states_counter<-0
-    k<-1
-    
-    while(unique_states_counter<15){
+#    k<-1
+     k<-nrow(train_temp)
+#    while(unique_states_counter<15){
       nearest<-get.knnx(train_temp,test_temp[j,],k)
       indices<-nearest$nn.index
       distances<-nearest$nn.dist
       unique_states_counter<-length(unique(train_temp_with_info[unlist(as.list(indices)),]$state))
-      k<-k+1
-    }
-    #We now have a non-unique list of indices that includes 15 different states
+#      k<-k+1
+#    }
     train_temp_with_info_2<-train_temp_with_info[unlist(as.list(indices)),]
     train_temp_with_info_2$distances<-unlist(as.list(distances))
+    #Get only the most similar distinct 15 states from this particular year
     states_wanted<-sql("
     select
       election_year
@@ -240,7 +322,9 @@ select
        when prediction='prob_weighted_dem' then probs
   end as nearest_neighbor_value
 from polls_altered_final paf
-  left join polls_altered_2012 pa on pa.id=paf.id
+  left join polls_altered_2012 pa on pa.state=paf.state
+    and pa.election_year=paf.election_year
+    and pa.date=paf.date
 ")
 polls_altered_final<-polls_altered_final[,!(colnames(polls_altered_final) %in% c('value'))]
 
@@ -269,6 +353,7 @@ from polls_altered_final paf
   inner join temp t on paf.election_year=t.election_year and paf.State=t.State
 ")
 
+write.csv(polls_altered_final,'forecasts\\polls_altered_final.csv',row.names = FALSE)
 ####################################
 # Set indicators for the state's most current prediction date
 ####################################
@@ -338,7 +423,7 @@ for(i in 1:n){
     else {
       corr<-t(master_state_ref)
       colnames(corr)<-corr['abb',]
-      corr<-data.frame(corr[12:14,],stringsAsFactors = FALSE)
+      corr<-data.frame(corr[12:15,],stringsAsFactors = FALSE)
       corr<-sapply(corr,as.numeric)
       corr<-cor(corr[,state_odds_rand$abb[(j-1):j]])
       correlation<-corr[1,2]
@@ -369,6 +454,63 @@ state_odds$tested_odds<-round(100*pnorm(q=0,mean=state_odds$mean,sd=state_odds$s
 
 
 
+#########################################################################################################################################
+#NATIONAL FORECAST OVER TIME
+#########################################################################################################################################
+national_forecasts<-read.csv("forecasts\\national_forecasts.csv")
+national_forecasts$date<-as.Date(national_forecasts$date,format='%m/%d/%Y')
+
+if(nrow(national_forecasts[national_forecasts$date==run_date,])==0){
+  #Entry hasn't been created yet
+  national_forecasts<-rbind(national_forecasts,c(as.character(run_date),round(100*dem_prob,1),100-round(100*dem_prob,1)))
+}else if(nrow(national_forecasts[national_forecasts$date==run_date,])!=0){
+  national_forecasts[national_forecasts$date==run_date,]<-c(as.character(run_date),round(100*dem_prob,1),100-round(100*dem_prob,1))
+}
+
+write.csv(national_forecasts,'forecasts\\national_forecasts.csv',row.names = FALSE)
+
+names(national_forecasts)<-c('Date','Clinton','Trump')
+national_forecasts<-melt(national_forecasts,id=c('Date'))
+names(national_forecasts)<-c('date','candidate','value')
+national_forecasts$value<-as.numeric(national_forecasts$value)
+
+
+odds_over_time<- ggplot(data=national_forecasts,aes(x=date,y=value,colour=candidate,group=candidate)) + 
+  geom_line(size=2.3) + 
+  #theme(axis.text.x=element_blank(),axis.ticks.x=element_blank())+
+  ggtitle("Odds Over Time")+
+  theme(plot.title=element_text(face="bold",hjust=0,vjust=2,colour="#3C3C3C",size=23))+
+  theme(legend.position = "bottom")+
+  scale_color_manual(values=c("deepskyblue", "firebrick1"))+
+  theme(axis.title.y=element_blank())+
+  theme(axis.title.x=element_blank())+
+  theme(legend.title=element_blank())+
+  scale_y_continuous(limits = c(0.0, 100.0))+
+  theme(panel.grid.minor = element_blank()
+        ,panel.background = element_rect(fill = "white")
+        ,panel.grid.major = element_line(colour = "gray93")
+        ,axis.line.x = element_line(color="black")
+        ,axis.line.y = element_blank()
+      )+
+  scale_x_date(limits=c(as.Date('2016-06-01'),as.Date('2016-11-08')))+
+  geom_vline(linetype=2,aes(xintercept=as.numeric(as.Date('2016-11-08'))))+
+  geom_vline(linetype=1,aes(xintercept=as.numeric(run_date)))+
+  geom_text(aes(x=as.Date('2016-11-08')-7.5, label="Election Day\nNov 8", y=100), colour="grey38",size=5)+
+  geom_text(aes(x=run_date-7.5, label=as.character(run_date), y=100), colour="grey38",size=5)+
+  theme(legend.text = element_text(size = 19, face = "bold"))+
+  guides(fill=guide_legend(title=NULL))+
+  theme(axis.text=element_text(size=18))+
+  theme(axis.title=element_text(size=22))+
+  geom_text(aes(x=run_date+6, label=paste0(round(100*dem_prob,1),'%'), y=round(100*dem_prob,1)), colour="grey38",size=7)+
+  geom_text(aes(x=run_date+6, label=paste0(100-round(100*dem_prob,1),'%'), y=100-round(100*dem_prob,1)), colour="grey38",size=7)+
+  theme(plot.title=element_text(face="bold",hjust=0,vjust=2,colour="#3C3C3C",size=31))
+
+
+#########################################################################################################################################
+#NATIONAL FORECAST OVER TIME
+#########################################################################################################################################
+
+
 
 #########################################################################################################################################
 # VISUALIZATION: STATE MARGINS
@@ -392,8 +534,8 @@ state_margins<-ggplot(data=state_odds_temp, aes(x=reorder(state, -mean), y=mean,
     labs(title = "State Margins of Victory")+
     theme(plot.title=element_text(face="bold",hjust=0,vjust=2,colour="#3C3C3C",size=31))+
     ylab("Margin of Victory")+
-    xlab(expression(paste(symbol('\254'),' ','Obama','        ','Romney',' ', symbol('\256'))))+
-    scale_y_continuous(breaks = c(-50,-25,0,25,50), labels = c("+50","+25", "0","+25", "+50"))+
+    xlab(expression(paste(symbol('\254'),' ','Clinton','        ','Trump',' ', symbol('\256'))))+
+    scale_y_continuous(breaks = c(-30,-20,-10,0,10,20,30), labels = c("+30","+20","+10", "0","+10","+20","+30"))+
     theme(axis.text=element_text(size=25))+
     theme(axis.title=element_text(size=25))+
     theme(legend.text = element_text(size = 19, face = "bold"))+
@@ -501,16 +643,10 @@ temp<-sql("
 select
   paf.*
   ,msr.state as state_full
-  ,candidate as candidate
+  ,case when prediction in ('prob_unweighted_dem','prob_weighted_dem') then 'Clinton' else 'Trump' end as candidate
 from polls_altered_final paf
-  inner join polls p on paf.election_year=p.election_year
-    and p.State=paf.State
-    and (case when prediction in ('prob_unweighted_dem','prob_weighted_dem') then 'D'
-              when prediction in ('prob_unweighted_rep','prob_weighted_rep') then 'R'
-         end) = p.party
-    and p.id=paf.id
   inner join master_state_ref msr on paf.state=msr.abb
-where paf.election_year=2012
+where paf.election_year=2016
 ")
 relevant_list<-sort(unique(temp$state_full))
 relevant_list_abb<-unique(temp[order(temp$state_full),'state'])

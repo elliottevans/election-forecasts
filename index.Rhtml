@@ -101,12 +101,7 @@ end.rcode-->
         </div>
           <div style="text-align:right;">
             <h5 id="demo">
-                    <script>
-                      var d = new Date();
-                      var str = "Updated"
-                      var sentence = str + " " + d.toDateString();
-                      document.getElementById("demo").innerHTML = sentence
-                    </script> 
+              Updated <!--rinline I(run_date) -->
             </h5>
           </div>  
       </div>
@@ -162,7 +157,7 @@ end.rcode-->
           <center>
             <h1>State-by-State Trends</h1>
           </center>
-          <p class="lead">Odds of a candidate's victory are updated whenever new polling information is available. Here's how the chances have evolved over time for states with enough polling data (states with insufficient polling can still be found in the Margins of Victory).</p>
+          <p class="lead">Odds of a candidate's victory are updated whenever new polling information is available. For states with enough polling data, here's how the chances have evolved over time.</p>
         </div>
       </div>
 
@@ -194,7 +189,7 @@ end.rcode-->
           <center>
             <h1>Current Forecasts</h1>
           </center>
-          <p class="lead">Here are all of the current forecasts for the general election. The model predicts that <!--rinline I(winner) --> will win <!--rinline I(num_states_won) --> of 51 contests, including DC. </p>
+          <p class="lead">Here are all of the current forecasts for the general election. The model predicts that <!--rinline I(winner) --> will win <!--rinline I(num_states_won) --> of 51 electoral contests (remember, DC gets 3 electoral votes). </p>
         </div>
       </div>
       

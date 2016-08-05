@@ -106,21 +106,18 @@ from
     pa.*
     ,case when pa.election_year=2000 then hist_dem_prob_2000
           when pa.election_year=2004 then hist_dem_prob_2004
-          when pa.election_year=2008 then hist_dem_prob_2008
-          when pa.election_year=2012 then hist_dem_prob end as hist_dem_prob
+          when pa.election_year=2008 then hist_dem_prob_2008 end as hist_dem_prob
     ,case when pa.election_year=2000 then msr.`2000`
           when pa.election_year=2004 then msr.`2004`
-          when pa.election_year=2008 then msr.`2008`
-          when pa.election_year=2012 then '' end as actual
+          when pa.election_year=2008 then '' end as actual
     ,case when pa.election_year=2000 then msr.`2000_dem_margin`
           when pa.election_year=2004 then msr.`2004_dem_margin`
-          when pa.election_year=2008 then msr.`2008_dem_margin`
-          when pa.election_year=2012 then '' end as actual_dem_margin
+          when pa.election_year=2008 then '' end as actual_dem_margin
   from polls_altered pa 
     inner join master_state_ref msr on msr.abb=pa.state
 ) as temp1
 ")
-polls_altered[polls_altered$election_year==2012,'actual_binary_dem']<-''
+polls_altered[polls_altered$election_year==2008,'actual_binary_dem']<-''
 #########################################################################################################################################
 # CREATE WEIGHTED POLLING AVERAGES
 #########################################################################################################################################
@@ -149,7 +146,7 @@ temp$hist_dem_prob<-temp$hist_dem_prob/sd(temp$hist_dem_prob)
 ##########################
 
 #Take 15 distinct most similar states from each year to associate with curret states
-years<-c(2000,2004,2008)
+years<-c(2000,2004)
 for(i in 1:length(years)){
   margins<-data.frame()
   train_year<-paste0("train","_",years[i])
@@ -158,12 +155,12 @@ for(i in 1:length(years)){
   train_temp<-temp[temp$election_year==years[i],c(
             "days_till_election"
             ,"exp_weighted_avg"
-            ,"hist_dem_prob"
+#            ,"hist_dem_prob"
   )]
-  test_temp<-temp[temp$election_year==2012,c(
+  test_temp<-temp[temp$election_year==2008,c(
             "days_till_election"
             ,"exp_weighted_avg"
-            ,"hist_dem_prob"
+#            ,"hist_dem_prob"
   )]
   #1:nrow(test_temp)
   for(j in 1:nrow(test_temp)){
@@ -202,12 +199,12 @@ for(i in 1:length(years)){
 #Take equal parts from each year for nearest neighbor alg
 ##########################
 
-polls_altered_2012<-polls_altered[polls_altered$election_year==2012,]
+polls_altered_2008<-polls_altered[polls_altered$election_year==2008,]
 
 means<-c()
 sds<-c()
 probs<-c()
-for(i in 1:nrow(polls_altered_2012)){
+for(i in 1:nrow(polls_altered_2008)){
   mean<-mean(unlist(as.list(margins_total[i,])))
   sd<-sd(unlist(as.list(margins_total[i,])))
   
@@ -218,9 +215,9 @@ for(i in 1:nrow(polls_altered_2012)){
 }
 
 
-polls_altered_2012$probs<-probs
-polls_altered_2012$mean<-means
-polls_altered_2012$sd<-sds
+polls_altered_2008$probs<-probs
+polls_altered_2008$mean<-means
+polls_altered_2008$sd<-sds
 #########################################################################################################################################
 # NEAREST NEIGHBOR LEARNING
 #########################################################################################################################################
@@ -240,7 +237,7 @@ select
        when prediction='prob_weighted_dem' then probs
   end as nearest_neighbor_value
 from polls_altered_final paf
-  left join polls_altered_2012 pa on pa.id=paf.id
+  left join polls_altered_2008 pa on pa.id=paf.id
 ")
 polls_altered_final<-polls_altered_final[,!(colnames(polls_altered_final) %in% c('value'))]
 
@@ -298,7 +295,7 @@ select
   ,sd
 from polls_altered_final paf
 where final_prediction_ind=1
-  and election_year=2012
+  and election_year=2008
   and prediction='prob_weighted_dem'
 ) as t1
  on msr.abb=t1.state
@@ -310,10 +307,9 @@ select
   ,so.abb
   ,so.electoral_votes
   ,dem_prob
-  ,ifnull(mean,(`2000_dem_margin`+`2004_dem_margin`+`2008_dem_margin`)/3) as mean 
-  ,ifnull(sd,sqrt(power((((`2000_dem_margin`+`2004_dem_margin`+`2008_dem_margin`)/3)-`2000_dem_margin`),2)+
-    power((((`2000_dem_margin`+`2004_dem_margin`+`2008_dem_margin`)/3)-`2004_dem_margin`),2)+
-    power((((`2000_dem_margin`+`2004_dem_margin`+`2008_dem_margin`)/3)-`2008_dem_margin`),2))) as sd
+  ,ifnull(mean,(`2000_dem_margin`+`2004_dem_margin`)/2) as mean 
+  ,ifnull(sd,sqrt(power((((`2000_dem_margin`+`2004_dem_margin`)/2)-`2000_dem_margin`),2)+
+    power((((`2000_dem_margin`+`2004_dem_margin`)/2)-`2004_dem_margin`),2))) as sd
 from state_odds so
   inner join master_state_ref msr on so.state=msr.state
 ")
@@ -338,7 +334,7 @@ for(i in 1:n){
     else {
       corr<-t(master_state_ref)
       colnames(corr)<-corr['abb',]
-      corr<-data.frame(corr[12:14,],stringsAsFactors = FALSE)
+      corr<-data.frame(corr[12:13,],stringsAsFactors = FALSE)
       corr<-sapply(corr,as.numeric)
       corr<-cor(corr[,state_odds_rand$abb[(j-1):j]])
       correlation<-corr[1,2]
