@@ -1,4 +1,4 @@
-setwd("~/election_forecastsV2")
+setwd("~/election_forecasts")
 source("prep.R")
 #Functions created: multiplot, sql
 
