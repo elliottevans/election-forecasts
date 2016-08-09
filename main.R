@@ -228,6 +228,7 @@ polls_altered$exp_weighted_avg<-as.numeric(polls_altered$exp_weighted_avg)
 #########################################################################################################################################
 #k_run<-100
 temp<-polls_altered
+
 #standardize metrics for nearest neighbor algorithm
 temp$days_till_election<-temp$days_till_election-mean(temp$days_till_election)
 temp$days_till_election<-temp$days_till_election/sd(temp$days_till_election)
@@ -554,7 +555,7 @@ state_margins<-ggplot(data=state_odds_temp, aes(x=reorder(state, -mean), y=mean,
     theme(plot.title=element_text(face="bold",hjust=0,vjust=2,colour="#3C3C3C",size=31))+
     ylab("Margin of Victory")+
     xlab(expression(paste(symbol('\254'),' ','Clinton','        ','Trump',' ', symbol('\256'))))+
-    scale_y_continuous(breaks = c(-30,-20,-10,0,10,20,30), labels = c("+30","+20","+10", "0","+10","+20","+30"))+
+    scale_y_continuous(breaks = c(-45,-30,-15,0,15,30,45), labels = c("+45","+30","+15", "0","+15","+30","+45"))+
     theme(axis.text=element_text(size=25))+
     theme(axis.title=element_text(size=25))+
     theme(legend.text = element_text(size = 19, face = "bold"))+

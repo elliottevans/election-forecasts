@@ -405,7 +405,7 @@ from state_odds so
                   
 
 print("RUNNING ELECTION SIMULATIONS",quote=FALSE)
-n<-10000
+n<-1
 dem_wins<-0
 electoral_vote_list<-c()
 for(i in 1:n){
@@ -414,7 +414,8 @@ for(i in 1:n){
   state_odds_rand<-state_odds[sample(nrow(state_odds)),]
   electoral_votes<-0
   margins<-c()
-  for(j in 1:nrow(state_odds_rand)){
+  #1:nrow(state_odds_rand)
+  for(j in 1:2){
     if(j==1){
       margin<-rnorm(1,state_odds_rand$mean[j],state_odds_rand$sd[j])
       if(margin>=0){win_or_lose<-1}else{win_or_lose<-0}
