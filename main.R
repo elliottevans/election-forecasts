@@ -6,13 +6,13 @@ source("prep.R")
 #   1. master_state_ref
 #   2. polls_2000
 #   3. polls_2004
-#   4. polls_20083
+#   4. polls_2008
 #   5. polls_2012
 #   6. polls_2016
 #   7. polls
 
 run_date<-as.Date(Sys.Date())
-#run_date<-as.Date("2016-06-11")
+#run_date<-as.Date("2016-08-07")
 
 
 print(paste("Creating Forecasts for RUN DATE:",run_date),quote=FALSE)
@@ -203,6 +203,18 @@ for(i in 1:length(years)){
     polls_altered_new<-rbind(polls_altered_new,temp3)
   }
 }
+
+# polls_altered_new<-sql("
+# select
+#   pan.*
+#   ,running_avg_diff
+# from polls_altered_new pan
+#   inner join nat_polls np on pan.date=np.Date
+# ")
+# polls_altered_new$nat_polls_delta<-polls_altered_new$running_avg_diff
+# polls_altered_new<-polls_altered_new[,1:(ncol(polls_altered_new)-1)]
+
+
 polls_altered<-polls_altered_new
 polls_altered$exp_weighted_avg<-as.numeric(polls_altered$exp_weighted_avg)
 #########################################################################################################################################
@@ -239,7 +251,7 @@ for(i in 1:length(years)){
   margins<-data.frame()
   train_year<-paste0("train","_",years[i])
   assign(train_year,temp[temp$election_year==years[i],])
-  train_temp_with_info<-train_temp<-temp[temp$election_year==years[i],]
+  train_temp_with_info<-temp[temp$election_year==years[i],]
   train_temp<-temp[temp$election_year==years[i],c(
             "days_till_election"
             ,"exp_weighted_avg"
@@ -678,8 +690,8 @@ for(i in 1:length(relevant_list)){
   poll_temp<-temp_new[temp_new$final_prediction_ind==1,]
 
   plot<- ggplot(data=temp_new,aes(x=date,y=value,colour=candidate,group=candidate)) + 
-    geom_line(size=1.2) + 
-    theme(axis.text.x=element_blank(),axis.ticks.x=element_blank())+
+    geom_line(size=1.9,alpha=.8) + 
+    theme(axis.ticks.x=element_blank())+
     ggtitle(
       paste(state_label," - ",as.character(poll_temp[which.max(poll_temp$value),'candidate']),sub(" ", "",paste(poll_temp[which.max(poll_temp$value),'poll_data_value_label'],"%"),fixed=TRUE))
     )+
@@ -694,7 +706,9 @@ for(i in 1:length(relevant_list)){
           ,panel.grid.major = element_line(colour = "gray93")
           ,axis.line.x = element_line(color="black")
           ,axis.line.y = element_blank()
-        )
+        )+
+    scale_x_date(limits=c(as.Date('2016-06-01'),as.Date('2016-11-08')))+
+    geom_vline(linetype=2,aes(xintercept=as.numeric(as.Date('2016-11-08'))))
           
   plots[[i]]<-plot
 }
