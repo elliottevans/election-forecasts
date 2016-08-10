@@ -476,13 +476,13 @@ write.csv(polls,'polls\\polls_total.csv',row.names = FALSE)
 
 
 ###################################
-# Get Rid of States without sufficient polling (<5 polls)
+# Get Rid of States without sufficient polling (< 3 polls)
 ###################################
 
 
 
 ###################################
-# Get Rid of States without sufficient polling (<5 polls)
+# Get Rid of States without sufficient polling (< 3 polls)
 ###################################
 polls<-sql("
 select

@@ -1,5 +1,5 @@
-setwd("~/election_forecastsV2")
-source("prep.R")
+setwd("~/election_forecasts")
+source("prep_2012.R")
 #Functions created: multiplot, sql
 
 #Data sets created: 
@@ -405,7 +405,7 @@ from state_odds so
                   
 
 print("RUNNING ELECTION SIMULATIONS",quote=FALSE)
-n<-1
+n<-10000
 dem_wins<-0
 electoral_vote_list<-c()
 for(i in 1:n){
@@ -415,7 +415,7 @@ for(i in 1:n){
   electoral_votes<-0
   margins<-c()
   #1:nrow(state_odds_rand)
-  for(j in 1:2){
+  for(j in 1:nrow(state_odds_rand)){
     if(j==1){
       margin<-rnorm(1,state_odds_rand$mean[j],state_odds_rand$sd[j])
       if(margin>=0){win_or_lose<-1}else{win_or_lose<-0}
@@ -454,62 +454,62 @@ state_odds$tested_odds<-round(100*pnorm(q=0,mean=state_odds$mean,sd=state_odds$s
 #########################################################################################################################################
 
 
-
-#########################################################################################################################################
-#NATIONAL FORECAST OVER TIME
-#########################################################################################################################################
-national_forecasts<-read.csv("forecasts\\national_forecasts.csv")
-national_forecasts$date<-as.Date(national_forecasts$date,format='%m/%d/%Y')
-
-if(nrow(national_forecasts[national_forecasts$date==run_date,])==0){
-  #Entry hasn't been created yet
-  national_forecasts<-rbind(national_forecasts,c(as.character(run_date),round(100*dem_prob,1),100-round(100*dem_prob,1)))
-}else if(nrow(national_forecasts[national_forecasts$date==run_date,])!=0){
-  national_forecasts[national_forecasts$date==run_date,]<-c(as.character(run_date),round(100*dem_prob,1),100-round(100*dem_prob,1))
-}
-
-write.csv(national_forecasts,'forecasts\\national_forecasts.csv',row.names = FALSE)
-
-names(national_forecasts)<-c('Date','Clinton','Trump')
-national_forecasts<-melt(national_forecasts,id=c('Date'))
-names(national_forecasts)<-c('date','candidate','value')
-national_forecasts$value<-as.numeric(national_forecasts$value)
-
-
-odds_over_time<- ggplot(data=national_forecasts,aes(x=date,y=value,colour=candidate,group=candidate)) + 
-  geom_line(size=2.3) + 
-  #theme(axis.text.x=element_blank(),axis.ticks.x=element_blank())+
-  ggtitle("Odds Over Time")+
-  theme(plot.title=element_text(face="bold",hjust=0,vjust=2,colour="#3C3C3C",size=23))+
-  theme(legend.position = "bottom")+
-  scale_color_manual(values=c("deepskyblue", "firebrick1"))+
-  theme(axis.title.y=element_blank())+
-  theme(axis.title.x=element_blank())+
-  theme(legend.title=element_blank())+
-  scale_y_continuous(limits = c(0.0, 100.0))+
-  theme(panel.grid.minor = element_blank()
-        ,panel.background = element_rect(fill = "white")
-        ,panel.grid.major = element_line(colour = "gray93")
-        ,axis.line.x = element_line(color="black")
-        ,axis.line.y = element_blank()
-      )+
-  scale_x_date(limits=c(as.Date('2016-06-01'),as.Date('2016-11-08')))+
-  geom_vline(linetype=2,aes(xintercept=as.numeric(as.Date('2016-11-08'))))+
-  geom_vline(linetype=1,aes(xintercept=as.numeric(run_date)))+
-  geom_text(aes(x=as.Date('2016-11-08')-7.5, label="Election Day\nNov 8", y=100), colour="grey38",size=5)+
-  geom_text(aes(x=run_date-7.5, label=as.character(run_date), y=100), colour="grey38",size=5)+
-  theme(legend.text = element_text(size = 19, face = "bold"))+
-  guides(fill=guide_legend(title=NULL))+
-  theme(axis.text=element_text(size=18))+
-  theme(axis.title=element_text(size=22))+
-  geom_text(aes(x=run_date+6, label=paste0(round(100*dem_prob,1),'%'), y=round(100*dem_prob,1)), colour="grey38",size=7)+
-  geom_text(aes(x=run_date+6, label=paste0(100-round(100*dem_prob,1),'%'), y=100-round(100*dem_prob,1)), colour="grey38",size=7)+
-  theme(plot.title=element_text(face="bold",hjust=0,vjust=2,colour="#3C3C3C",size=31))
-
-
-#########################################################################################################################################
-#NATIONAL FORECAST OVER TIME
-#########################################################################################################################################
+# 
+# #########################################################################################################################################
+# #NATIONAL FORECAST OVER TIME
+# #########################################################################################################################################
+# national_forecasts<-read.csv("forecasts\\national_forecasts.csv")
+# national_forecasts$date<-as.Date(national_forecasts$date,format='%m/%d/%Y')
+# 
+# if(nrow(national_forecasts[national_forecasts$date==run_date,])==0){
+#   #Entry hasn't been created yet
+#   national_forecasts<-rbind(national_forecasts,c(as.character(run_date),round(100*dem_prob,1),100-round(100*dem_prob,1)))
+# }else if(nrow(national_forecasts[national_forecasts$date==run_date,])!=0){
+#   national_forecasts[national_forecasts$date==run_date,]<-c(as.character(run_date),round(100*dem_prob,1),100-round(100*dem_prob,1))
+# }
+# 
+# write.csv(national_forecasts,'forecasts\\national_forecasts.csv',row.names = FALSE)
+# 
+# names(national_forecasts)<-c('Date','Clinton','Trump')
+# national_forecasts<-melt(national_forecasts,id=c('Date'))
+# names(national_forecasts)<-c('date','candidate','value')
+# national_forecasts$value<-as.numeric(national_forecasts$value)
+# 
+# 
+# odds_over_time<- ggplot(data=national_forecasts,aes(x=date,y=value,colour=candidate,group=candidate)) + 
+#   geom_line(size=2.3) + 
+#   #theme(axis.text.x=element_blank(),axis.ticks.x=element_blank())+
+#   ggtitle("Odds Over Time")+
+#   theme(plot.title=element_text(face="bold",hjust=0,vjust=2,colour="#3C3C3C",size=23))+
+#   theme(legend.position = "bottom")+
+#   scale_color_manual(values=c("deepskyblue", "firebrick1"))+
+#   theme(axis.title.y=element_blank())+
+#   theme(axis.title.x=element_blank())+
+#   theme(legend.title=element_blank())+
+#   scale_y_continuous(limits = c(0.0, 100.0))+
+#   theme(panel.grid.minor = element_blank()
+#         ,panel.background = element_rect(fill = "white")
+#         ,panel.grid.major = element_line(colour = "gray93")
+#         ,axis.line.x = element_line(color="black")
+#         ,axis.line.y = element_blank()
+#       )+
+#   scale_x_date(limits=c(as.Date('2016-06-01'),as.Date('2016-11-08')))+
+#   geom_vline(linetype=2,aes(xintercept=as.numeric(as.Date('2016-11-08'))))+
+#   geom_vline(linetype=1,aes(xintercept=as.numeric(run_date)))+
+#   geom_text(aes(x=as.Date('2016-11-08')-7.5, label="Election Day\nNov 8", y=100), colour="grey38",size=5)+
+#   geom_text(aes(x=run_date-7.5, label=as.character(run_date), y=100), colour="grey38",size=5)+
+#   theme(legend.text = element_text(size = 19, face = "bold"))+
+#   guides(fill=guide_legend(title=NULL))+
+#   theme(axis.text=element_text(size=18))+
+#   theme(axis.title=element_text(size=22))+
+#   geom_text(aes(x=run_date+6, label=paste0(round(100*dem_prob,1),'%'), y=round(100*dem_prob,1)), colour="grey38",size=7)+
+#   geom_text(aes(x=run_date+6, label=paste0(100-round(100*dem_prob,1),'%'), y=100-round(100*dem_prob,1)), colour="grey38",size=7)+
+#   theme(plot.title=element_text(face="bold",hjust=0,vjust=2,colour="#3C3C3C",size=31))
+# 
+# 
+# #########################################################################################################################################
+# #NATIONAL FORECAST OVER TIME
+# #########################################################################################################################################
 
 
 
@@ -795,3 +795,52 @@ for(i in 1:nrow(state_odds)){
 #########################################################################################################################################
 
 
+
+#########################################################################################################################################
+# VISUALIZATION: ERROR VIZUALIZATION
+#########################################################################################################################################
+
+errors<-sql("
+select
+  so.state
+  ,so.abb
+  ,so.mean as forecasted_margin
+  ,so.sd as forecasted_sd
+  ,so.tested_odds as forecasted_prob
+  ,msr.`2012_dem_margin`
+  ,so.mean-msr.`2012_dem_margin` as error
+from state_odds so
+  inner join master_state_ref msr on msr.state=so.state
+order by abs(error) desc
+    
+")
+
+#80% confidence intervals
+ci_bands<-aes(ymax=forecasted_margin+1.28*forecasted_sd,ymin=forecasted_margin-1.28*forecasted_sd)
+dodge <- position_dodge(width=0.9)
+
+error_viz<-ggplot(data=errors, aes(x=reorder(state, abs(error)), y=error,fill=-1*abs(error))) +
+    geom_bar(stat="identity") +
+    #geom_crossbar(ci_bands, position=dodge, width=0.25,alpha=.5,colour='grey41',show.legend = TRUE)+
+    coord_flip() + 
+
+    labs(title = "Margin of Victory Error for 2012 Election")+
+    theme(plot.title=element_text(face="bold",hjust=0,vjust=2,colour="#3C3C3C",size=22))+
+    ylab(expression(paste(symbol('\254'),' ','Under Confident Error','        ','Over Confident Error',' ', symbol('\256'))))+
+    xlab(expression(paste(symbol('\254'),' ','Less Error','        ','More Error',' ', symbol('\256'))))+
+    scale_y_continuous(breaks = c(-30,-20,-5,-3,0,3,5,20,30), labels = c("30","20","5","3", "0","3","5","20","30"))+
+    theme(axis.text=element_text(size=14))+
+    theme(axis.title=element_text(size=18))+
+    theme(legend.text = element_text(size = 19, face = "bold"))+
+    theme(legend.position = "none")+
+    theme(axis.title.y=element_text(face='bold')
+          ,axis.ticks.y=element_blank()
+          ,axis.ticks.x=element_blank())+
+    theme(panel.grid.minor = element_blank()
+          ,panel.background = element_rect(fill = "white")
+          ,panel.grid.major = element_line(colour = "gray93")
+    )
+
+#########################################################################################################################################
+# VISUALIZATION: ERROR VISUALIZATION
+#########################################################################################################################################
