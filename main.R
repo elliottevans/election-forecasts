@@ -560,7 +560,8 @@ state_margins<-ggplot(data=state_odds_temp, aes(x=reorder(state, -mean), y=mean,
     theme(axis.title=element_text(size=25))+
     theme(legend.text = element_text(size = 19, face = "bold"))+
     theme(legend.position = "none")+
-    theme(axis.title.y=element_text(face='bold'))+
+    theme(axis.title.y=element_text(face='bold')
+          ,axis.ticks=element_blank())+
     theme(panel.grid.minor = element_blank()
           ,panel.background = element_rect(fill = "white")
           ,panel.grid.major = element_line(colour = "gray93")
