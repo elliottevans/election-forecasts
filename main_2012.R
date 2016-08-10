@@ -405,9 +405,10 @@ from state_odds so
                   
 
 print("RUNNING ELECTION SIMULATIONS",quote=FALSE)
-n<-10000
+n<-1
 dem_wins<-0
 electoral_vote_list<-c()
+print_info<-TRUE
 for(i in 1:n){
   set.seed(seed = NULL)
   if(i %% 1000 == 0){print(paste('CURRENTLY ON ELECTION SIMULATION:',i),quote=FALSE)}
@@ -420,7 +421,13 @@ for(i in 1:n){
       margin<-rnorm(1,state_odds_rand$mean[j],state_odds_rand$sd[j])
       if(margin>=0){win_or_lose<-1}else{win_or_lose<-0}
       margins<-append(margins,margin)
+      if(print_info==TRUE){
+        print(paste("First State:",state_odds_rand[j,'state'],"||","Odds of Dem Victory:"
+                    ,round(100*pnorm(q=0,mean=state_odds_rand$mean[j],sd=state_odds_rand$sd[j],lower.tail = FALSE),1)
+                    ,"||","Exp Margin:",round(state_odds_rand$mean[j],1)
+                    ,"||","Sim Margin:",round(margin,1)),quote=FALSE)
       }
+    }
     else {
       corr<-t(master_state_ref)
       colnames(corr)<-corr['abb',]
@@ -433,6 +440,17 @@ for(i in 1:n){
         (margins[(j-1)]-state_odds_rand$mean[(j-1)])
       updated_sd<-sqrt(state_odds_rand$sd[j]^2*(1-correlation^2))
       margin<-rnorm(1,updated_mean,updated_sd)
+      
+      if(print_info==TRUE){
+        print(paste("Next State:",state_odds_rand[j,'state'],"||","Previous Odds of Dem Victory:"
+                    ,round(100*pnorm(q=0,mean=state_odds_rand$mean[j],sd=state_odds_rand$sd[j],lower.tail = FALSE),1)
+                    ,"||","Prev Exp Margin:",round(state_odds_rand$mean[j],1)
+                    ,"||","Corr w/ Prev State:",round(correlation,3)
+                    ,"||","Updated Odds:",round(100*pnorm(q=0,mean=updated_mean,sd=updated_sd,lower.tail = FALSE),1)
+                    ,"||","Updated Exp Margin:",round(updated_mean,1)
+                    ,"||","Sim Margin:",round(margin,1)),quote=FALSE)
+      }
+      
       if(margin>=0){win_or_lose<-1}else{win_or_lose<-0}
       margins<-append(margins,margin)
     }
