@@ -405,10 +405,10 @@ from state_odds so
                   
 
 print("RUNNING ELECTION SIMULATIONS",quote=FALSE)
-n<-1
+n<-10000
 dem_wins<-0
 electoral_vote_list<-c()
-print_info<-TRUE
+print_info<-FALSE
 for(i in 1:n){
   set.seed(seed = NULL)
   if(i %% 1000 == 0){print(paste('CURRENTLY ON ELECTION SIMULATION:',i),quote=FALSE)}
@@ -577,26 +577,26 @@ state_margins<-ggplot(data=state_odds_temp, aes(x=reorder(state, -mean), y=mean,
 hist_data<-
 data.frame(
   rbind(
-    cbind(rep('Clinton',length(electoral_vote_list)),electoral_vote_list)
-    ,cbind(rep('Trump',length(electoral_vote_list)),538-electoral_vote_list)
+    cbind(rep('Obama',length(electoral_vote_list)),electoral_vote_list)
+    ,cbind(rep('Romney',length(electoral_vote_list)),538-electoral_vote_list)
   )
 )
 names(hist_data)<-c('candidate','electoral_votes')
 hist_data$electoral_votes<-as.numeric(as.character(hist_data$electoral_votes))
-sum_dat<-ddply(hist_data, "candidate", summarise, electoral_votes.mean=mean(electoral_votes))
+sum_dat<-ddply(hist_data, "candidate", summarise, electoral_votes.median=median(electoral_votes))
 
-if(sum_dat[sum_dat$candidate=='Clinton',2]>=270){
-    clinton_label_spot<-sum_dat[sum_dat$candidate=='Clinton',2]+12
-    trump_label_spot<-sum_dat[sum_dat$candidate=='Trump',2]-12
+if(sum_dat[sum_dat$candidate=='Obama',2]>=270){
+    clinton_label_spot<-sum_dat[sum_dat$candidate=='Obama',2]+12
+    trump_label_spot<-sum_dat[sum_dat$candidate=='Romney',2]-12
 }else{
-    clinton_label_spot<-sum_dat[sum_dat$candidate=='Clinton',2]-12
-    trump_label_spot<-sum_dat[sum_dat$candidate=='Trump',2]+12
+    clinton_label_spot<-sum_dat[sum_dat$candidate=='Obama',2]-12
+    trump_label_spot<-sum_dat[sum_dat$candidate=='Romney',2]+12
 }
 
 line_lengths<-sql("
 select
   hd.candidate
-  ,count(case when electoral_votes>=round(`electoral_votes.mean`)-2 and electoral_votes<=round(`electoral_votes.mean`)+2 then hd.candidate end) as counter
+  ,count(case when electoral_votes>=round(`electoral_votes.median`)-2 and electoral_votes<=round(`electoral_votes.median`)+2 then hd.candidate end) as counter
 from hist_data hd
   inner join sum_dat sd on sd.candidate=hd.candidate
 group by 1
@@ -605,8 +605,8 @@ group by 1
 simulated_result<-ggplot(hist_data, aes(x=electoral_votes, fill=candidate)) +
     geom_histogram(binwidth=5, alpha=.5, position="identity")+
     scale_fill_manual(values=c("deepskyblue", "firebrick1"))+
-    geom_text(aes(x=clinton_label_spot, label=round(sum_dat[sum_dat$candidate=='Clinton',2]), y=60), colour="blue",size=8)+
-    geom_text(aes(x=trump_label_spot, label=round(sum_dat[sum_dat$candidate=='Trump',2]), y=60), colour="red3",size=8)+
+    geom_text(aes(x=clinton_label_spot, label=round(sum_dat[sum_dat$candidate=='Obama',2]), y=60), colour="blue",size=8)+
+    geom_text(aes(x=trump_label_spot, label=round(sum_dat[sum_dat$candidate=='Romney',2]), y=60), colour="red3",size=8)+
     geom_text(aes(x=270, label='270 to Win', y=380),size=8)+
     ggtitle("Electoral Votes")+
     ylab("Simulations")+
@@ -616,8 +616,8 @@ simulated_result<-ggplot(hist_data, aes(x=electoral_votes, fill=candidate)) +
     theme(axis.text=element_text(size=18))+
     theme(axis.title=element_text(size=22))+
     theme(legend.text = element_text(size = 19, face = "bold"))+
-    geom_segment(aes(x = round(sum_dat[sum_dat$candidate=='Clinton',2]), y = 0, xend = round(sum_dat[sum_dat$candidate=='Clinton',2]), yend = line_lengths[line_lengths$candidate=='Clinton','counter']), colour = "blue",linetype='dashed',size=1)+
-    geom_segment(aes(x = round(sum_dat[sum_dat$candidate=='Trump',2]), y = 0, xend = round(sum_dat[sum_dat$candidate=='Trump',2]), yend = line_lengths[line_lengths$candidate=='Trump','counter']), colour = "red3",linetype='dashed',size=1)+
+    geom_segment(aes(x = round(sum_dat[sum_dat$candidate=='Obama',2]), y = 0, xend = round(sum_dat[sum_dat$candidate=='Obama',2]), yend = line_lengths[line_lengths$candidate=='Obama','counter']), colour = "blue",linetype='dashed',size=1)+
+    geom_segment(aes(x = round(sum_dat[sum_dat$candidate=='Romney',2]), y = 0, xend = round(sum_dat[sum_dat$candidate=='Romney',2]), yend = line_lengths[line_lengths$candidate=='Romney','counter']), colour = "red3",linetype='dashed',size=1)+
     geom_segment(aes(x = 270, y = 0, xend = 270, yend = 360),linetype='dashed',size=1)+
     theme(legend.position = "bottom")+
     theme(panel.grid.minor = element_blank()

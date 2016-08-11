@@ -585,7 +585,7 @@ data.frame(
 )
 names(hist_data)<-c('candidate','electoral_votes')
 hist_data$electoral_votes<-as.numeric(as.character(hist_data$electoral_votes))
-sum_dat<-ddply(hist_data, "candidate", summarise, electoral_votes.mean=mean(electoral_votes))
+sum_dat<-ddply(hist_data, "candidate", summarise, electoral_votes.median=median(electoral_votes))
 
 if(sum_dat[sum_dat$candidate=='Clinton',2]>=270){
     clinton_label_spot<-sum_dat[sum_dat$candidate=='Clinton',2]+12
@@ -598,7 +598,7 @@ if(sum_dat[sum_dat$candidate=='Clinton',2]>=270){
 line_lengths<-sql("
 select
   hd.candidate
-  ,count(case when electoral_votes>=round(`electoral_votes.mean`)-2 and electoral_votes<=round(`electoral_votes.mean`)+2 then hd.candidate end) as counter
+  ,count(case when electoral_votes>=round(`electoral_votes.median`)-2 and electoral_votes<=round(`electoral_votes.median`)+2 then hd.candidate end) as counter
 from hist_data hd
   inner join sum_dat sd on sd.candidate=hd.candidate
 group by 1
@@ -740,7 +740,7 @@ if(dem_prob>=.5){
   loser<-'Donald Trump'
   winner_prob<-paste0(round(100*dem_prob,1),'%')
   loser_prob<-paste0(100-round(100*dem_prob,1),'%')
-  winning_electoral_votes<-round(mean(electoral_vote_list),0)
+  winning_electoral_votes<-round(median(electoral_vote_list),0)
   losing_electoral_votes<-538-winning_electoral_votes
   color<-'dodgerblue'
   num_states_won<-nrow(state_odds[state_odds$mean>0,])
@@ -755,8 +755,8 @@ if(dem_prob>=.5){
   loser<-'Hillary Clinton'
   winner_prob<-paste0(100-round(100*dem_prob,1),'%')
   loser_prob<-paste0(round(100*dem_prob,1),'%')
-  winning_electoral_votes<-538-round(mean(electoral_vote_list),0)
-  losing_electoral_votes<-round(mean(electoral_vote_list),0)
+  winning_electoral_votes<-538-round(median(electoral_vote_list),0)
+  losing_electoral_votes<-round(median(electoral_vote_list),0)
   color<-'firebrick1'
   num_states_won<-nrow(state_odds[state_odds$mean<0,])
 
