@@ -862,3 +862,30 @@ error_viz<-ggplot(data=errors, aes(x=reorder(state, abs(error)), y=error,fill=-1
 #########################################################################################################################################
 # VISUALIZATION: ERROR VISUALIZATION
 #########################################################################################################################################
+
+electoral_votes_df<-data.frame(electoral_vote_list)
+names(electoral_votes_df)<-'ev'
+
+sql("
+select
+  ev
+  ,counter
+from
+(
+  select 
+    ev
+    ,count(ev) as counter
+  from electoral_votes_df
+  group by 1
+  order by 2 desc
+)
+limit 5
+")
+
+sql("
+select count(*)
+from electoral_votes_df
+where ev between 300 and 340
+")
+
+
