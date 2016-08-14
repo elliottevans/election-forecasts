@@ -638,8 +638,8 @@ simulated_result<-ggplot(hist_data, aes(x=electoral_votes, fill=candidate)) +
 # VISUALIZATION: CARTOGRAM
 #########################################################################################################################################
 dat <- data.frame(state=as.character(state_odds$abb), value=state_odds$mean, stringsAsFactors=FALSE)
-dat[dat$value>=50,'value']<-dat[dat$value>=50,'value']/3
-dat[dat$value<=-50,'value']<-dat[dat$value<=-50,'value']/2
+dat[dat$value>=30,'value']<-dat[dat$value>=30,'value']*(1/3)
+dat[dat$value<=-30,'value']<-dat[dat$value<=-30,'value']*(1/3)
 
 map<-statebins(dat
           ,breaks=7
