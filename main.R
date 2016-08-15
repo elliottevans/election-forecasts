@@ -698,7 +698,12 @@ for(i in 1:length(relevant_list)){
       paste(state_label," - ",as.character(poll_temp[which.max(poll_temp$value),'candidate']),sub(" ", "",paste(poll_temp[which.max(poll_temp$value),'poll_data_value_label'],"%"),fixed=TRUE))
     )+
     theme(plot.title=element_text(face="bold",hjust=0,vjust=2,colour="#3C3C3C",size=23))+
+    
     theme(legend.position = "none")+
+    theme(legend.text = element_text(size = 19, face = "bold"))+
+    guides(fill=guide_legend(title=NULL))+
+    theme(legend.title=element_blank())+
+    
     scale_color_manual(values=c("deepskyblue", "firebrick1"))+
     theme(axis.title.y=element_blank())+
     theme(axis.title.x=element_blank())+
@@ -714,6 +719,7 @@ for(i in 1:length(relevant_list)){
           
   plots[[i]]<-plot
 }
+
 
 #multiplot(plotlist = plots,cols=3)
 #########################################################################################################################################
