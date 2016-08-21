@@ -545,7 +545,7 @@ polls$value<-as.numeric(polls$value)
 ##################################################################################################################################
 #PREP THE NATIONAL POLLS
 ##################################################################################################################################
-
+k_run<-10
 #################################################
 # ELECTION 2016
 #################################################
@@ -580,10 +580,10 @@ nat_polls_2016<-sql("
 ")
 running_avg<-c()
 for(i in 1:nrow(nat_polls_2016)){
-  if(i<=5){
+  if(i<=k_run){
     running_avg<-append(running_avg,mean(nat_polls_2016$dem_plus_minus[1:i]))
   }else{
-    running_avg<-append(running_avg,mean(nat_polls_2016$dem_plus_minus[(i-4):i]))
+    running_avg<-append(running_avg,mean(nat_polls_2016$dem_plus_minus[(i-(k_run-1)):i]))
   }
 }
 nat_polls_2016$running_avg<-running_avg
@@ -644,10 +644,10 @@ nat_polls_2000<-sql("
 #Calculate last 5 polls running avg
 running_avg<-c()
 for(i in 1:nrow(nat_polls_2000)){
-  if(i<=5){
+  if(i<=k_run){
     running_avg<-append(running_avg,mean(nat_polls_2000$dem_plus_minus[1:i]))
   }else{
-    running_avg<-append(running_avg,mean(nat_polls_2000$dem_plus_minus[(i-4):i]))
+    running_avg<-append(running_avg,mean(nat_polls_2000$dem_plus_minus[(i-(k_run-1)):i]))
   }
 }
 nat_polls_2000$running_avg<-running_avg
@@ -704,10 +704,10 @@ nat_polls_2004<-sql("
 ")
 running_avg<-c()
 for(i in 1:nrow(nat_polls_2004)){
-  if(i<=5){
+  if(i<=k_run){
     running_avg<-append(running_avg,mean(nat_polls_2004$dem_plus_minus[1:i]))
   }else{
-    running_avg<-append(running_avg,mean(nat_polls_2004$dem_plus_minus[(i-4):i]))
+    running_avg<-append(running_avg,mean(nat_polls_2004$dem_plus_minus[(i-(k_run-1)):i]))
   }
 }
 nat_polls_2004$running_avg<-running_avg
@@ -763,10 +763,10 @@ nat_polls_2008<-sql("
 ")
 running_avg<-c()
 for(i in 1:nrow(nat_polls_2008)){
-  if(i<=5){
+  if(i<=k_run){
     running_avg<-append(running_avg,mean(nat_polls_2008$dem_plus_minus[1:i]))
   }else{
-    running_avg<-append(running_avg,mean(nat_polls_2008$dem_plus_minus[(i-4):i]))
+    running_avg<-append(running_avg,mean(nat_polls_2008$dem_plus_minus[(i-(k_run-1)):i]))
   }
 }
 nat_polls_2008$running_avg<-running_avg
@@ -822,10 +822,10 @@ nat_polls_2012<-sql("
 ")
 running_avg<-c()
 for(i in 1:nrow(nat_polls_2012)){
-  if(i<=5){
+  if(i<=k_run){
     running_avg<-append(running_avg,mean(nat_polls_2012$dem_plus_minus[1:i]))
   }else{
-    running_avg<-append(running_avg,mean(nat_polls_2012$dem_plus_minus[(i-4):i]))
+    running_avg<-append(running_avg,mean(nat_polls_2012$dem_plus_minus[(i-(k_run-1)):i]))
   }
 }
 nat_polls_2012$running_avg<-running_avg
