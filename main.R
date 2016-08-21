@@ -426,8 +426,7 @@ from state_odds so
                   
 
 print("RUNNING ELECTION SIMULATIONS",quote=FALSE)
-#n<-10000
-n<-1
+n<-10000
 dem_wins<-0
 electoral_vote_list<-c()
 for(i in 1:n){
