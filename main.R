@@ -426,9 +426,20 @@ from state_odds so
                   
 
 print("RUNNING ELECTION SIMULATIONS",quote=FALSE)
-n<-10000
+n<-100
 dem_wins<-0
 electoral_vote_list<-c()
+##############################################
+#Scenarios
+#1. Electoral Tie
+scenario1<-0
+#2a. Clinton wins & loses at least 1 swing state (FL, VA, NC, PA, OH)
+scenario2a<-0
+#2b. Trump wins & loses at least 1 swing state (FL, VA, NC, PA, OH)
+scenario3b<-0
+#3a. 
+##############################################
+
 for(i in 1:n){
   set.seed(seed = NULL)
   if(i %% 1000 == 0){print(paste('CURRENTLY ON ELECTION SIMULATION:',i),quote=FALSE)}
