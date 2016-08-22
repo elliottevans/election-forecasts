@@ -426,7 +426,7 @@ from state_odds so
                   
 
 print("RUNNING ELECTION SIMULATIONS",quote=FALSE)
-n<-100
+n<-10000
 dem_wins<-0
 electoral_vote_list<-c()
 ##############################################
@@ -436,11 +436,24 @@ scenario1<-0
 #2a. Clinton wins & loses at least 1 swing state (FL, VA, NC, PA, OH)
 scenario2a<-0
 #2b. Trump wins & loses at least 1 swing state (FL, VA, NC, PA, OH)
+scenario2b<-0
+#3a. Clinton swing state sweep 
+scenario3a<-0
+#3b. Trump swing state sweep
 scenario3b<-0
-#3a. 
+#4a. Clinton Outperforms Obama 2012
+scenario4a<-0
+#4b. trump outperforms Romney 2012
+scenario4b<-0
+#5a. Clinton blowout
+scenario5a<-0
+#5b. Trump blowout
+scenario5b<-0
 ##############################################
 
 for(i in 1:n){
+  clinton_swing_states_won<-0
+  trump_swing_states_won<-0
   set.seed(seed = NULL)
   if(i %% 1000 == 0){print(paste('CURRENTLY ON ELECTION SIMULATION:',i),quote=FALSE)}
   state_odds_rand<-state_odds[sample(nrow(state_odds)),]
@@ -470,13 +483,56 @@ for(i in 1:n){
     
     if(win_or_lose==1){
       electoral_votes<-electoral_votes+state_odds_rand[j,'electoral_votes']
+      if(state_odds_rand$abb[j] %in% c('FL','VA','NC','PA','OH')){clinton_swing_states_won<-clinton_swing_states_won+1}
+    }else{
+      if(state_odds_rand$abb[j] %in% c('FL','VA','NC','PA','OH')){trump_swing_states_won<-trump_swing_states_won+1}
     }
   }
   electoral_vote_list<-append(electoral_vote_list,electoral_votes)
+  if(electoral_votes>332){scenario4a<-scenario4a+1}
+  if(electoral_votes<332){scenario4b<-scenario4b+1}
+  if(electoral_votes>380){scenario5a<-scenario5a+1}
+  if(electoral_votes<158){scenario5b<-scenario5b+1}
+  if(trump_swing_states_won==5){scenario3b<-scenario3b+1}
+  if(clinton_swing_states_won==5){scenario3a<-scenario3a+1}
   if(electoral_votes>=270){
     dem_wins<-dem_wins+1
-  }
+    if(clinton_swing_states_won<5){scenario2a<-scenario2a+1}
+  }else if(electoral_votes<269){
+    if(trump_swing_states_won<5){scenario2b<-scenario2b+1}
+  }else{scenario1<-scenario1+1}
 }
+
+##############################################
+#Scenarios
+#1. Electoral Tie
+scenario1<-round(100*scenario1/n,1)
+if(scenario1==0){scenario1<-'<.1'}else{scenario1<-as.character(scenario1)}
+#2a. Clinton wins & loses at least 1 swing state (FL, VA, NC, PA, OH)
+scenario2a<-round(100*scenario2a/n,1)
+if(scenario2a==0){scenario2a<-'<.1'}else{scenario2a<-as.character(scenario2a)}
+#2b. Trump wins & loses at least 1 swing state (FL, VA, NC, PA, OH)
+scenario2b<-round(100*scenario2b/n,1)
+if(scenario2b==0){scenario2b<-'<.1'}else{scenario2b<-as.character(scenario2b)}
+#3a. Clinton swing state sweep 
+scenario3a<-round(100*scenario3a/n,1)
+if(scenario3a==0){scenario3a<-'<.1'}else{scenario3a<-as.character(scenario3a)}
+#3b. Trump swing state sweep
+scenario3b<-round(100*scenario3b/n,1)
+if(scenario3b==0){scenario3b<-'<.1'}else{scenario3b<-as.character(scenario3b)}
+#4a. Clinton Outperforms Obama 2012
+scenario4a<-round(100*scenario4a/n,1)
+if(scenario4a==0){scenario4a<-'<.1'}else{scenario4a<-as.character(scenario4a)}
+#4b. trump outperforms Romney 2012
+scenario4b<-round(100*scenario4b/n,1)
+if(scenario4b==0){scenario4b<-'<.1'}else{scenario4b<-as.character(scenario4b)}
+#5a. Clinton blowout
+scenario5a<-round(100*scenario5a/n,1)
+if(scenario5a==0){scenario5a<-'<.1'}else{scenario5a<-as.character(scenario5a)}
+#5b. Trump blowout
+scenario5b<-round(100*scenario5b/n,1)
+if(scenario5b==0){scenario5b<-'<.1'}else{scenario5b<-as.character(scenario5b)}
+##############################################
  
 dem_prob<-dem_wins/n
 state_odds$tested_odds<-round(100*pnorm(q=0,mean=state_odds$mean,sd=state_odds$sd,lower.tail = FALSE),1)

@@ -2,32 +2,31 @@
 <html>
 
 <style>
-table {
+
+
+
+
+table#t1 {
     border-collapse: collapse;
     width: 100%;
 }
 
-td {
+table#t1 td {
     text-align: left;
     padding: 8px;
     font-size: 18px;
+    border-bottom: 1px solid #2c2c2c;
 }
-th {
+table #t1 th {
     text-align: left;
     padding: 8px;
-    font-size: 20px;
-}
-
-</style>
-
-<style>
-.republican{
-  background-color:rgba(255,48,48,.4);
-}
-.democrat{
-  background-color:rgba(0, 191, 255,.5);
+    font-size: 18px;
+    font-weight: normal;
+    border-bottom: 1px solid #ddd;
 }
 </style>
+
+
 
   <head>
   <link rel="icon" href="C:\Users\Elliott\election_forecasts\website_design\E.png">
@@ -180,28 +179,42 @@ end.rcode-->
       <div class="container" style="text-align: center;" class="span3">
         
 
-        <table>
-          <tr>
-            <th>State</th>
-            <th>Electoral Votes</th>
-            <th>Winner</th>
-            <th>Odds of Victory</th>
-            <th>Margin of Victory</th>
+        <table id='t1'>
+          <tr id='t1'>
+            <td id='t1'>Electoral Tie <small>(269-269)</small></td>
+            <td id='t1'>1.7%</td>
           </tr>
-          <tr>
-          <tr>
-            <td>Alabama</td>
-            <td>4</td>
-            <td>Trump</td>
-            <td>96%</td>
-            <td>+31</td>
+          <tr id='t1'>
+            <th id='t1'>Clinton victory while losing at least 1 swing state <small>(FL, VA, NC, PA, OH)</small></th>
+            <th id='t1'>20%</th>
           </tr>
-          <tr>
-            <td>California</td>
-            <td>55</td>
-            <td>Clinton</td>
-            <td>96%</td>
-            <td>+31</td>
+          <tr id='t1'>
+            <td id='t1'>Trump victory while losing at least 1 swing state <small>(FL, VA, NC, PA, OH)</small></td>
+            <td id='t1'>20%</td>
+          </tr>
+          <tr id='t1'>
+            <th id='t1'>Clinton wins all 5 swing states</th>
+            <th id='t1'>20%</th>
+          </tr>
+          <tr id='t1'>
+            <td id='t1'>Trump wins all 5 swing states</td>
+            <td id='t1'>20%</td>
+          </tr>
+          <tr id='t1'>
+            <th id='t1'>Clinton outperforms Obama 2012 <small>(>332 EV)</small></th>
+            <th id='t1'>20%</th>
+          </tr>
+          <tr id='t1'>
+            <td id='t1'>Trump outperforms Romney 2012 <small>(>206 EV)</small></td>
+            <td id='t1'>20%</td>
+          </tr>
+          <tr id='t1'>
+            <th id='t1'>Clinton blowout <small>(>380 EV)</small></th>
+            <th id='t1'>20%</th>
+          </tr>
+          <tr id='t1'>
+            <td id='t1'>Trump blowout <small>(>380 EV)</small></td>
+            <td id='t1'>20%</td>
           </tr>
         </table>
 

@@ -48,6 +48,26 @@ th {
     -moz-box-shadow: -6px 2px 8px -2px #e1e1e1;
     -webkit-box-shadow: -6px 2px 8px -2px #e1e1e1;
 }
+
+table#t1 {
+    border-collapse: collapse;
+    width: 100%;
+}
+
+table#t1 td {
+    text-align: left;
+    padding: 8px;
+    font-size: 18px;
+    border-bottom: 1px solid #2c2c2c;
+}
+table#t1 th {
+    text-align: left;
+    padding: 8px;
+    font-size: 18px;
+    font-weight: normal;
+    border-bottom: 1px solid #ddd;
+}
+
 </style>
 
 <style>
@@ -177,10 +197,11 @@ th {
           <a class="brand" href="#title"><strong>General Election Forecasts 2016</strong> <small>Updated Aug 22</small></a>
           <div class="nav-collapse collapse">
             <ul class="nav pull-right">
-              <li><a href="#overview">National Overview</a></li>
+              <li><a href="#overview">Overview</a></li>
               <li><a href="#map">Map</a></li>
               <li><a href="#statelevel">State Trends</a></li>
               <li><a href="#margins">Margins of Victory</a></li>
+              <li><a href="#scenarios">Scenarios</a></li>
               <li><a href="#currentforecasts">Current Forecasts</a></li>
             </ul>
           </div>
@@ -212,7 +233,7 @@ th {
           <p></p>
           <p></p>
       <div class="container" style="text-align: center;">
-        <h1><div class="alert alert-info" role="alert">Hillary Clinton has an 84.6% chance of being president</div></h1>    
+        <h1><div class="alert alert-info" role="alert">Hillary Clinton has an 84.3% chance of being president</div></h1>    
       </div>
         </div>
           <div style="text-align:right;">
@@ -231,7 +252,7 @@ th {
 
       <div class="row">
         <div class="span12">
-          <p class="lead">Presidential elections are all about who can get to 270 electoral votes. After simulating the election ten-thousand times, the model predicts a <b>321-217</b> electoral win for <b>Hillary Clinton</b>.</p>
+          <p class="lead">Presidential elections are all about who can get to 270 electoral votes. After simulating the election ten-thousand times, the model predicts a <b>320-218</b> electoral win for <b>Hillary Clinton</b>.</p>
         </div>
       </div>
       
@@ -286,6 +307,57 @@ th {
       
       <div class="container" style="text-align: center;">
 <div class="chunk" id="margins"><div class="rimage center"><img src="figure/margins-1.png" title="plot of chunk margins" alt="plot of chunk margins" class="plot" /></div></div>
+      </div>
+      
+      <p></p>
+      <div class="row" id="scenarios">
+        <div class="span12">
+          <center>
+            <h1>Possible Scenarios</h1>
+          </center>
+          <p class="lead">Here are the <b>odds we'll see these election scenarios</b>.</p>
+        </div>
+      </div>
+      <div class="container" style="text-align: center;" class="span3">
+        <table id='t1'>
+          <tr id='t1'>
+            <td id='t1'>Electoral Tie <small>(269-269)</small></td>
+            <td id='t1'>0.5%</td>
+          </tr>
+          <tr id='t1'>
+            <th id='t1'>Clinton victory while losing at least 1 swing state <small>(FL, VA, NC, PA, OH)</small></th>
+            <th id='t1'>63.6%</th>
+          </tr>
+          <tr id='t1'>
+            <td id='t1'>Trump victory while losing at least 1 swing state <small>(FL, VA, NC, PA, OH)</small></td>
+            <td id='t1'>14.7%</td>
+          </tr>
+          <tr id='t1'>
+            <th id='t1'>Clinton wins all 5 swing states</th>
+            <th id='t1'>20.8%</th>
+          </tr>
+          <tr id='t1'>
+            <td id='t1'>Trump wins all 5 swing states</td>
+            <td id='t1'>0.5%</td>
+          </tr>
+          <tr id='t1'>
+            <th id='t1'>Clinton outperforms Obama 2012 <small>(>332 EV)</small></th>
+            <th id='t1'>39%</th>
+          </tr>
+          <tr id='t1'>
+            <td id='t1'>Trump outperforms Romney 2012 <small>(>206 EV)</small></td>
+            <td id='t1'>60.1%</td>
+          </tr>
+          <tr id='t1'>
+            <th id='t1'>Clinton blowout <small>(>380 EV)</small></th>
+            <th id='t1'>6.3%</th>
+          </tr>
+          <tr id='t1'>
+            <td id='t1'>Trump blowout <small>(>380 EV)</small></td>
+            <td id='t1'>0.2%</td>
+          </tr>
+        </table>
+      
       </div>
       
       

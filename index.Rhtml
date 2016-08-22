@@ -48,6 +48,26 @@ th {
     -moz-box-shadow: -6px 2px 8px -2px #e1e1e1;
     -webkit-box-shadow: -6px 2px 8px -2px #e1e1e1;
 }
+
+table#t1 {
+    border-collapse: collapse;
+    width: 100%;
+}
+
+table#t1 td {
+    text-align: left;
+    padding: 8px;
+    font-size: 18px;
+    border-bottom: 1px solid #2c2c2c;
+}
+table#t1 th {
+    text-align: left;
+    padding: 8px;
+    font-size: 18px;
+    font-weight: normal;
+    border-bottom: 1px solid #ddd;
+}
+
 </style>
 
 <style>
@@ -119,10 +139,11 @@ end.rcode-->
           <a class="brand" href="#title"><strong>General Election Forecasts 2016</strong> <small>Updated <!--rinline I(nice_run_date) --></small></a>
           <div class="nav-collapse collapse">
             <ul class="nav pull-right">
-              <li><a href="#overview">National Overview</a></li>
+              <li><a href="#overview">Overview</a></li>
               <li><a href="#map">Map</a></li>
               <li><a href="#statelevel">State Trends</a></li>
               <li><a href="#margins">Margins of Victory</a></li>
+              <li><a href="#scenarios">Scenarios</a></li>
               <li><a href="#currentforecasts">Current Forecasts</a></li>
             </ul>
           </div>
@@ -238,6 +259,57 @@ end.rcode-->
 <!--begin.rcode margins, echo=FALSE,fig.align='center',fig.width=15, fig.height=23
 suppressWarnings(print(state_margins))
 end.rcode-->
+      </div>
+      
+      <p></p>
+      <div class="row" id="scenarios">
+        <div class="span12">
+          <center>
+            <h1>Possible Scenarios</h1>
+          </center>
+          <p class="lead">Here are the <b>odds we'll see these election scenarios</b>.</p>
+        </div>
+      </div>
+      <div class="container" style="text-align: center;" class="span3">
+        <table id='t1'>
+          <tr id='t1'>
+            <td id='t1'>Electoral Tie <small>(269-269)</small></td>
+            <td id='t1'><!--rinline I(scenario1) -->%</td>
+          </tr>
+          <tr id='t1'>
+            <th id='t1'>Clinton victory while losing at least 1 swing state <small>(FL, VA, NC, PA, OH)</small></th>
+            <th id='t1'><!--rinline I(scenario2a) -->%</th>
+          </tr>
+          <tr id='t1'>
+            <td id='t1'>Trump victory while losing at least 1 swing state <small>(FL, VA, NC, PA, OH)</small></td>
+            <td id='t1'><!--rinline I(scenario2b) -->%</td>
+          </tr>
+          <tr id='t1'>
+            <th id='t1'>Clinton wins all 5 swing states</th>
+            <th id='t1'><!--rinline I(scenario3a) -->%</th>
+          </tr>
+          <tr id='t1'>
+            <td id='t1'>Trump wins all 5 swing states</td>
+            <td id='t1'><!--rinline I(scenario3b) -->%</td>
+          </tr>
+          <tr id='t1'>
+            <th id='t1'>Clinton outperforms Obama 2012 <small>(>332 EV)</small></th>
+            <th id='t1'><!--rinline I(scenario4a) -->%</th>
+          </tr>
+          <tr id='t1'>
+            <td id='t1'>Trump outperforms Romney 2012 <small>(>206 EV)</small></td>
+            <td id='t1'><!--rinline I(scenario4b) -->%</td>
+          </tr>
+          <tr id='t1'>
+            <th id='t1'>Clinton blowout <small>(>380 EV)</small></th>
+            <th id='t1'><!--rinline I(scenario5a) -->%</th>
+          </tr>
+          <tr id='t1'>
+            <td id='t1'>Trump blowout <small>(>380 EV)</small></td>
+            <td id='t1'><!--rinline I(scenario5b) -->%</td>
+          </tr>
+        </table>
+      
       </div>
       
       
