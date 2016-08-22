@@ -68,6 +68,30 @@ table#t1 th {
     border-bottom: 1px solid #ddd;
 }
 
+.fb_share {
+    background-image: url("https://raw.githubusercontent.com/elliottevans/election_forecasts_how_this_works/gh-pages/fb_symb.png");
+}
+
+.tw_share {
+    background-image: url("https://raw.githubusercontent.com/elliottevans/election_forecasts_how_this_works/gh-pages/tw_symb.png");
+}
+
+.link_share, .fb_share, .tw_share{
+    background-size: 100% 100%;
+    background-color: #505050;
+    background-position: center;    
+    display: inline-block;
+    width: 28px;
+    background-repeat: no-repeat;
+    height: 28px;
+    border-radius: 14px;
+    cursor: pointer;
+    -webkit-transition: background-color 0.3s;
+    -moz-transition: background-color 0.3s;
+    -o-transition: background-color 0.3s;
+    transition: background-color 0.3s;
+}
+
 </style>
 
 <style>
@@ -214,11 +238,6 @@ table#t1 th {
 
     <div class="floated_div">
       <div class="leftBar">
-        <div class="left"><p class='lead' align="left"><u>Creator</u>: <br>Elliott Evans</br></p>
-          <p class='lead' align='left'><u>Email</u>: <a href="mailto:ellevans@umich.edu" target="_top">ellevans@umich.edu</a></p>
-          <p class='lead' align="left"><a href="https://twitter.com/Elliott_Evans1" class="twitter-follow-button" data-show-count="false">Follow @Elliott_Evans1</a><script async src="//platform.twitter.com/widgets.js" charset="utf-8"></script></p>
-          <div class="fb-share-button" data-href="https://elliottevans.github.io/election_forecasts/" data-layout="button" data-size="large" data-mobile-iframe="true"><a class="fb-xfbml-parse-ignore" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Felliottevans.github.io%2Felection_forecasts%2F&amp;src=sdkpreparse">Share</a></div>
-        </div>
       </div>
     </div>
 
@@ -229,11 +248,16 @@ table#t1 th {
   
       <div class="row" style="padding-bottom: 30px;">
         <div class="span8" id="title">
-          <h1><u>Who Will be the Next President?</u></h1>
+          <h1 style="display: inline;"><u>Who Will be the Next President?</u></h1>
+          <div style="display: inline;" class='link_shares'>
+            <a target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https://elliottevans.github.io/election_forecasts/" class="fb_share" deluminate_imagetype="png"></a>
+            <a target="_blank" href="https://twitter.com/intent/follow?original_referer=https%3A%2F%2Felliottevans.github.io%2Felection_forecasts%2F&ref_src=twsrc%5Etfw&screen_name=Elliott_Evans1&tw_p=followbutton" class="tw_share" deluminate_imagetype="png"></a>
+            <font size="3"><b>Creator: <a href="mailto:ellevans@umich.edu" target="_top">Elliott Evans</a></b></font>
+          </div>
           <p></p>
           <p></p>
       <div class="container" style="text-align: center;">
-        <h1><div class="alert alert-info" role="alert">Hillary Clinton has an 84.5% chance of being president</div></h1>    
+        <h1><div class="alert alert-info" role="alert">Hillary Clinton has an 84.8% chance of being president</div></h1>    
       </div>
         </div>
           <div style="text-align:right;">
@@ -252,7 +276,7 @@ table#t1 th {
 
       <div class="row">
         <div class="span12">
-          <p class="lead">Presidential elections are all about who can get to 270 electoral votes. After simulating the election ten-thousand times, the model predicts a <b>320-218</b> electoral win for <b>Hillary Clinton</b>.</p>
+          <p class="lead">Presidential elections are all about who can get to 270 electoral votes. After simulating the election ten-thousand times, the model predicts a <b>321-217</b> electoral win for <b>Hillary Clinton</b>.</p>
         </div>
       </div>
       
@@ -326,27 +350,27 @@ table#t1 th {
           </tr>
           <tr id='t1'>
             <th id='t1'>Clinton victory while losing at least 1 swing state <small>(FL, VA, NC, PA, OH)</small></th>
-            <th id='t1'>63.5%</th>
+            <th id='t1'>63.4%</th>
           </tr>
           <tr id='t1'>
             <td id='t1'>Trump victory while losing at least 1 swing state <small>(FL, VA, NC, PA, OH)</small></td>
-            <td id='t1'>14.4%</td>
+            <td id='t1'>14.2%</td>
           </tr>
           <tr id='t1'>
             <th id='t1'>Clinton wins all 5 swing states</th>
-            <th id='t1'>21.3%</th>
+            <th id='t1'>21.8%</th>
           </tr>
           <tr id='t1'>
             <td id='t1'>Trump wins all 5 swing states</td>
-            <td id='t1'>0.8%</td>
+            <td id='t1'>0.7%</td>
           </tr>
           <tr id='t1'>
             <th id='t1'>Clinton outperforms Obama 2012 <small>(>332 EV)</small></th>
-            <th id='t1'>38.6%</th>
+            <th id='t1'>39.2%</th>
           </tr>
           <tr id='t1'>
             <td id='t1'>Trump outperforms Romney 2012 <small>(>206 EV)</small></td>
-            <td id='t1'>60.5%</td>
+            <td id='t1'>59.9%</td>
           </tr>
           <tr id='t1'>
             <th id='t1'>Clinton blowout <small>(>380 EV)</small></th>
@@ -354,7 +378,7 @@ table#t1 th {
           </tr>
           <tr id='t1'>
             <td id='t1'>Trump blowout <small>(>380 EV)</small></td>
-            <td id='t1'>0.2%</td>
+            <td id='t1'>0.3%</td>
           </tr>
         </table>
       
@@ -447,8 +471,8 @@ table#t1 th {
             <td>Florida</td>
             <td>29</td>
             <td>Clinton</td>
-            <td>75.8%</td>
-            <td>+4.9</td>
+            <td>76.2%</td>
+            <td>+5</td>
           </tr>
           <tr>
             <td>Georgia</td>
@@ -496,8 +520,8 @@ table#t1 th {
             <td>Kansas</td>
             <td>6</td>
             <td>Trump</td>
-            <td>86.1%</td>
-            <td>+9.2</td>
+            <td>87.4%</td>
+            <td>+9.7</td>
           </tr>
           <tr>
             <td>Kentucky</td>
@@ -629,8 +653,8 @@ table#t1 th {
             <td>Ohio</td>
             <td>18</td>
             <td>Clinton</td>
-            <td>71.6%</td>
-            <td>+4.2</td>
+            <td>75.8%</td>
+            <td>+4.9</td>
           </tr>
           <tr>
             <td>Oklahoma</td>
@@ -650,8 +674,8 @@ table#t1 th {
             <td>Pennsylvania</td>
             <td>20</td>
             <td>Clinton</td>
-            <td>88%</td>
-            <td>+8.5</td>
+            <td>87.1%</td>
+            <td>+7.9</td>
           </tr>
           <tr>
             <td>Rhode Island</td>
@@ -685,8 +709,8 @@ table#t1 th {
             <td>Texas</td>
             <td>38</td>
             <td>Trump</td>
-            <td>86.1%</td>
-            <td>+9.2</td>
+            <td>86.3%</td>
+            <td>+9.1</td>
           </tr>
           <tr>
             <td>Utah</td>
@@ -706,8 +730,8 @@ table#t1 th {
             <td>Virginia</td>
             <td>13</td>
             <td>Clinton</td>
-            <td>90.4%</td>
-            <td>+9.6</td>
+            <td>90.1%</td>
+            <td>+9.4</td>
           </tr>
           <tr>
             <td>Washington</td>
@@ -727,8 +751,8 @@ table#t1 th {
             <td>Wisconsin</td>
             <td>10</td>
             <td>Clinton</td>
-            <td>91.2%</td>
-            <td>+10.3</td>
+            <td>90.4%</td>
+            <td>+9.6</td>
           </tr>
           <tr>
             <td>Wyoming</td>
@@ -741,6 +765,14 @@ table#t1 th {
       </div>
 
     <p></p>
+    </div>
+    
+    <div class="row" style="background-color: #ddd">
+      <div class="container">
+        <center>
+          <p style="margin:5px;">Elliott Evans, University of Michigan</p>
+        </center>
+      </div>
     </div>
 
     <script src="http://code.jquery.com/jquery.js"></script>
