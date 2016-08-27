@@ -815,6 +815,14 @@ map3<- p + geom_polygon(data=all_states, aes(x=long, y=lat, group = group),colou
   labs(fill = "" ,title = "", x="", y="")+
   theme(plot.margin=unit(c(-15,-15,-15,-15),"mm"))
 
+preview_map<- p + geom_polygon(data=all_states, aes(x=long, y=lat, group = group),colour="white",fill=all_states$color)+
+  coord_map()+
+  theme_bw()+
+  scale_y_continuous(breaks=c()) + scale_x_continuous(breaks=c()) + theme(panel.border =  element_blank())+
+  labs(fill = "" ,title = "", x="", y="")+
+  theme(plot.margin=unit(c(-15,-15,-15,-15),"mm"))
+ggsave('figure//preview.png',plot=preview_map,width=9,height=5.5)
+
 ##############################################
 #Ordinary state map
 ##############################################
