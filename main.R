@@ -829,6 +829,10 @@ preview_map<- p + geom_polygon(data=all_states, aes(x=long, y=lat, group = group
   theme(plot.margin=unit(c(-15,-15,-15,-15),"mm"))
 ggsave('figure//preview.png',plot=preview_map,width=317.5,height=166.7,units='mm')
 
+png("figure/preview_map.png")
+preview_map
+dev.off()
+
 ##############################################
 #Ordinary state map
 ##############################################
