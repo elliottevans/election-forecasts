@@ -92,22 +92,31 @@ table#t1 th {
     transition: background-color 0.3s;
 }
 
-</style>
-
-<style>
 .republican{
   background-color:rgba(255,48,48,.4);
 }
 .democrat{
   background-color:rgba(0, 191, 255,.5);
 }
+
+/* basic positioning */
+.legend { list-style: "text-align:center"; display:table; margin:0 auto; }
+.legend li { float: left; margin-center: 10px; }
+.legent ul {list-style-type: none;}
+.legend span { border: 0px solid #ccc; float: left; width: 24px; height: 18px; margin: 0px; }
+/* your colors */
+.legend .scale1 { background-color: #2F6FB1; }
+.legend .scale2 { background-color: #6EACD1; }
+.legend .scale3 { background-color: #B7D5E7; }
+.legend .scale4 { background-color: #D4E4ED; }
+.legend .scale5 { background-color: #E2E2E2; }
+.legend .scale6 { background-color: #F4DDD0; }
+.legend .scale7 { background-color: #FCC6AC; }
+.legend .scale8 { background-color: #F5A17E; }
+.legend .scale9 { background-color: #B2182B; }
+
 </style>
 
-<style>
-.imgContainer{
-    float:left;
-}
-</style>
 
   <head>
   <link rel="icon" href="C:\Users\Elliott\election_forecasts\E.png">
@@ -239,6 +248,7 @@ end.rcode-->
         </div>
     
       <p></p>
+      <p>&nbsp;</p>
       <div class="row" id="map">
         <div class="span12">
           <center>
@@ -247,13 +257,73 @@ end.rcode-->
           <p class="lead">Here's the electoral map based on margins of victory. In darker blue states, Clinton is favored to win by a wider margin, while in darker red states, Trump is favored.</p>
         </div>
       </div>
-
+      
       <div class="container" style="text-align: center;">
-<!--begin.rcode map, echo=FALSE,fig.align='center',fig.width=15, fig.height=10
+      <p class='lead'><small><b>Below is the map we usually see</b> during during presidential elections. It's deceiving, however, because many states that are spatially large don't have a large population, and therefore are assigned few electoral votes (e.g. Wyoming).</small></p>
+<!--begin.rcode map1, echo=FALSE,fig.align='center',fig.width=15, fig.height=10
+map3
+end.rcode-->
+    <strong><font size="4">Clinton</font></strong>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<strong><font size="4">Trump</font></strong>
+    <div style="text-align:center">
+    <ul style="list-style-type:none" class="legend">
+        <li><span class="scale1"></span></li>
+        <li><span class="scale2"></span></li>
+        <li><span class="scale3"></span></li>
+        <li><span class="scale4"></span></li>
+        <li><span class="scale5"></span></li>
+        <li><span class="scale6"></span></li>
+        <li><span class="scale7"></span></li>
+        <li><span class="scale8"></span></li>
+        <li><span class="scale9"></span></li>
+      </div>  
+      <p>&nbsp;</p>
+      <p>&nbsp;</p>
+      <div class="container" style="text-align: center;">
+      <p class='lead'><small><b>This next map is a little better</b> for viewing the number of state-by-state contests won, but it still doesn't give a sense of how many electoral votes each candidate is winning.</small></p>
+<!--begin.rcode map2, echo=FALSE,fig.align='center',fig.width=15, fig.height=10
 map
 end.rcode-->
+    <strong><font size="4">Clinton</font></strong>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<strong><font size="4">Trump</font></strong>
+    <div style="text-align:center">
+    <ul style="list-style-type:none" class="legend">
+        <li><span class="scale1"></span></li>
+        <li><span class="scale2"></span></li>
+        <li><span class="scale3"></span></li>
+        <li><span class="scale4"></span></li>
+        <li><span class="scale5"></span></li>
+        <li><span class="scale6"></span></li>
+        <li><span class="scale7"></span></li>
+        <li><span class="scale8"></span></li>
+        <li><span class="scale9"></span></li>
       </div>  
+      <p>&nbsp;</p>
+      <p>&nbsp;</p>
+      </div>
+      <div class="container" style="text-align: center;">
+      <p class='lead'><small><b>This final map is the best</b> because it weights the size of each state by the number of electoral votes. So lots of blue or red for a candidate means a sizable lead in the electoral college.</small></p>
+<!--begin.rcode map3, echo=FALSE,fig.align='center',fig.width=15, fig.height=10
+map2
+end.rcode-->
+    <strong><font size="4">Clinton</font></strong>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<strong><font size="4">Trump</font></strong>
+    <div style="text-align:center">
+    <ul style="list-style-type:none" class="legend">
+        <li><span class="scale1"></span></li>
+        <li><span class="scale2"></span></li>
+        <li><span class="scale3"></span></li>
+        <li><span class="scale4"></span></li>
+        <li><span class="scale5"></span></li>
+        <li><span class="scale6"></span></li>
+        <li><span class="scale7"></span></li>
+        <li><span class="scale8"></span></li>
+        <li><span class="scale9"></span></li>
+      </div>  
+      <strong><font size="3">Tossup</font></strong>
+      <p>&nbsp;</p>
+      </div>
+      </div>       
+      
       <p></p>
+      <p>&nbsp;</p>
       <div class="row" id="statelevel">
         <div class="span12">
           <center>
@@ -269,6 +339,7 @@ multiplot(plotlist = plots,cols=3)
 end.rcode-->
       </div>
       <p></p>
+      <p>&nbsp;</p>
       <div class="row" id="margins">
         <div class="span12">
           <center>
@@ -285,6 +356,7 @@ end.rcode-->
       </div>
       
       <p></p>
+      <p>&nbsp;</p>
       <div class="row" id="scenarios">
         <div class="span12">
           <center>
@@ -337,6 +409,7 @@ end.rcode-->
       
       
       <p></p>
+      <p>&nbsp;</p>
       <div class="row" id="currentforecasts">
         <div class="span12">
           <center>

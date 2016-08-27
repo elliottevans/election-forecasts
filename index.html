@@ -92,22 +92,31 @@ table#t1 th {
     transition: background-color 0.3s;
 }
 
-</style>
-
-<style>
 .republican{
   background-color:rgba(255,48,48,.4);
 }
 .democrat{
   background-color:rgba(0, 191, 255,.5);
 }
+
+/* basic positioning */
+.legend { list-style: "text-align:center"; display:table; margin:0 auto; }
+.legend li { float: left; margin-center: 10px; }
+.legent ul {list-style-type: none;}
+.legend span { border: 0px solid #ccc; float: left; width: 24px; height: 18px; margin: 0px; }
+/* your colors */
+.legend .scale1 { background-color: #2F6FB1; }
+.legend .scale2 { background-color: #6EACD1; }
+.legend .scale3 { background-color: #B7D5E7; }
+.legend .scale4 { background-color: #D4E4ED; }
+.legend .scale5 { background-color: #E2E2E2; }
+.legend .scale6 { background-color: #F4DDD0; }
+.legend .scale7 { background-color: #FCC6AC; }
+.legend .scale8 { background-color: #F5A17E; }
+.legend .scale9 { background-color: #B2182B; }
+
 </style>
 
-<style>
-.imgContainer{
-    float:left;
-}
-</style>
 
   <head>
 <style type="text/css">
@@ -218,7 +227,7 @@ table#t1 th {
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </a>
-          <a class="brand" href="#title"><strong>General Election Forecasts 2016</strong> <small>Updated Aug 25</small></a>
+          <a class="brand" href="#title"><strong>General Election Forecasts 2016</strong> <small>Updated Aug 26</small></a>
           <div class="nav-collapse collapse">
             <ul class="nav pull-right">
               <li><a href="#overview">Overview</a></li>
@@ -256,7 +265,7 @@ table#t1 th {
           </div>
           <p></p>
       <div class="container" style="text-align: center;">
-        <h1><div class="alert alert-info" role="alert">Hillary Clinton has an 85.6% chance of being president</div></h1>    
+        <h1><div class="alert alert-info" role="alert">Hillary Clinton has an 87% chance of being president</div></h1>    
       </div>
         </div>
           <div style="text-align:right;">
@@ -275,7 +284,7 @@ table#t1 th {
 
       <div class="row">
         <div class="span12">
-          <p class="lead">Presidential elections are all about who can get to 270 electoral votes. After simulating the election ten-thousand times, the model predicts a <b>323-215 electoral win for Hillary Clinton</b>.</p>
+          <p class="lead">Presidential elections are all about who can get to 270 electoral votes. After simulating the election ten-thousand times, the model predicts a <b>326-212 electoral win for Hillary Clinton</b>.</p>
         </div>
       </div>
       
@@ -293,6 +302,7 @@ table#t1 th {
         </div>
     
       <p></p>
+      <p>&nbsp;</p>
       <div class="row" id="map">
         <div class="span12">
           <center>
@@ -301,11 +311,67 @@ table#t1 th {
           <p class="lead">Here's the electoral map based on margins of victory. In darker blue states, Clinton is favored to win by a wider margin, while in darker red states, Trump is favored.</p>
         </div>
       </div>
-
+      
       <div class="container" style="text-align: center;">
-<div class="chunk" id="map"><div class="rimage center"><img src="figure/map-1.png" title="plot of chunk map" alt="plot of chunk map" class="plot" /></div></div>
+      <p class='lead'><small><b>Below is the map we usually see</b> during during presidential elections. It's deceiving, however, because many states that are spatially large don't have a large population, and therefore are assigned few electoral votes (e.g. Wyoming).</small></p>
+<div class="chunk" id="map1"><div class="rimage center"><img src="figure/map1-1.png" title="plot of chunk map1" alt="plot of chunk map1" class="plot" /></div></div>
+    <strong><font size="4">Clinton</font></strong>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<strong><font size="4">Trump</font></strong>
+    <div style="text-align:center">
+    <ul style="list-style-type:none" class="legend">
+        <li><span class="scale1"></span></li>
+        <li><span class="scale2"></span></li>
+        <li><span class="scale3"></span></li>
+        <li><span class="scale4"></span></li>
+        <li><span class="scale5"></span></li>
+        <li><span class="scale6"></span></li>
+        <li><span class="scale7"></span></li>
+        <li><span class="scale8"></span></li>
+        <li><span class="scale9"></span></li>
       </div>  
+      <p>&nbsp;</p>
+      <p>&nbsp;</p>
+      <div class="container" style="text-align: center;">
+      <p class='lead'><small><b>This next map is a little better</b> for viewing the number of state-by-state contests won, but it still doesn't give a sense of how many electoral votes each candidate is winning.</small></p>
+<div class="chunk" id="map2"><div class="rimage center"><img src="figure/map2-1.png" title="plot of chunk map2" alt="plot of chunk map2" class="plot" /></div></div>
+    <strong><font size="4">Clinton</font></strong>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<strong><font size="4">Trump</font></strong>
+    <div style="text-align:center">
+    <ul style="list-style-type:none" class="legend">
+        <li><span class="scale1"></span></li>
+        <li><span class="scale2"></span></li>
+        <li><span class="scale3"></span></li>
+        <li><span class="scale4"></span></li>
+        <li><span class="scale5"></span></li>
+        <li><span class="scale6"></span></li>
+        <li><span class="scale7"></span></li>
+        <li><span class="scale8"></span></li>
+        <li><span class="scale9"></span></li>
+      </div>  
+      <p>&nbsp;</p>
+      <p>&nbsp;</p>
+      </div>
+      <div class="container" style="text-align: center;">
+      <p class='lead'><small><b>This final map is the best</b> because it weights the size of each state by the number of electoral votes. So lots of blue or red for a candidate means a sizable lead in the electoral college.</small></p>
+<div class="chunk" id="map3"><div class="rimage center"><img src="figure/map3-1.png" title="plot of chunk map3" alt="plot of chunk map3" class="plot" /></div></div>
+    <strong><font size="4">Clinton</font></strong>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<strong><font size="4">Trump</font></strong>
+    <div style="text-align:center">
+    <ul style="list-style-type:none" class="legend">
+        <li><span class="scale1"></span></li>
+        <li><span class="scale2"></span></li>
+        <li><span class="scale3"></span></li>
+        <li><span class="scale4"></span></li>
+        <li><span class="scale5"></span></li>
+        <li><span class="scale6"></span></li>
+        <li><span class="scale7"></span></li>
+        <li><span class="scale8"></span></li>
+        <li><span class="scale9"></span></li>
+      </div>  
+      <strong><font size="3">Tossup</font></strong>
+      <p>&nbsp;</p>
+      </div>
+      </div>       
+      
       <p></p>
+      <p>&nbsp;</p>
       <div class="row" id="statelevel">
         <div class="span12">
           <center>
@@ -319,6 +385,7 @@ table#t1 th {
 <div class="chunk" id="states"><div class="rimage center"><img src="figure/states-1.png" title="plot of chunk states" alt="plot of chunk states" class="plot" /></div></div>
       </div>
       <p></p>
+      <p>&nbsp;</p>
       <div class="row" id="margins">
         <div class="span12">
           <center>
@@ -333,6 +400,7 @@ table#t1 th {
       </div>
       
       <p></p>
+      <p>&nbsp;</p>
       <div class="row" id="scenarios">
         <div class="span12">
           <center>
@@ -345,39 +413,39 @@ table#t1 th {
         <table id='t1'>
           <tr id='t1'>
             <td id='t1'>Electoral Tie <small>(269-269)</small></td>
-            <td id='t1'>0.5%</td>
+            <td id='t1'>0.3%</td>
           </tr>
           <tr id='t1'>
             <th id='t1'>Clinton victory while losing at least 1 swing state <small>(FL, VA, NC, PA, OH)</small></th>
-            <th id='t1'>63.5%</th>
+            <th id='t1'>63.4%</th>
           </tr>
           <tr id='t1'>
             <td id='t1'>Trump victory while losing at least 1 swing state <small>(FL, VA, NC, PA, OH)</small></td>
-            <td id='t1'>13.6%</td>
+            <td id='t1'>12.3%</td>
           </tr>
           <tr id='t1'>
             <th id='t1'>Clinton wins all 5 swing states</th>
-            <th id='t1'>22.4%</th>
+            <th id='t1'>23.7%</th>
           </tr>
           <tr id='t1'>
             <td id='t1'>Trump wins all 5 swing states</td>
-            <td id='t1'>0.4%</td>
+            <td id='t1'>0.5%</td>
           </tr>
           <tr id='t1'>
             <th id='t1'>Clinton outperforms Obama 2012 <small>(>332 EV)</small></th>
-            <th id='t1'>41.8%</th>
+            <th id='t1'>43.8%</th>
           </tr>
           <tr id='t1'>
             <td id='t1'>Trump outperforms Romney 2012 <small>(>206 EV)</small></td>
-            <td id='t1'>57.4%</td>
+            <td id='t1'>55.3%</td>
           </tr>
           <tr id='t1'>
             <th id='t1'>Clinton blowout <small>(>380 EV)</small></th>
-            <th id='t1'>7.4%</th>
+            <th id='t1'>8.2%</th>
           </tr>
           <tr id='t1'>
             <td id='t1'>Trump blowout <small>(>380 EV)</small></td>
-            <td id='t1'>0.2%</td>
+            <td id='t1'>0.1%</td>
           </tr>
         </table>
       
@@ -385,6 +453,7 @@ table#t1 th {
       
       
       <p></p>
+      <p>&nbsp;</p>
       <div class="row" id="currentforecasts">
         <div class="span12">
           <center>
@@ -442,7 +511,7 @@ table#t1 th {
             <td>Colorado</td>
             <td>9</td>
             <td>Clinton</td>
-            <td>91.9%</td>
+            <td>92%</td>
             <td>+9.9</td>
           </tr>
           <tr>
@@ -470,8 +539,8 @@ table#t1 th {
             <td>Florida</td>
             <td>29</td>
             <td>Clinton</td>
-            <td>83.6%</td>
-            <td>+6.2</td>
+            <td>86.1%</td>
+            <td>+7</td>
           </tr>
           <tr>
             <td>Georgia</td>
@@ -512,15 +581,15 @@ table#t1 th {
             <td>Iowa</td>
             <td>6</td>
             <td>Clinton</td>
-            <td>58%</td>
-            <td>+1.6</td>
+            <td>58.5%</td>
+            <td>+1.8</td>
           </tr>
           <tr>
             <td>Kansas</td>
             <td>6</td>
             <td>Trump</td>
-            <td>87.8%</td>
-            <td>+9.5</td>
+            <td>87.3%</td>
+            <td>+9.2</td>
           </tr>
           <tr>
             <td>Kentucky</td>
@@ -561,8 +630,8 @@ table#t1 th {
             <td>Michigan</td>
             <td>16</td>
             <td>Clinton</td>
-            <td>90.5%</td>
-            <td>+9.6</td>
+            <td>92%</td>
+            <td>+9.9</td>
           </tr>
           <tr>
             <td>Minnesota</td>
@@ -610,8 +679,8 @@ table#t1 th {
             <td>New Hampshire</td>
             <td>4</td>
             <td>Clinton</td>
-            <td>86.1%</td>
-            <td>+7</td>
+            <td>86.7%</td>
+            <td>+7.5</td>
           </tr>
           <tr>
             <td>New Jersey</td>
@@ -631,8 +700,8 @@ table#t1 th {
             <td>New York</td>
             <td>29</td>
             <td>Clinton</td>
-            <td>97.1%</td>
-            <td>+15.9</td>
+            <td>96.3%</td>
+            <td>+16.4</td>
           </tr>
           <tr>
             <td>North Carolina</td>
@@ -673,8 +742,8 @@ table#t1 th {
             <td>Pennsylvania</td>
             <td>20</td>
             <td>Clinton</td>
-            <td>86.9%</td>
-            <td>+8.3</td>
+            <td>88%</td>
+            <td>+8.5</td>
           </tr>
           <tr>
             <td>Rhode Island</td>
@@ -750,7 +819,7 @@ table#t1 th {
             <td>Wisconsin</td>
             <td>10</td>
             <td>Clinton</td>
-            <td>91.8%</td>
+            <td>91.9%</td>
             <td>+10.3</td>
           </tr>
           <tr>

@@ -11,8 +11,8 @@ source("prep.R")
 #   6. polls_2016
 #   7. polls
 
-run_date<-as.Date(Sys.Date())
-#run_date<-as.Date("2016-06-01")
+#run_date<-as.Date(Sys.Date())
+run_date<-as.Date("2016-08-26")
 #run_date<-run_date+1
 
 
@@ -703,21 +703,122 @@ simulated_result<-ggplot(hist_data, aes(x=electoral_votes, fill=candidate)) +
 
 
 #########################################################################################################################################
-# VISUALIZATION: CARTOGRAM
+# VISUALIZATION: CARTOGRAMS
 #########################################################################################################################################
 dat <- data.frame(state=as.character(state_odds$abb), value=state_odds$mean, stringsAsFactors=FALSE)
 dat[dat$value>=30,'value']<-dat[dat$value>=30,'value']*(1/3)
 dat[dat$value<=-30,'value']<-dat[dat$value<=-30,'value']*(1/3)
 
-map<-statebins(dat
-          ,breaks=7
-          ,labels=c("Solid R","Likely R","Lean R","Tossup","Lean D","Likely D","Solid D")
+map<-statebins_continuous(dat
           ,brewer_pal="RdBu"
           ,text_color="black"
           ,font_size=6
           ,legend_title=""
-          ,legend_position="bottom"
-          )
+          ,legend_position="none"
+)+ theme(plot.margin=unit(c(-15,-15,-15,-15),"mm"))
+
+g <- ggplot_build(map)
+colors_info<-g$data[[1]]
+dat<-sql("
+select
+  dat.*
+  ,fill as color
+from dat
+  left join colors_info ci on dat.state=ci.label
+")
+
+state_coord<-read.csv('data_sets/state_coordinates.csv')
+state_coord<-sql("
+select
+  sd.*
+  ,electoral_votes
+  ,color
+from state_coord sd
+  left join dat on sd.ST=dat.state
+  left join state_odds so on so.abb=dat.state
+")
+state_coord$X<-state_coord$X*1050
+state_coord$Y<-state_coord$Y*1050
+    
+scalar<-200
+plot(state_coord$x, state_coord$y, xlim = c(min(state_coord$X-scalar*sqrt(state_coord$electoral_votes)), max(state_coord$X+scalar*sqrt(state_coord$electoral_votes))), 
+    ylim = c(min(state_coord$Y-scalar*sqrt(state_coord$electoral_votes)), max(state_coord$Y+scalar*sqrt(state_coord$electoral_votes))), type = "n", 
+    asp = NA, xlab = "", ylab = "", axes = FALSE,xaxs="i", yaxs="i")
+map2 <- recordPlot()
+rect(xleft=state_coord$X-scalar*sqrt(state_coord$electoral_votes)
+     ,ybottom=state_coord$Y-scalar*sqrt(state_coord$electoral_votes)
+     ,xright=state_coord$X+scalar*sqrt(state_coord$electoral_votes)
+     ,ytop=state_coord$Y+scalar*sqrt(state_coord$electoral_votes)
+     ,col=state_coord$color
+     ,border='white')
+text(state_coord$X, state_coord$Y, state_coord$ST, 
+        col = 'black',cex=1.5)
+map2 <- recordPlot()
+
+##############################################
+#Ordinary state map
+##############################################
+
+state_coord_temp<-state_coord
+state_coord_temp$State<-tolower(state_coord_temp$State)
+state_coord_temp[state_coord_temp$ST=='DC','State']<-'district of columbia'
+names(state_coord_temp)<-c('value','region','X','Y','electoral_votes','color')
+
+all_states <- map_data("state")
+
+all_states<-sql("
+select
+  ast.*
+  ,d.color 
+  ,d.value
+  ,d.state as abb
+from all_states ast
+  left join state_coord_temp sct on sct.region=ast.region
+  left join dat d on d.state=sct.value
+                
+")
+
+cnames <- aggregate(cbind(long, lat) ~ abb, data=all_states, 
+                    FUN=function(x)mean(range(x)))
+cnames[cnames$abb=='MI','long']<-cnames[cnames$abb=='MI','long']+1.5
+cnames[cnames$abb=='MI','lat']<-cnames[cnames$abb=='MI','lat']-1
+cnames[cnames$abb=='CA','lat']<-cnames[cnames$abb=='CA','lat']-1
+cnames[cnames$abb=='ID','lat']<-cnames[cnames$abb=='ID','lat']-1.5
+cnames[cnames$abb=='OK','long']<-cnames[cnames$abb=='OK','long']+1.5
+cnames[cnames$abb=='FL','long']<-cnames[cnames$abb=='FL','long']+2.5
+cnames[cnames$abb=='MN','long']<-cnames[cnames$abb=='MN','long']-1
+cnames[cnames$abb=='KY','lat']<-cnames[cnames$abb=='KY','lat']-.3
+cnames[cnames$abb=='KY','long']<-cnames[cnames$abb=='KY','long']+.3
+cnames[cnames$abb=='LA','long']<-cnames[cnames$abb=='LA','long']-1
+cnames[cnames$abb=='IL','long']<-cnames[cnames$abb=='IL','long']+.5
+cnames[cnames$abb=='MA','lat']<-cnames[cnames$abb=='MA','lat']+.3
+cnames[cnames$abb=='VA','long']<-cnames[cnames$abb=='VA','long']+1
+cnames[cnames$abb=='WV','long']<-cnames[cnames$abb=='WV','long']-.1
+cnames[cnames$abb=='TX','long']<-cnames[cnames$abb=='TX','long']+1
+cnames[cnames$abb=='CT','lat']<-cnames[cnames$abb=='CT','lat']+.2
+cnames[cnames$abb=='NC','lat']<-cnames[cnames$abb=='NC','lat']+.6
+cnames[cnames$abb=='NH','lat']<-cnames[cnames$abb=='NH','lat']-.5
+cnames[cnames$abb=='VT','lat']<-cnames[cnames$abb=='VT','lat']+.5
+cnames[cnames$abb=='VT','long']<-cnames[cnames$abb=='VT','long']-.2
+cnames[cnames$abb=='VA','lat']<-cnames[cnames$abb=='VA','lat']-.5
+
+
+
+cnames<-cnames[!(cnames$abb %in% c('MD','DC','DE','NJ','RI')),]
+
+p <- ggplot()
+map3<- p + geom_polygon(data=all_states, aes(x=long, y=lat, group = group),colour="white",fill=all_states$color)+
+  geom_text(data=cnames, aes(long, lat, label = abb), size=6)+
+  coord_map()+
+  theme_bw()+
+  scale_y_continuous(breaks=c()) + scale_x_continuous(breaks=c()) + theme(panel.border =  element_blank())+
+  labs(fill = "" ,title = "", x="", y="")+
+  theme(plot.margin=unit(c(-15,-15,-15,-15),"mm"))
+
+##############################################
+#Ordinary state map
+##############################################
+
 #########################################################################################################################################
 # VISUALIZATION: CARTOGRAM
 #########################################################################################################################################
