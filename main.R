@@ -11,8 +11,8 @@ source("prep.R")
 #   6. polls_2016
 #   7. polls
 
-#run_date<-as.Date(Sys.Date())
-run_date<-as.Date("2016-08-26")
+run_date<-as.Date(Sys.Date())
+#run_date<-as.Date("2016-08-26")
 #run_date<-run_date+1
 
 
@@ -426,7 +426,7 @@ from state_odds so
                   
 
 print("RUNNING ELECTION SIMULATIONS",quote=FALSE)
-n<-10000
+n<-1
 dem_wins<-0
 electoral_vote_list<-c()
 ##############################################
