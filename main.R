@@ -1,6 +1,6 @@
 setwd("~/election_forecasts")
 source("prep.R")
-DEBUG<-TRUE
+DEBUG<-FALSE
 #Functions created: multiplot, sql
 
 #Data sets created: 
@@ -432,7 +432,7 @@ from state_odds so
                   
 
 print("RUNNING ELECTION SIMULATIONS",quote=FALSE)
-n<-1
+if(DEBUG==FALSE){n<-10000}else {n<-1}
 dem_wins<-0
 electoral_vote_list<-c()
 ##############################################
