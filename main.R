@@ -1,5 +1,6 @@
 setwd("~/election_forecasts")
 source("prep.R")
+DEBUG<-TRUE
 #Functions created: multiplot, sql
 
 #Data sets created: 
@@ -24,6 +25,8 @@ nice_run_date<-format(run_date, format="%b %d")
 #########################################################################################################################################
 # CREATE WEIGHTED POLLING AVERAGES
 #########################################################################################################################################
+print("CREATING WEIGHTED POLLING AVERAGES...",quote=FALSE)
+
 temp1<-sql("
 Select  
   id
@@ -136,7 +139,6 @@ polls_altered[polls_altered$election_year==2016,'actual_binary_dem']<-''
 #########################################################################################################################################
 # NEW ADDITION
 #########################################################################################################################################
-
 polls_altered_new<-c()
 years<-c(2000,2004,2008,2012,2016)
 #i in 1:length(years)
@@ -244,62 +246,66 @@ temp$hist_dem_prob<-temp$hist_dem_prob/sd(temp$hist_dem_prob)
 #Creates train_2000,train_2004,train_2008,train_2012
 ##########################
 
-#Take 15 distinct most similar states from each year to associate with curret states
-years<-c(2000,2004,2008,2012)
-#1:length(years)
-for(i in 1:length(years)){
-  print(paste("Finding Nearest Neighbors for Election Year:",years[i]))
-  
-  margins<-data.frame()
-  train_year<-paste0("train","_",years[i])
-  assign(train_year,temp[temp$election_year==years[i],])
-  train_temp_with_info<-temp[temp$election_year==years[i],]
-  train_temp<-temp[temp$election_year==years[i],c(
-            "days_till_election"
-            ,"exp_weighted_avg"
-#            ,"hist_dem_prob"
-  )]
-  test_temp<-temp[temp$election_year==2016,c(
-            "days_till_election"
-            ,"exp_weighted_avg"
-#            ,"hist_dem_prob"
-  )]
-  #1:nrow(test_temp)
-  for(j in 1:nrow(test_temp)){
-    #For each row in the testing set
-    if(j%%100==0){
-      print(paste("On row",j,"of",nrow(test_temp)))
+if(DEBUG==TRUE){
+  print("DEBUGGING CURRENTLY ON --> NO NEAREST NEIGHBOR",quote = FALSE)
+  margins_total<-data.frame()
+}else{
+  #Take 15 distinct most similar states from each year to associate with curret states
+  years<-c(2000,2004,2008,2012)
+  #1:length(years)
+  for(i in 1:length(years)){
+    print(paste("Finding Nearest Neighbors for Election Year:",years[i]),quote=FALSE)
+    
+    margins<-data.frame()
+    train_year<-paste0("train","_",years[i])
+    assign(train_year,temp[temp$election_year==years[i],])
+    train_temp_with_info<-temp[temp$election_year==years[i],]
+    train_temp<-temp[temp$election_year==years[i],c(
+              "days_till_election"
+              ,"exp_weighted_avg"
+  #            ,"hist_dem_prob"
+    )]
+    test_temp<-temp[temp$election_year==2016,c(
+              "days_till_election"
+              ,"exp_weighted_avg"
+  #            ,"hist_dem_prob"
+    )]
+    #1:nrow(test_temp)
+    for(j in 1:nrow(test_temp)){
+      #For each row in the testing set
+      if(j%%100==0){
+        print(paste("On row",j,"of",nrow(test_temp)),quote=FALSE)
+      }
+      unique_states_counter<-0
+  #    k<-1
+       k<-nrow(train_temp)
+  #    while(unique_states_counter<15){
+        nearest<-get.knnx(train_temp,test_temp[j,],k)
+        indices<-nearest$nn.index
+        distances<-nearest$nn.dist
+        unique_states_counter<-length(unique(train_temp_with_info[unlist(as.list(indices)),]$state))
+  #      k<-k+1
+  #    }
+      train_temp_with_info_2<-train_temp_with_info[unlist(as.list(indices)),]
+      train_temp_with_info_2$distances<-unlist(as.list(distances))
+      #Get only the most similar distinct 15 states from this particular year
+      states_wanted<-sql("
+      select
+        election_year
+        ,state
+        ,min(distances) as min_distances
+        ,id
+        ,actual_dem_margin
+      from train_temp_with_info_2 ttwi
+      group by state
+      order by 3 asc
+      limit 15
+      ")
+      margins<-rbind(margins,as.list(states_wanted$actual_dem_margin))
     }
-    unique_states_counter<-0
-#    k<-1
-     k<-nrow(train_temp)
-#    while(unique_states_counter<15){
-      nearest<-get.knnx(train_temp,test_temp[j,],k)
-      indices<-nearest$nn.index
-      distances<-nearest$nn.dist
-      unique_states_counter<-length(unique(train_temp_with_info[unlist(as.list(indices)),]$state))
-#      k<-k+1
-#    }
-    train_temp_with_info_2<-train_temp_with_info[unlist(as.list(indices)),]
-    train_temp_with_info_2$distances<-unlist(as.list(distances))
-    #Get only the most similar distinct 15 states from this particular year
-    states_wanted<-sql("
-    select
-      election_year
-      ,state
-      ,min(distances) as min_distances
-      ,id
-      ,actual_dem_margin
-    from train_temp_with_info_2 ttwi
-    group by state
-    order by 3 asc
-    limit 15
-    ")
-    margins<-rbind(margins,as.list(states_wanted$actual_dem_margin))
+    if(i==1){margins_total<-margins}else{margins_total<-cbind(margins_total,margins)}
   }
-  if(i==1){margins_total<-margins}else{margins_total<-cbind(margins_total,margins)}
 }
-
 ##########################
 #Take equal parts from each year for nearest neighbor alg
 ##########################
@@ -373,7 +379,7 @@ from polls_altered_final paf
   inner join temp t on paf.election_year=t.election_year and paf.State=t.State
 ")
 
-write.csv(polls_altered_final,'forecasts\\polls_altered_final.csv',row.names = FALSE)
+if(DEBUG==FALSE){write.csv(polls_altered_final,'forecasts\\polls_altered_final.csv',row.names = FALSE)}
 ####################################
 # Set indicators for the state's most current prediction date
 ####################################
@@ -555,7 +561,7 @@ if(nrow(national_forecasts[national_forecasts$date==run_date,])==0){
   national_forecasts[national_forecasts$date==run_date,]<-c(as.character(run_date),round(100*dem_prob,1),100-round(100*dem_prob,1))
 }
 
-write.csv(national_forecasts,'forecasts\\national_forecasts.csv',row.names = FALSE)
+if(DEBUG==FALSE){write.csv(national_forecasts,'forecasts\\national_forecasts.csv',row.names = FALSE)}
 
 names(national_forecasts)<-c('Date','Clinton','Trump')
 national_forecasts<-melt(national_forecasts,id=c('Date'))
