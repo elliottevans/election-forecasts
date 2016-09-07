@@ -1,6 +1,6 @@
 setwd("~/election_forecasts")
 source("prep.R")
-DEBUG<-FALSE
+DEBUG<-TRUE
 #Functions created: multiplot, sql
 
 #Data sets created: 
@@ -988,8 +988,8 @@ for(i in 1:nrow(state_odds)){
     odds_temp_temp<-100-state_odds$tested_odds[i]
   }else{odds_temp_temp<-state_odds$tested_odds[i]}
   
-  if(odds_temp_temp==100){odds_temp<-'>99.9%'}
-  else if(odds_temp_temp==0){odds_temp<-'<0.1%'}
+  if(odds_temp_temp==100){odds_temp<-'99.9%'}
+  else if(odds_temp_temp==0){odds_temp<-'0.1%'}
   else{odds_temp<-paste0(odds_temp_temp,'%')}
   
   probs<-paste0(state_odds$abb[i],'_ODDS')
