@@ -1,6 +1,6 @@
 setwd("~/election_forecasts")
 source("prep.R")
-DEBUG<-TRUE
+DEBUG<-FALSE
 #Functions created: multiplot, sql
 
 #Data sets created: 
