@@ -112,7 +112,6 @@ table#t1 th {
 
 
   <head>
-  <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.12/css/jquery.dataTables.min.css">
   <link rel="icon" href="C:\Users\Elliott\election_forecasts\E.png">
 <!--begin.rcode warning=FALSE,echo=FALSE, include=FALSE
 setwd("~/election_forecasts")
@@ -141,34 +140,34 @@ end.rcode-->
             "fnRowCallback": function( nRow, aData, iDisplayIndex, iDisplayIndexFull ) {
   
                 if ( (aData[3].replace(/[\%,]/g, '') * 1) > 90 && (aData[3].replace(/[\%,\>]/g, '') * 1) <= 100 && aData[2]=='Trump' ) {
-                  $(nRow).css('background-color', '#B2182B');
+                  $(nRow).css('background-color', '#CD6A76');
                 }
                 if ( (aData[3].replace(/[\%,]/g, '') * 1) > 80 && (aData[3].replace(/[\%,\>]/g, '') * 1) <= 90 && aData[2]=='Trump' ) {
-                  $(nRow).css('background-color', '#F5A17E');	
+                  $(nRow).css('background-color', '#f7b397');	
                 }
                 if ( (aData[3].replace(/[\%,]/g, '') * 1) > 70 && (aData[3].replace(/[\%,\>]/g, '') * 1) <= 80 && aData[2]=='Trump' ) {
-                  $(nRow).css('background-color', '#FCC6AC');	
+                  $(nRow).css('background-color', '#fcd1bc');	
                 }
                 if ( (aData[3].replace(/[\%,]/g, '') * 1) > 60 && (aData[3].replace(/[\%,\>]/g, '') * 1) <= 70 && aData[2]=='Trump' ) {
-                  $(nRow).css('background-color', '#F4DDD0');	
+                  $(nRow).css('background-color', '#f6e3d9');	
                 }
                 if ( (aData[3].replace(/[\%,]/g, '') * 1) >= 50 && (aData[3].replace(/[\%,\>]/g, '') * 1) <= 60 && aData[2]=='Trump' ) {
-                  $(nRow).css('background-color', '#E2E2E2');	
+                  $(nRow).css('background-color', '#e7e7e7');	
                 }
                 if ( (aData[3].replace(/[\%,]/g, '') * 1) > 90 && (aData[3].replace(/[\%,\>]/g, '') * 1) <= 100 && aData[2]=='Clinton' ) {
-                  $(nRow).css('background-color', '#2F6FB1');	
+                  $(nRow).css('background-color', '#588bc0');	
                 }
                 if ( (aData[3].replace(/[\%,]/g, '') * 1) > 80 && (aData[3].replace(/[\%,\>]/g, '') * 1) <= 90 && aData[2]=='Clinton' ) {
-                  $(nRow).css('background-color', '#6EACD1');	
+                  $(nRow).css('background-color', '#8bbcda');	
                 }
                 if ( (aData[3].replace(/[\%,]/g, '') * 1) > 70 && (aData[3].replace(/[\%,\>]/g, '') * 1) <= 80 && aData[2]=='Clinton' ) {
-                  $(nRow).css('background-color', '#B7D5E7');	
+                  $(nRow).css('background-color', '#c5ddeb');	
                 }
                 if ( (aData[3].replace(/[\%,]/g, '') * 1) > 60 && (aData[3].replace(/[\%,\>]/g, '') * 1) <= 70 && aData[2]=='Clinton' ) {
-                  $(nRow).css('background-color', '#D4E4ED');	
+                  $(nRow).css('background-color', '#dce9f0');	
                 }
                 if ( (aData[3].replace(/[\%,]/g, '') * 1) >= 50 && (aData[3].replace(/[\%,\>]/g, '') * 1) <= 60 && aData[2]=='Clinton' ) {
-                  $(nRow).css('background-color', '#E2E2E2');	
+                  $(nRow).css('background-color', '#e7e7e7');	
                 }
             }
         });
