@@ -399,9 +399,9 @@ for(i in 1:length(state_names_abb)){
     temp2<-temp1
   }
   id<-as.numeric(str_sub(temp2$Pollster.URL,-5,-1))
-  temp2<-temp2[,c('Pollster','Start.Date','End.Date',"Clinton",'Trump')]
+  temp2<-temp2[,c('Pollster','Population','Start.Date','End.Date',"Clinton",'Trump')]
   temp2$id<-id
-  temp2<-melt(temp2,id=c("Pollster","Start.Date","End.Date","id"))
+  temp2<-melt(temp2,id=c("Pollster","Population","Start.Date","End.Date","id"))
   temp2$State<-state_names_abb[i]
   
   temp2<-sql("
@@ -414,6 +414,7 @@ for(i in 1:length(state_names_abb)){
       ,id
       ,value
     from temp2
+    where Population in ('Likely Voters','Registered Voters')
     order by id
   ")
 
@@ -565,6 +566,7 @@ nat_polls_2016_temp<-sql("
     ,Clinton
     ,Trump
   from nat_polls_2016_temp npt
+  where Population in ('Likely Voters','Registered Voters')
   group by 1,2,3,4
   order by Date desc
 ")
