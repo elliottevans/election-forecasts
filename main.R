@@ -12,8 +12,8 @@ DEBUG<-FALSE
 #   6. polls_2016
 #   7. polls
 
-run_date<-as.Date(Sys.Date())
-#run_date<-as.Date("2016-09-28")
+#run_date<-as.Date(Sys.Date())
+run_date<-as.Date("2016-10-04")
 #run_date<-run_date+1
 
 
