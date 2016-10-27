@@ -13,7 +13,7 @@ DEBUG<-FALSE
 #   7. polls
 
 #run_date<-as.Date(Sys.Date())
-run_date<-as.Date("2016-10-23")
+run_date<-as.Date("2016-10-25")
 #run_date<-run_date+1
 
 
@@ -432,7 +432,7 @@ from state_odds so
                   
 
 print("RUNNING ELECTION SIMULATIONS",quote=FALSE)
-if(DEBUG==FALSE){n<-10000}else {n<-1}
+if(DEBUG==FALSE){n<-10000}else {n<-100}
 dem_wins<-0
 electoral_vote_list<-c()
 ##############################################
@@ -932,6 +932,11 @@ if(dem_prob>=.5){
   loser_prob<-paste0(100-round(100*dem_prob,1),'%')
   winning_electoral_votes<-round(median(electoral_vote_list),0)
   losing_electoral_votes<-538-winning_electoral_votes
+  
+  low_exp_ev<-round(quantile(electoral_vote_list,probs=c(.05,.95))[1])
+  high_exp_ev<-round(quantile(electoral_vote_list,probs=c(.05,.95))[2])
+  
+  
   color<-'dodgerblue'
   num_states_won<-nrow(state_odds[state_odds$mean>0,])
   
@@ -947,6 +952,10 @@ if(dem_prob>=.5){
   loser_prob<-paste0(round(100*dem_prob,1),'%')
   winning_electoral_votes<-538-round(median(electoral_vote_list),0)
   losing_electoral_votes<-round(median(electoral_vote_list),0)
+  
+  round(low_exp_ev<-quantile(538 - electoral_vote_list,probs=c(.05,.95))[1])
+  round(high_exp_ev<-quantile(538 - electoral_vote_list,probs=c(.05,.95))[2])
+  
   color<-'firebrick1'
   num_states_won<-nrow(state_odds[state_odds$mean<0,])
 
