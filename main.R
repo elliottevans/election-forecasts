@@ -945,6 +945,15 @@ if(dem_prob>=.5){
   
   if(round(100*dem_prob,1)<90 && round(100*dem_prob,1)>=80){a_or_an<-'an'}else{ a_or_an<-'a'}
   
+  nat_margin<-nat_polls[nrow(nat_polls),'running_avg']
+  last_week_nat_margin<-nat_polls[nrow(nat_polls)-7,'running_avg']
+  
+  if(nat_margin-last_week_nat_margin>0){change_wording<-'up from'}
+  else if(nat_margin-last_week_nat_margin<0){change_wording<-'down from'}
+  else{change_wording<-'unchanged from'}
+  
+  if(last_week_nat_margin>0){plus_or_minus<-'+'}else{plus_or_minus<-'-'}
+  
 }else{
   winner<-'Donald Trump'
   loser<-'Hillary Clinton'
@@ -962,6 +971,16 @@ if(dem_prob>=.5){
   
   winner_pronoun<-'He'
   loser_pronoun<-'She'
+  
+  nat_margin<- (-1*nat_polls[nrow(nat_polls),'running_avg'])
+  last_week_nat_margin<-(-1*nat_polls[nrow(nat_polls)-7,'running_avg'])
+  
+  if(nat_margin-last_week_nat_margin>0){change_wording<-'up from'}
+  else if(nat_margin-last_week_nat_margin<0){change_wording<-'down from'}
+  else{change_wording<-'unchanged from'}
+  
+  if(last_week_nat_margin>0){plus_or_minus<-'+'}else{plus_or_minus<-'-'}
+
   
   if(100-round(100*dem_prob,1)<90 && 100-round(100*dem_prob,1)>=80 ){a_or_an<-'an'}else{ a_or_an<-'a'}
 
