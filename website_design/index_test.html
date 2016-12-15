@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html>
-
 <style>
 table {
     border-collapse: collapse;
@@ -17,17 +16,100 @@ th {
     padding: 8px;
     font-size: 20px;
 }
+.left {
+    position:fixed;
+    left:20px; top:92px; bottom: 0;
+    width: 230px;
+}
+@media all and (max-width: 1680px) {
+    .floated_div { display: none; 
+  }
+}
+
+.leftBar {
+  background-color: #F8F8F8;
+  top: 0px;
+  bottom: 0px;
+  left: 0px;
+  position: fixed;
+  width: 13.5%;
+   box-shadow: 6px 2px 8px -2px #e1e1e1;
+    -moz-box-shadow: 6px 2px 8px -2px #e1e1e1;
+    -webkit-box-shadow: 6px 2px 8px -2px #e1e1e1;
+}
+.rightBar {
+  background-color: #F8F8F8;
+  top: 0px;
+  bottom: 0px;
+  right: 0px;
+  position: fixed;
+  width: 13.5%;
+   box-shadow: -6px 2px 8px -2px #e1e1e1;
+    -moz-box-shadow: -6px 2px 8px -2px #e1e1e1;
+    -webkit-box-shadow: -6px 2px 8px -2px #e1e1e1;
+}
+
+table#t1 {
+    border-collapse: collapse;
+    width: 100%;
+}
+
+table#t1 td {
+    text-align: left;
+    padding: 8px;
+    font-size: 18px;
+    border-bottom: 1px solid #2c2c2c;
+}
+table#t1 th {
+    text-align: left;
+    padding: 8px;
+    font-size: 18px;
+    font-weight: normal;
+    border-bottom: 1px solid #ddd;
+}
+
+.fb_share {
+    background-image: url("https://raw.githubusercontent.com/elliottevans/election_forecasts_how_this_works/gh-pages/fb_symb.png");
+}
+
+.tw_share {
+    background-image: url("https://raw.githubusercontent.com/elliottevans/election_forecasts_how_this_works/gh-pages/tw_symb.png");
+}
+
+.link_share, .fb_share, .tw_share{
+    background-size: 100% 100%;
+    background-color: #505050;
+    background-position: center;    
+    display: inline-block;
+    width: 28px;
+    background-repeat: no-repeat;
+    height: 28px;
+    border-radius: 14px;
+    cursor: pointer;
+    -webkit-transition: background-color 0.3s;
+    -moz-transition: background-color 0.3s;
+    -o-transition: background-color 0.3s;
+    transition: background-color 0.3s;
+}
+
+/* basic positioning */
+.legend { list-style: "text-align:center"; display:table; margin:0 auto; }
+.legend li { float: left; margin-center: 10px; }
+.legent ul {list-style-type: none;}
+.legend span { border: 0px solid #ccc; float: left; width: 24px; height: 18px; margin: 0px; }
+/* your colors */
+.legend .scale1 { background-color: #2F6FB1; }
+.legend .scale2 { background-color: #6EACD1; }
+.legend .scale3 { background-color: #B7D5E7; }
+.legend .scale4 { background-color: #D4E4ED; }
+.legend .scale5 { background-color: #E2E2E2; }
+.legend .scale6 { background-color: #F4DDD0; }
+.legend .scale7 { background-color: #FCC6AC; }
+.legend .scale8 { background-color: #F5A17E; }
+.legend .scale9 { background-color: #B2182B; }
 
 </style>
 
-<style>
-.republican{
-  background-color:rgba(255,48,48,.4);
-}
-.democrat{
-  background-color:rgba(0, 191, 255,.5);
-}
-</style>
 
   <head>
 <style type="text/css">
@@ -92,10 +174,13 @@ th {
   font-weight: bold;
 }
 </style>
-  <link rel="icon" href="C:\Users\Elliott\election_forecasts\website_design\E.png">
+  <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.12/css/jquery.dataTables.min.css">
+  <link rel="icon" href="C:\Users\Elliott\election_forecasts\E.png">
 
     <title>2016 General Election Forecasts</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta property="og:description" content="Predictions for the Presidential Election" />
+    <meta property="og:image" content="http://elliottevans.github.io/election_forecasts/figure/preview_map.png" />
     <!--
     production
     <link href="http://twitter.github.io/bootstrap/assets/css/bootstrap.css" rel="stylesheet">
@@ -105,22 +190,60 @@ th {
     <script src="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.1/js/bootstrap.min.js"></script>
     <script src="http://code.jquery.com/jquery-1.10.2.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+    <script src="https://cdn.datatables.net/1.10.12/js/jquery.dataTables.min.js"></script>
     <script>
-        $(function(){
-        $("tr").each(function(){
-          var col_val = $(this).find("td:eq(2)").text();
-          if ($.trim(col_val) == "Trump"){
-            $(this).addClass('republican');  //the republican class colors the row green//
-          } else if($.trim(col_val) == "Clinton") {
-            $(this).addClass('democrat');
-          }
+      $(document).ready(function() {
+        $('#forecasttable').dataTable({
+            "paging":false,
+            "bInfo" : false,
+            "fnRowCallback": function( nRow, aData, iDisplayIndex, iDisplayIndexFull ) {
+  
+                if ( (aData[3].replace(/[\%,]/g, '') * 1) > 90 && (aData[3].replace(/[\%,\>]/g, '') * 1) <= 100 && aData[2]=='Trump' ) {
+                  $(nRow).css('background-color', '#B2182B');
+                }
+                if ( (aData[3].replace(/[\%,]/g, '') * 1) > 80 && (aData[3].replace(/[\%,\>]/g, '') * 1) <= 90 && aData[2]=='Trump' ) {
+                  $(nRow).css('background-color', '#F5A17E');	
+                }
+                if ( (aData[3].replace(/[\%,]/g, '') * 1) > 70 && (aData[3].replace(/[\%,\>]/g, '') * 1) <= 80 && aData[2]=='Trump' ) {
+                  $(nRow).css('background-color', '#FCC6AC');	
+                }
+                if ( (aData[3].replace(/[\%,]/g, '') * 1) > 60 && (aData[3].replace(/[\%,\>]/g, '') * 1) <= 70 && aData[2]=='Trump' ) {
+                  $(nRow).css('background-color', '#F4DDD0');	
+                }
+                if ( (aData[3].replace(/[\%,]/g, '') * 1) >= 50 && (aData[3].replace(/[\%,\>]/g, '') * 1) <= 60 && aData[2]=='Trump' ) {
+                  $(nRow).css('background-color', '#E2E2E2');	
+                }
+                if ( (aData[3].replace(/[\%,]/g, '') * 1) > 90 && (aData[3].replace(/[\%,\>]/g, '') * 1) <= 100 && aData[2]=='Clinton' ) {
+                  $(nRow).css('background-color', '#2F6FB1');	
+                }
+                if ( (aData[3].replace(/[\%,]/g, '') * 1) > 80 && (aData[3].replace(/[\%,\>]/g, '') * 1) <= 90 && aData[2]=='Clinton' ) {
+                  $(nRow).css('background-color', '#6EACD1');	
+                }
+                if ( (aData[3].replace(/[\%,]/g, '') * 1) > 70 && (aData[3].replace(/[\%,\>]/g, '') * 1) <= 80 && aData[2]=='Clinton' ) {
+                  $(nRow).css('background-color', '#B7D5E7');	
+                }
+                if ( (aData[3].replace(/[\%,]/g, '') * 1) > 60 && (aData[3].replace(/[\%,\>]/g, '') * 1) <= 70 && aData[2]=='Clinton' ) {
+                  $(nRow).css('background-color', '#D4E4ED');	
+                }
+                if ( (aData[3].replace(/[\%,]/g, '') * 1) >= 50 && (aData[3].replace(/[\%,\>]/g, '') * 1) <= 60 && aData[2]=='Clinton' ) {
+                  $(nRow).css('background-color', '#E2E2E2');	
+                }
+            }
         });
-      });
+      } );
     </script>
-
-
   </head>
   <body style="padding-top: 50px;">
+  
+<div id="fb-root"></div>
+<script>(function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) return;
+  js = d.createElement(s); js.id = id;
+  js.src = "//connect.facebook.net/en_US/sdk.js#xfbml=1&version=v2.7";
+  fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));</script>
+  
     <div class="navbar navbar-fixed-top">
       <div class="navbar-inner">
         <div class="container">
@@ -129,150 +252,335 @@ th {
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </a>
-          <a class="brand" href="#title"><strong>General Election Forecasts 2016</strong></a>
+          <a class="brand" href="#title"><strong>General Election Forecasts 2016</strong> <small>Updated </small></a>
           <div class="nav-collapse collapse">
             <ul class="nav pull-right">
-              <li><a href="#overview">National Forecasts</a></li>
+              <li><a href="#overview">Overview</a></li>
               <li><a href="#map">Map</a></li>
-              <li><a href="#statelevel">State Forecasts</a></li>
+              <li><a href="#statelevel">State Trends</a></li>
               <li><a href="#margins">Margins of Victory</a></li>
+              <li><a href="#scenarios">Scenarios</a></li>
+              <li><a href="#currentforecasts">Current Forecasts</a></li>
             </ul>
           </div>
         </div>
       </div>
     </div>
-<div class="chunk" id="unnamed-chunk-2"><div class="rcode"><div class="source"><pre class="knitr r"><span class="hl kwd">print</span><span class="hl std">(</span><span class="hl kwd">sample</span><span class="hl std">(</span><span class="hl num">1</span><span class="hl opt">:</span><span class="hl num">10</span><span class="hl std">))</span>
-</pre></div>
-<div class="output"><pre class="knitr r">##  [1] 10  1  3  9  2  5  7  8  4  6
-</pre></div>
-</div></div>
+
     
     <div class="container">
 
-      <div class="row" id="title" style="padding-bottom: 30px;">
-        <div class="span8">
+    <div class="floated_div">
+      <div class="leftBar">
+      </div>
+    </div>
 
-            <h1><u>Who Will be the Next President?</u></h1>
-
+    <div class="floated_div">
+      <div class="rightBar">
+      </div>
+    </div>
+  
+      <div class="row" style="padding-bottom: 30px;">
+        <div class="span8" id="title">
+          <h1 style="display: inline;"><u>Who Will be President?</u></h1>&nbsp;&nbsp;
+          <div style="display: inline;" class='link_shares'>
+            <a target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https://elliottevans.github.io/election_forecasts/" class="fb_share" deluminate_imagetype="png"></a>
+            <a target="_blank" href="https://twitter.com/intent/follow?original_referer=https%3A%2F%2Felliottevans.github.io%2Felection_forecasts%2F&ref_src=twsrc%5Etfw&screen_name=Elliott_Evans1&tw_p=followbutton" class="tw_share" deluminate_imagetype="png"></a>
+            <font size="3"><b>Creator: <a href="mailto:ellevans@umich.edu" target="_top">Elliott Evans</a></b></font>
+          </div>
+          <p></p>
       <div class="container" style="text-align: center;">
-
-
-
-<div class="alert alert-info" role="alert"><h>Hillary Clinton has a 76.2% chance of being president</h></div>
-
- 
-
-
+        <h1><div class="alert alert-info" role="alert">Hillary Clinton has a 70% chance of being president</div></h1>    
       </div>
         </div>
-        <div style="text-align:right;">
-          <h5 id="demo">
-                  <script>
-                    var d = new Date();
-                    var str = "Updated"
-                    var sentence = str + " " + d.toDateString();
-                    document.getElementById("demo").innerHTML = sentence
-                  </script> 
-          </h5>
-        </div>
+          <div style="text-align:right;">
+            <h3 id="demo">
+            <a href="https://elliottevans.github.io/election_forecasts_how_this_works/">How this Works</a>
+            </h3>
+          </div>  
       </div>
-
       <div class="row" id="overview">
         <div class="span12">
           <center>
-            <h1>National Forecasts</h1>
+            <h1>National Overview</h1>
           </center>
-          <p class="lead">The model uses three driving forces to determine odds of victory: state polls, historical voting results, and the time left till the general election. State results are then rolled up to the national level. Here's the expected end result:</p>
         </div>
       </div>
 
-      <div class="container" style="text-align: center;">
+      <div class="row">
+        <div class="span12">
+          <p class="lead">Presidential elections are all about who can get to 270 electoral votes. After simulating the election ten-thousand times, the model predicts a <b>329-206 electoral win for Hillary Clinton</b>.</p>
+        </div>
+      </div>
+      
+        <div class="span12" style="text-align: center;">
 
-      </div>  
+        </div>
+        
+      <div class="row">
+        <div class="span12">
+          <p class="lead">Odds of a candidate's victory are always changing. <b>Here's how the odds have changed over time</b>.</p>
+        </div>
+      </div>
+        <div class="span12" style="text-align: center;">
+
+        </div>
+    
       <p></p>
+      <p>&nbsp;</p>
       <div class="row" id="map">
         <div class="span12">
           <center>
             <h1>Where Will the Candidates Win?</h1>
           </center>
-          <p class="lead">Here's the electoral map based on margins of victory. In darker blue states, Clinton is favored to win by a wider margin, while in darker red states, Trump is favored.</p>
+          <p class="lead">Here are some electoral maps based on margins of victory. In darker blue states, Clinton is favored to win by a wider margin, while in darker red states, Trump is favored.</p>
         </div>
       </div>
-
+      
       <div class="container" style="text-align: center;">
+      <p class='lead'><small><b>Below is the map we usually see</b> during during presidential elections. It's deceiving, however, because many states that are spatially large don't have a large population, and therefore are assigned few electoral votes (e.g. Wyoming).</small></p>
 
+    <strong><font size="4">Clinton</font></strong>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<strong><font size="4">Trump</font></strong>
+    <div style="text-align:center">
+    <ul style="list-style-type:none" class="legend">
+        <li><span class="scale1"></span></li>
+        <li><span class="scale2"></span></li>
+        <li><span class="scale3"></span></li>
+        <li><span class="scale4"></span></li>
+        <li><span class="scale5"></span></li>
+        <li><span class="scale6"></span></li>
+        <li><span class="scale7"></span></li>
+        <li><span class="scale8"></span></li>
+        <li><span class="scale9"></span></li>
+      </div>
+      <strong><font size="3">Tossup</font></strong>
+      <p>&nbsp;</p>
+      <p>&nbsp;</p>
+      <div class="container" style="text-align: center;">
+      <p class='lead'><small><b>This next map is a little better</b> for viewing the number of state-by-state contests won, but it still doesn't give a sense of how many electoral votes each candidate is winning.</small></p>
+
+    <strong><font size="4">Clinton</font></strong>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<strong><font size="4">Trump</font></strong>
+    <div style="text-align:center">
+    <ul style="list-style-type:none" class="legend">
+        <li><span class="scale1"></span></li>
+        <li><span class="scale2"></span></li>
+        <li><span class="scale3"></span></li>
+        <li><span class="scale4"></span></li>
+        <li><span class="scale5"></span></li>
+        <li><span class="scale6"></span></li>
+        <li><span class="scale7"></span></li>
+        <li><span class="scale8"></span></li>
+        <li><span class="scale9"></span></li>
       </div>  
+      <strong><font size="3">Tossup</font></strong>
+      <p>&nbsp;</p>
+      <p>&nbsp;</p>
+      </div>
+      <div class="container" style="text-align: center;">
+      <p class='lead'><small><b>This final map is the best</b> because it weights the size of each state by the number of electoral votes. So lots of blue or red for a candidate means a sizable lead in the electoral college.</small></p>
+
+    <strong><font size="4">Clinton</font></strong>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<strong><font size="4">Trump</font></strong>
+    <div style="text-align:center">
+    <ul style="list-style-type:none" class="legend">
+        <li><span class="scale1"></span></li>
+        <li><span class="scale2"></span></li>
+        <li><span class="scale3"></span></li>
+        <li><span class="scale4"></span></li>
+        <li><span class="scale5"></span></li>
+        <li><span class="scale6"></span></li>
+        <li><span class="scale7"></span></li>
+        <li><span class="scale8"></span></li>
+        <li><span class="scale9"></span></li>
+      </div>  
+      <strong><font size="3">Tossup</font></strong>
+      <p>&nbsp;</p>
+      </div>
+      </div>       
+      
       <p></p>
+      <p>&nbsp;</p>
       <div class="row" id="statelevel">
         <div class="span12">
           <center>
-            <h1>State-by-State Forecasts</h1>
+            <h1>State-by-State Trends</h1>
           </center>
-          <p class="lead">Odds of a candidate's victory are updated whenever new polling information is available. Here's how the chances have evolved over time for states with enough polling data (states with insufficient polling can still be found in the Margins of Victory).</p>
+          <p class="lead">Odds of a candidate's victory are updated whenever new polling information is available. For states with enough polling data, <b>here's how the chances have evolved over time</b>.</p>
         </div>
       </div>
 
-      
+      <div class="container" style="text-align: center;">
+
+      </div>
       <p></p>
+      <p>&nbsp;</p>
       <div class="row" id="margins">
         <div class="span12">
           <center>
             <h1>Margins of Victory</h1>
           </center>
-          <p class="lead">Here's how the margins of victory will probably play out. The error bars are 80% confidence intervals.</p>
+          <p class="lead"><b>Which states will be close and which ones will be blowouts?</b> Here's how the margins of victory will probably play out. For Trump, the biggest blowout should be . The error bars are 80% confidence intervals.</p>
         </div>
       </div>
-      
       
       <div class="container" style="text-align: center;">
 
       </div>
       
       <p></p>
-      <div class="row" id="margins">
+      <p>&nbsp;</p>
+      <div class="row" id="scenarios">
         <div class="span12">
           <center>
-            <h1>Margins of Victory</h1>
+            <h1>Possible Scenarios</h1>
           </center>
-          <p class="lead">Here's how the margins of victory will probably play out. The error bars are 80% confidence intervals.</p>
+          <p class="lead">Here are the <b>odds we'll see these election scenarios</b>.</p>
+        </div>
+      </div>
+      <div class="container" style="text-align: center;" class="span3">
+        <table id='t1'>
+          <tr id='t1'>
+            <td id='t1'>Electoral Tie <small>(269-269)</small></td>
+            <td id='t1'>50%</td>
+          </tr>
+          <tr id='t1'>
+            <th id='t1'>Clinton victory while losing at least 1 swing state <small>(FL, VA, NC, PA, OH)</small></th>
+            <th id='t1'>50%</th>
+          </tr>
+          <tr id='t1'>
+            <td id='t1'>Trump victory while losing at least 1 swing state <small>(FL, VA, NC, PA, OH)</small></td>
+            <td id='t1'>50%</td>
+          </tr>
+          <tr id='t1'>
+            <th id='t1'>Clinton wins all 5 swing states</th>
+            <th id='t1'>50%</th>
+          </tr>
+          <tr id='t1'>
+            <td id='t1'>Trump wins all 5 swing states</td>
+            <td id='t1'>50%</td>
+          </tr>
+          <tr id='t1'>
+            <th id='t1'>Clinton outperforms Obama 2012 <small>(>332 EV)</small></th>
+            <th id='t1'>50%</th>
+          </tr>
+          <tr id='t1'>
+            <td id='t1'>Trump outperforms Romney 2012 <small>(>206 EV)</small></td>
+            <td id='t1'>50%</td>
+          </tr>
+          <tr id='t1'>
+            <th id='t1'>Clinton blowout <small>(>380 EV)</small></th>
+            <th id='t1'>50%</th>
+          </tr>
+          <tr id='t1'>
+            <td id='t1'>Trump blowout <small>(>380 EV)</small></td>
+            <td id='t1'>50%</td>
+          </tr>
+        </table>
+      
+      </div>
+      
+      
+      <p></p>
+      <p>&nbsp;</p>
+      <div class="row" id="currentforecasts">
+        <div class="span12">
+          <center>
+            <h1>Current Forecasts</h1>
+          </center>
+          <p class="lead">Here are all of the current forecasts for the general election. The model predicts that  electoral contests (remember, DC gets 3 electoral votes). </p>
         </div>
       </div>
       
-      <div class="container" style="text-align: center;" class="span3">
-        
-
-        <table>
-          <tr>
-            <th>State</th>
-            <th>Electoral Votes</th>
-            <th>Winner</th>
-            <th>Odds of Victory</th>
-            <th>Margin of Victory</th>
+        <table id="forecasttable" class="display" cellspacing="0" width="100%">
+          <thead>
+              <tr>
+                <th>State</th>
+                <th>Electoral Votes</th>
+                <th>Winner</th>
+                <th>Odds of Victory</th>
+                <th>Margin of Victory</th>
+              </tr>
+          </thead>
+          <tfoot>
+              <tr>
+                <th>State</th>
+                <th>Electoral Votes</th>
+                <th>Winner</th>
+                <th>Odds of Victory</th>
+                <th>Margin of Victory</th>
+              </tr>
+          </tfoot>
+          <tbody>
+            <td>Alabama</td>
+            <td>9</td>
+            <td>Trump</td>
+            <td>99.7%</td>
+            <td>+21.1</td>
           </tr>
           <tr>
-          <tr>
-            <td>Alabama</td>
-            <td>4</td>
+            <td>Alaska</td>
+            <td>3</td>
             <td>Trump</td>
-            <td>96%</td>
-            <td>+31</td>
+            <td>96.9%</td>
+            <td>+23</td>
+          </tr>
+          <tr>
+            <td>Arizona</td>
+            <td>11</td>
+            <td>Trump</td>
+            <td>57%</td>
+            <td>+1.4</td>
           </tr>
           <tr>
             <td>California</td>
             <td>55</td>
             <td>Clinton</td>
-            <td>96%</td>
-            <td>+31</td>
+            <td>96.6%</td>
+            <td>+16.6</td>
           </tr>
+          <tr>
+            <td>Colorado</td>
+            <td>9</td>
+            <td>Clinton</td>
+            <td>90.1%</td>
+            <td>+8.3</td>
+          </tr>
+          <tr>
+            <td>Connecticut</td>
+            <td>7</td>
+            <td>Clinton</td>
+            <td>97.6%</td>
+            <td>+16.9</td>
+          </tr>
+          <tr>
+            <td>Georgia</td>
+            <td>16</td>
+            <td>Clinton</td>
+            <td>50.1%</td>
+            <td>+0</td>
+          </tr>
+          </tbody>
         </table>
 
+      <p></p>
+      <p>&nbsp;</p>
+      <p>&nbsp;</p>
+    
+      <div class="row" id="overview">
+        <div class="span12">
+        <p class='lead'><small><u>Acknowledgments</u>: The design of the final electoral cartogram was created by Adam McCann and can be found <a href="http://public.tableau.com/profile/adam.e.mccann#!/vizhome/2012ElectoralCollegeMap/2012ElectoralCollegeMap">here</a>.</small></p>
+        </div>
       </div>
-      
- 
-
-
     
     </div>
+    
+    <div class="row" style="background-color: #f1f1f1">
+      <div class="container">
+        <center>
+          <p style="margin:5px;">Elliott Evans, University of Michigan</p>
+        </center>
+      </div>
+    </div>
+
     <script src="http://code.jquery.com/jquery.js"></script>
   </body>
 </html>

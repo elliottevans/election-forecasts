@@ -1,5 +1,6 @@
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 setwd("~/election_forecasts")
 source("prep.R")
 DEBUG<-FALSE
@@ -238,7 +239,11 @@ polls_2016<-data.frame(cbind(polls_2016,difftime(as.Date('2016-11-08'),polls_201
 names(polls_2016)[ncol(polls_2016)]<-'days_till_election'
 =======
 setwd("~/election_forecastsV2")
+=======
+setwd("~/election_forecasts")
+>>>>>>> update
 source("prep.R")
+DEBUG<-FALSE
 #Functions created: multiplot, sql
 >>>>>>> update
 
@@ -246,19 +251,21 @@ source("prep.R")
 #   1. master_state_ref
 #   2. polls_2000
 #   3. polls_2004
-#   4. polls_20083
+#   4. polls_2008
 #   5. polls_2012
 #   6. polls_2016
 #   7. polls
 
 run_date<-as.Date(Sys.Date())
-#run_date<-as.Date("2016-06-11")
+#run_date<-as.Date("2016-11-03")
+#run_date<-run_date+1
 
 
 print(paste("Creating Forecasts for RUN DATE:",run_date),quote=FALSE)
 
 polls<-polls[polls$Date<=run_date,]
 nat_polls<-nat_polls[nat_polls$Date<=run_date,]
+<<<<<<< HEAD
 
 <<<<<<< HEAD
 ############################################################################
@@ -269,6 +276,14 @@ nat_polls<-nat_polls[nat_polls$Date<=run_date,]
 #########################################################################################################################################
 # CREATE WEIGHTED POLLING AVERAGES
 #########################################################################################################################################
+>>>>>>> update
+=======
+nice_run_date<-format(run_date, format="%b %d")
+#########################################################################################################################################
+# CREATE WEIGHTED POLLING AVERAGES
+#########################################################################################################################################
+print("CREATING WEIGHTED POLLING AVERAGES...",quote=FALSE)
+
 >>>>>>> update
 temp1<-sql("
 Select  
@@ -555,6 +570,7 @@ if(DEBUG==TRUE){
       limit 15
       ")
       margins<-rbind(margins,as.list(states_wanted$actual_dem_margin))
+<<<<<<< HEAD
     }
     if(i==1){margins_total<-margins}else{margins_total<-cbind(margins_total,margins)}
   }
@@ -1244,6 +1260,505 @@ from hist_data hd
   inner join sum_dat sd on sd.candidate=hd.candidate
 group by 1
 ")
+=======
+    }
+    if(i==1){margins_total<-margins}else{margins_total<-cbind(margins_total,margins)}
+  }
+}
+##########################
+#Take equal parts from each year for nearest neighbor alg
+##########################
+>>>>>>> update
+
+simulated_result<-ggplot(hist_data, aes(x=electoral_votes, fill=candidate)) +
+    geom_histogram(binwidth=5, alpha=.5, position="identity")+
+    scale_fill_manual(values=c("deepskyblue", "firebrick1"))+
+    geom_text(aes(x=clinton_label_spot, label=round(sum_dat[sum_dat$candidate=='Clinton',2]), y=60), colour="blue",size=8)+
+    geom_text(aes(x=trump_label_spot, label=round(sum_dat[sum_dat$candidate=='Trump',2]), y=60), colour="red3",size=8)+
+    geom_text(aes(x=270, label='270 to Win', y=380),size=8)+
+    ggtitle("Electoral Votes")+
+    ylab("Simulations")+
+    xlab("Electoral Votes")+
+    guides(fill=guide_legend(title=NULL))+
+    theme(plot.title=element_text(face="bold",hjust=0,vjust=2,colour="#3C3C3C",size=31))+
+    theme(axis.text=element_text(size=18))+
+    theme(axis.title=element_text(size=22))+
+    theme(legend.text = element_text(size = 19, face = "bold"))+
+    geom_segment(aes(x = round(sum_dat[sum_dat$candidate=='Clinton',2]), y = 0, xend = round(sum_dat[sum_dat$candidate=='Clinton',2]), yend = line_lengths[line_lengths$candidate=='Clinton','counter']), colour = "blue",linetype='dashed',size=1)+
+    geom_segment(aes(x = round(sum_dat[sum_dat$candidate=='Trump',2]), y = 0, xend = round(sum_dat[sum_dat$candidate=='Trump',2]), yend = line_lengths[line_lengths$candidate=='Trump','counter']), colour = "red3",linetype='dashed',size=1)+
+    geom_segment(aes(x = 270, y = 0, xend = 270, yend = 360),linetype='dashed',size=1)+
+    theme(legend.position = "bottom")+
+    theme(panel.grid.minor = element_blank()
+          ,panel.background = element_rect(fill = "white")
+          ,panel.grid.major = element_line(colour = "gray93")
+          ,axis.line.x = element_line(color="black")
+    )
+
+#########################################################################################################################################
+# VISUALIZATION: HISTOGRAMS
+#########################################################################################################################################
+
+
+
+#########################################################################################################################################
+# VISUALIZATION: CARTOGRAMS
+#########################################################################################################################################
+dat <- data.frame(state=as.character(state_odds$abb), value=state_odds$mean, stringsAsFactors=FALSE)
+dat[dat$value>=30,'value']<-dat[dat$value>=30,'value']*(1/3)
+dat[dat$value<=-30,'value']<-dat[dat$value<=-30,'value']*(1/3)
+
+map<-statebins_continuous(dat
+          ,brewer_pal="RdBu"
+          ,text_color="black"
+          ,font_size=6
+          ,legend_title=""
+          ,legend_position="none"
+)+ theme(plot.margin=unit(c(-15,-15,-15,-15),"mm"))
+
+g <- ggplot_build(map)
+colors_info<-g$data[[1]]
+dat<-sql("
+select
+  dat.*
+  ,fill as color
+from dat
+  left join colors_info ci on dat.state=ci.label
+")
+
+state_coord<-read.csv('data_sets/state_coordinates.csv')
+state_coord<-sql("
+select
+  sd.*
+  ,electoral_votes
+  ,color
+from state_coord sd
+  left join dat on sd.ST=dat.state
+  left join state_odds so on so.abb=dat.state
+")
+state_coord$X<-state_coord$X*1050
+state_coord$Y<-state_coord$Y*1050
+    
+scalar<-200
+plot(state_coord$x, state_coord$y, xlim = c(min(state_coord$X-scalar*sqrt(state_coord$electoral_votes)), max(state_coord$X+scalar*sqrt(state_coord$electoral_votes))), 
+    ylim = c(min(state_coord$Y-scalar*sqrt(state_coord$electoral_votes)), max(state_coord$Y+scalar*sqrt(state_coord$electoral_votes))), type = "n", 
+    asp = NA, xlab = "", ylab = "", axes = FALSE,xaxs="i", yaxs="i")
+map2 <- recordPlot()
+rect(xleft=state_coord$X-scalar*sqrt(state_coord$electoral_votes)
+     ,ybottom=state_coord$Y-scalar*sqrt(state_coord$electoral_votes)
+     ,xright=state_coord$X+scalar*sqrt(state_coord$electoral_votes)
+     ,ytop=state_coord$Y+scalar*sqrt(state_coord$electoral_votes)
+     ,col=state_coord$color
+     ,border='white')
+text(state_coord$X, state_coord$Y, state_coord$ST, 
+        col = 'black',cex=1.5)
+map2 <- recordPlot()
+
+##############################################
+#Ordinary state map
+##############################################
+
+state_coord_temp<-state_coord
+state_coord_temp$State<-tolower(state_coord_temp$State)
+state_coord_temp[state_coord_temp$ST=='DC','State']<-'district of columbia'
+names(state_coord_temp)<-c('value','region','X','Y','electoral_votes','color')
+
+all_states <- map_data("state")
+
+all_states<-sql("
+select
+  ast.*
+  ,d.color 
+  ,d.value
+  ,d.state as abb
+from all_states ast
+  left join state_coord_temp sct on sct.region=ast.region
+  left join dat d on d.state=sct.value
+                
+")
+
+cnames <- aggregate(cbind(long, lat) ~ abb, data=all_states, 
+                    FUN=function(x)mean(range(x)))
+cnames[cnames$abb=='MI','long']<-cnames[cnames$abb=='MI','long']+1.5
+cnames[cnames$abb=='MI','lat']<-cnames[cnames$abb=='MI','lat']-1
+cnames[cnames$abb=='CA','lat']<-cnames[cnames$abb=='CA','lat']-1
+cnames[cnames$abb=='ID','lat']<-cnames[cnames$abb=='ID','lat']-1.5
+cnames[cnames$abb=='OK','long']<-cnames[cnames$abb=='OK','long']+1.5
+cnames[cnames$abb=='FL','long']<-cnames[cnames$abb=='FL','long']+2.5
+cnames[cnames$abb=='MN','long']<-cnames[cnames$abb=='MN','long']-1
+cnames[cnames$abb=='KY','lat']<-cnames[cnames$abb=='KY','lat']-.3
+cnames[cnames$abb=='KY','long']<-cnames[cnames$abb=='KY','long']+.3
+cnames[cnames$abb=='LA','long']<-cnames[cnames$abb=='LA','long']-1
+cnames[cnames$abb=='IL','long']<-cnames[cnames$abb=='IL','long']+.5
+cnames[cnames$abb=='MA','lat']<-cnames[cnames$abb=='MA','lat']+.3
+cnames[cnames$abb=='VA','long']<-cnames[cnames$abb=='VA','long']+1
+cnames[cnames$abb=='WV','long']<-cnames[cnames$abb=='WV','long']-.1
+cnames[cnames$abb=='TX','long']<-cnames[cnames$abb=='TX','long']+1
+cnames[cnames$abb=='CT','lat']<-cnames[cnames$abb=='CT','lat']+.2
+cnames[cnames$abb=='NC','lat']<-cnames[cnames$abb=='NC','lat']+.6
+cnames[cnames$abb=='NH','lat']<-cnames[cnames$abb=='NH','lat']-.5
+cnames[cnames$abb=='VT','lat']<-cnames[cnames$abb=='VT','lat']+.5
+cnames[cnames$abb=='VT','long']<-cnames[cnames$abb=='VT','long']-.2
+cnames[cnames$abb=='VA','lat']<-cnames[cnames$abb=='VA','lat']-.5
+
+
+
+cnames<-cnames[!(cnames$abb %in% c('MD','DC','DE','NJ','RI')),]
+
+p <- ggplot()
+map3<- p + geom_polygon(data=all_states, aes(x=long, y=lat, group = group),colour="white",fill=all_states$color)+
+  geom_text(data=cnames, aes(long, lat, label = abb), size=6)+
+  coord_map()+
+  theme_bw()+
+  scale_y_continuous(breaks=c()) + scale_x_continuous(breaks=c()) + theme(panel.border =  element_blank())+
+  labs(fill = "" ,title = "", x="", y="")+
+  theme(plot.margin=unit(c(-15,-15,-15,-15),"mm"))
+
+preview_map<- p + geom_polygon(data=all_states, aes(x=long, y=lat, group = group),colour="white",fill=all_states$color)+
+  coord_map()+
+  theme_bw()+
+  scale_y_continuous(breaks=c()) + scale_x_continuous(breaks=c()) + theme(panel.border =  element_blank())+
+  labs(fill = "" ,title = "", x="", y="")+
+  theme(plot.margin=unit(c(-15,-15,-15,-15),"mm"))
+ggsave('figure/preview_map.png',plot=preview_map,width=11,height=6,dpi=75)
+
+
+##############################################
+#Ordinary state map
+##############################################
+
+#########################################################################################################################################
+# VISUALIZATION: CARTOGRAM
+#########################################################################################################################################
+
+
+
+
+#########################################################################################################################################
+# VISUALIZATION: STATE GRAPHS
+#########################################################################################################################################
+temp<-sql("
+select
+  paf.*
+  ,msr.state as state_full
+  ,case when prediction in ('prob_unweighted_dem','prob_weighted_dem') then 'Clinton' else 'Trump' end as candidate
+from polls_altered_final paf
+  inner join master_state_ref msr on paf.state=msr.abb
+where paf.election_year=2016
+")
+relevant_list<-sort(unique(temp$state_full))
+relevant_list_abb<-unique(temp[order(temp$state_full),'state'])
+temp$value<-100*as.numeric(temp$nearest_neighbor_value)
+
+<<<<<<< HEAD
+temp<-sql("
+select
+  t.*
+  ,case when value>99.9 then '>99.9'
+        when value<.1 then '<.1'
+        else cast(round(value,1) as text) end as poll_data_value_label 
+from temp t
+=======
+write.csv(polls_altered_final,'forecasts\\polls_altered_final.csv',row.names = FALSE)
+=======
+if(DEBUG==FALSE){write.csv(polls_altered_final,'forecasts\\polls_altered_final.csv',row.names = FALSE)}
+>>>>>>> update
+####################################
+# Set indicators for the state's most current prediction date
+####################################
+
+
+
+#########################################################################################################################################
+# ELECTION SIMULATION
+#########################################################################################################################################
+#HERE TO EDIT
+state_odds<-sqldf("
+select
+  msr.state
+  ,abb
+  ,electoral_votes
+  ,ifnull(dem_prob,msr.hist_dem_prob) as dem_prob
+  ,mean  
+  ,sd
+from master_state_ref msr
+  left join 
+(
+select
+  state 
+  ,hist_dem_prob
+  ,nearest_neighbor_value as dem_prob
+  ,mean 
+  ,sd
+from polls_altered_final paf
+where final_prediction_ind=1
+  and election_year=2016
+  and prediction='prob_weighted_dem'
+) as t1
+ on msr.abb=t1.state
+")
+
+state_odds<-sql("
+select
+  so.state
+  ,so.abb
+  ,so.electoral_votes
+  ,dem_prob
+  ,ifnull(mean,(`2000_dem_margin`+`2004_dem_margin`+`2008_dem_margin`+`2012_dem_margin`)/4) as mean 
+  ,ifnull(sd,sqrt(power((((`2000_dem_margin`+`2004_dem_margin`+`2008_dem_margin`+`2012_dem_margin`)/4)-`2000_dem_margin`),2)+
+    power((((`2000_dem_margin`+`2004_dem_margin`+`2008_dem_margin`+`2012_dem_margin`)/4)-`2004_dem_margin`),2)+
+    power((((`2000_dem_margin`+`2004_dem_margin`+`2008_dem_margin`+`2012_dem_margin`)/4)-`2008_dem_margin`),2)+
+    power((((`2000_dem_margin`+`2004_dem_margin`+`2008_dem_margin`+`2012_dem_margin`)/4)-`2012_dem_margin`),2))) as sd
+from state_odds so
+  inner join master_state_ref msr on so.state=msr.state
+")
+                  
+
+print("RUNNING ELECTION SIMULATIONS",quote=FALSE)
+if(DEBUG==FALSE){n<-10000}else {n<-100}
+dem_wins<-0
+electoral_vote_list<-c()
+##############################################
+#Scenarios
+#1. Electoral Tie
+scenario1<-0
+#2a. Clinton wins & loses at least 1 swing state (FL, VA, NC, PA, OH)
+scenario2a<-0
+#2b. Trump wins & loses at least 1 swing state (FL, VA, NC, PA, OH)
+scenario2b<-0
+#3a. Clinton swing state sweep 
+scenario3a<-0
+#3b. Trump swing state sweep
+scenario3b<-0
+#4a. Clinton Outperforms Obama 2012
+scenario4a<-0
+#4b. trump outperforms Romney 2012
+scenario4b<-0
+#5a. Clinton blowout
+scenario5a<-0
+#5b. Trump blowout
+scenario5b<-0
+##############################################
+
+for(i in 1:n){
+  clinton_swing_states_won<-0
+  trump_swing_states_won<-0
+  set.seed(seed = NULL)
+  if(i %% 1000 == 0){print(paste('CURRENTLY ON ELECTION SIMULATION:',i),quote=FALSE)}
+  state_odds_rand<-state_odds[sample(nrow(state_odds)),]
+  electoral_votes<-0
+  margins<-c()
+  for(j in 1:nrow(state_odds_rand)){
+    if(j==1){
+      margin<-rnorm(1,state_odds_rand$mean[j],state_odds_rand$sd[j])
+      if(margin>=0){win_or_lose<-1}else{win_or_lose<-0}
+      margins<-append(margins,margin)
+      }
+    else {
+      corr<-t(master_state_ref)
+      colnames(corr)<-corr['abb',]
+      corr<-data.frame(corr[12:15,],stringsAsFactors = FALSE)
+      corr<-sapply(corr,as.numeric)
+      corr<-cor(corr[,state_odds_rand$abb[(j-1):j]])
+      correlation<-corr[1,2]
+      updated_mean<-state_odds_rand$mean[j] + 
+        correlation*(state_odds_rand$sd[(j-1)]/state_odds_rand$sd[j])*
+        (margins[(j-1)]-state_odds_rand$mean[(j-1)])
+      updated_sd<-sqrt(state_odds_rand$sd[j]^2*(1-correlation^2))
+      margin<-rnorm(1,updated_mean,updated_sd)
+      if(margin>=0){win_or_lose<-1}else{win_or_lose<-0}
+      margins<-append(margins,margin)
+    }
+    
+    if(win_or_lose==1){
+      electoral_votes<-electoral_votes+state_odds_rand[j,'electoral_votes']
+      if(state_odds_rand$abb[j] %in% c('FL','VA','NC','PA','OH')){clinton_swing_states_won<-clinton_swing_states_won+1}
+    }else{
+      if(state_odds_rand$abb[j] %in% c('FL','VA','NC','PA','OH')){trump_swing_states_won<-trump_swing_states_won+1}
+    }
+  }
+  electoral_vote_list<-append(electoral_vote_list,electoral_votes)
+  if(electoral_votes>332){scenario4a<-scenario4a+1}
+  if(electoral_votes<332){scenario4b<-scenario4b+1}
+  if(electoral_votes>380){scenario5a<-scenario5a+1}
+  if(electoral_votes<158){scenario5b<-scenario5b+1}
+  if(trump_swing_states_won==5){scenario3b<-scenario3b+1}
+  if(clinton_swing_states_won==5){scenario3a<-scenario3a+1}
+  if(electoral_votes>=270){
+    dem_wins<-dem_wins+1
+    if(clinton_swing_states_won<5){scenario2a<-scenario2a+1}
+  }else if(electoral_votes<269){
+    if(trump_swing_states_won<5){scenario2b<-scenario2b+1}
+  }else{scenario1<-scenario1+1}
+}
+
+##############################################
+#Scenarios
+#1. Electoral Tie
+scenario1<-round(100*scenario1/n,1)
+if(scenario1==0){scenario1<-'<.1'}else{scenario1<-as.character(scenario1)}
+#2a. Clinton wins & loses at least 1 swing state (FL, VA, NC, PA, OH)
+scenario2a<-round(100*scenario2a/n,1)
+if(scenario2a==0){scenario2a<-'<.1'}else{scenario2a<-as.character(scenario2a)}
+#2b. Trump wins & loses at least 1 swing state (FL, VA, NC, PA, OH)
+scenario2b<-round(100*scenario2b/n,1)
+if(scenario2b==0){scenario2b<-'<.1'}else{scenario2b<-as.character(scenario2b)}
+#3a. Clinton swing state sweep 
+scenario3a<-round(100*scenario3a/n,1)
+if(scenario3a==0){scenario3a<-'<.1'}else{scenario3a<-as.character(scenario3a)}
+#3b. Trump swing state sweep
+scenario3b<-round(100*scenario3b/n,1)
+if(scenario3b==0){scenario3b<-'<.1'}else{scenario3b<-as.character(scenario3b)}
+#4a. Clinton Outperforms Obama 2012
+scenario4a<-round(100*scenario4a/n,1)
+if(scenario4a==0){scenario4a<-'<.1'}else{scenario4a<-as.character(scenario4a)}
+#4b. trump outperforms Romney 2012
+scenario4b<-round(100*scenario4b/n,1)
+if(scenario4b==0){scenario4b<-'<.1'}else{scenario4b<-as.character(scenario4b)}
+#5a. Clinton blowout
+scenario5a<-round(100*scenario5a/n,1)
+if(scenario5a==0){scenario5a<-'<.1'}else{scenario5a<-as.character(scenario5a)}
+#5b. Trump blowout
+scenario5b<-round(100*scenario5b/n,1)
+if(scenario5b==0){scenario5b<-'<.1'}else{scenario5b<-as.character(scenario5b)}
+##############################################
+ 
+dem_prob<-dem_wins/n
+state_odds$tested_odds<-round(100*pnorm(q=0,mean=state_odds$mean,sd=state_odds$sd,lower.tail = FALSE),1)
+#########################################################################################################################################
+#ELECTION SIMULATION
+#########################################################################################################################################
+
+
+
+#########################################################################################################################################
+#NATIONAL FORECAST OVER TIME
+#########################################################################################################################################
+national_forecasts<-read.csv("forecasts\\national_forecasts.csv")
+national_forecasts$date<-as.Date(national_forecasts$date)
+
+if(nrow(national_forecasts[national_forecasts$date==run_date,])==0){
+  #Entry hasn't been created yet
+  national_forecasts<-rbind(national_forecasts,c(as.character(run_date),round(100*dem_prob,1),100-round(100*dem_prob,1)))
+}else if(nrow(national_forecasts[national_forecasts$date==run_date,])!=0){
+  national_forecasts[national_forecasts$date==run_date,]<-c(as.character(run_date),round(100*dem_prob,1),100-round(100*dem_prob,1))
+}
+
+if(DEBUG==FALSE){write.csv(national_forecasts,'forecasts\\national_forecasts.csv',row.names = FALSE)}
+
+names(national_forecasts)<-c('Date','Clinton','Trump')
+national_forecasts<-melt(national_forecasts,id=c('Date'))
+names(national_forecasts)<-c('date','candidate','value')
+national_forecasts$value<-as.numeric(national_forecasts$value)
+
+
+odds_over_time<- ggplot(data=national_forecasts,aes(x=date,y=value,colour=candidate,group=candidate)) + 
+  geom_line(size=2.3) + 
+  #theme(axis.text.x=element_blank(),axis.ticks.x=element_blank())+
+  ggtitle("Odds Over Time")+
+  theme(plot.title=element_text(face="bold",hjust=0,vjust=2,colour="#3C3C3C",size=23))+
+  theme(legend.position = "bottom")+
+  scale_color_manual(values=c("deepskyblue", "firebrick1"))+
+  theme(axis.title.y=element_blank())+
+  theme(axis.title.x=element_blank())+
+  theme(legend.title=element_blank())+
+  scale_y_continuous(limits = c(0.0, 100.0))+
+  theme(panel.grid.minor = element_blank()
+        ,panel.background = element_rect(fill = "white")
+        ,panel.grid.major = element_line(colour = "gray93")
+        ,axis.line.x = element_line(color="black")
+        ,axis.line.y = element_blank()
+      )+
+  scale_x_date(limits=c(as.Date('2016-06-01'),as.Date('2016-11-08')))+
+  geom_vline(linetype=2,aes(xintercept=as.numeric(as.Date('2016-11-08'))))+
+  geom_vline(linetype=1,aes(xintercept=as.numeric(run_date)))+
+  geom_text(aes(x=as.Date('2016-11-08')-7.5, label="Election Day\nNov 8", y=100), colour="grey38",size=5)+
+  geom_text(aes(x=run_date-7.5, label=as.character(run_date), y=100), colour="grey38",size=5)+
+  theme(legend.text = element_text(size = 19, face = "bold"))+
+  guides(fill=guide_legend(title=NULL))+
+  theme(axis.text=element_text(size=18))+
+  theme(axis.title=element_text(size=22))+
+  geom_text(aes(x=run_date+6, label=paste0(round(100*dem_prob,1),'%'), y=round(100*dem_prob,1)), colour="grey38",size=7)+
+  geom_text(aes(x=run_date+6, label=paste0(100-round(100*dem_prob,1),'%'), y=100-round(100*dem_prob,1)), colour="grey38",size=7)+
+  theme(plot.title=element_text(face="bold",hjust=0,vjust=2,colour="#3C3C3C",size=31))
+
+
+#########################################################################################################################################
+#NATIONAL FORECAST OVER TIME
+#########################################################################################################################################
+
+
+
+#########################################################################################################################################
+# VISUALIZATION: STATE MARGINS
+#########################################################################################################################################
+state_odds_temp<-state_odds[is.na(state_odds$mean)==FALSE,]
+state_odds_temp<-state_odds_temp[order(state_odds_temp$mean),]
+#80% confidence intervals
+ci_bands<-aes(ymax=mean+1.28*sd,ymin=mean-1.28*sd)
+dodge <- position_dodge(width=0.9)
+
+
+state_margins<-ggplot(data=state_odds_temp, aes(x=reorder(state, -mean), y=mean,fill=mean)) +
+    geom_bar(stat="identity") +
+    geom_crossbar(ci_bands, position=dodge, width=0.25,alpha=.5,colour='grey41',show.legend = TRUE)+
+    coord_flip() + 
+     scale_fill_gradient2(
+       low = "red"
+       ,high = "blue"
+       ,mid = "grey"
+       ,midpoint = 0) +
+    labs(title = "State Margins of Victory")+
+    theme(plot.title=element_text(face="bold",hjust=0,vjust=2,colour="#3C3C3C",size=31))+
+    ylab("Margin of Victory")+
+    xlab(expression(paste(symbol('\254'),' ','Clinton','        ','Trump',' ', symbol('\256'))))+
+    scale_y_continuous(breaks = c(-45,-30,-15,0,15,30,45), labels = c("+45","+30","+15", "0","+15","+30","+45"))+
+    theme(axis.text=element_text(size=25))+
+    theme(axis.title=element_text(size=25))+
+    theme(legend.text = element_text(size = 19, face = "bold"))+
+    theme(legend.position = "none")+
+    theme(axis.title.y=element_text(face='bold')
+          ,axis.ticks=element_blank())+
+    theme(panel.grid.minor = element_blank()
+          ,panel.background = element_rect(fill = "white")
+          ,panel.grid.major = element_line(colour = "gray93")
+    )
+
+#########################################################################################################################################
+# VISUALIZATION: STATE MARGINS
+#########################################################################################################################################
+
+
+
+#########################################################################################################################################
+# VISUALIZATION: HISTOGRAMS
+#########################################################################################################################################
+hist_data<-
+data.frame(
+  rbind(
+    cbind(rep('Clinton',length(electoral_vote_list)),electoral_vote_list)
+    ,cbind(rep('Trump',length(electoral_vote_list)),538-electoral_vote_list)
+  )
+)
+names(hist_data)<-c('candidate','electoral_votes')
+hist_data$electoral_votes<-as.numeric(as.character(hist_data$electoral_votes))
+sum_dat<-ddply(hist_data, "candidate", summarise, electoral_votes.median=median(electoral_votes))
+
+if(sum_dat[sum_dat$candidate=='Clinton',2]>=270){
+    clinton_label_spot<-sum_dat[sum_dat$candidate=='Clinton',2]+12
+    trump_label_spot<-sum_dat[sum_dat$candidate=='Trump',2]-12
+}else{
+    clinton_label_spot<-sum_dat[sum_dat$candidate=='Clinton',2]-12
+    trump_label_spot<-sum_dat[sum_dat$candidate=='Trump',2]+12
+}
+
+line_lengths<-sql("
+select
+  hd.candidate
+  ,count(case when electoral_votes>=round(`electoral_votes.median`)-2 and electoral_votes<=round(`electoral_votes.median`)+2 then hd.candidate end) as counter
+from hist_data hd
+  inner join sum_dat sd on sd.candidate=hd.candidate
+group by 1
+")
 
 simulated_result<-ggplot(hist_data, aes(x=electoral_votes, fill=candidate)) +
     geom_histogram(binwidth=5, alpha=.5, position="identity")+
@@ -1426,314 +1941,6 @@ temp$value<-100*as.numeric(temp$nearest_neighbor_value)
 
 temp<-sql("
 select
-  t.*
-  ,case when value>99.9 then '>99.9'
-        when value<.1 then '<.1'
-        else cast(round(value,1) as text) end as poll_data_value_label 
-from temp t
-=======
-write.csv(polls_altered_final,'forecasts\\polls_altered_final.csv',row.names = FALSE)
-####################################
-# Set indicators for the state's most current prediction date
-####################################
-
-
-
-#########################################################################################################################################
-# ELECTION SIMULATION
-#########################################################################################################################################
-#HERE TO EDIT
-state_odds<-sqldf("
-select
-  msr.state
-  ,abb
-  ,electoral_votes
-  ,ifnull(dem_prob,msr.hist_dem_prob) as dem_prob
-  ,mean  
-  ,sd
-from master_state_ref msr
-  left join 
-(
-select
-  state 
-  ,hist_dem_prob
-  ,nearest_neighbor_value as dem_prob
-  ,mean 
-  ,sd
-from polls_altered_final paf
-where final_prediction_ind=1
-  and election_year=2016
-  and prediction='prob_weighted_dem'
-) as t1
- on msr.abb=t1.state
-")
-
-state_odds<-sql("
-select
-  so.state
-  ,so.abb
-  ,so.electoral_votes
-  ,dem_prob
-  ,ifnull(mean,(`2000_dem_margin`+`2004_dem_margin`+`2008_dem_margin`+`2012_dem_margin`)/4) as mean 
-  ,ifnull(sd,sqrt(power((((`2000_dem_margin`+`2004_dem_margin`+`2008_dem_margin`+`2012_dem_margin`)/4)-`2000_dem_margin`),2)+
-    power((((`2000_dem_margin`+`2004_dem_margin`+`2008_dem_margin`+`2012_dem_margin`)/4)-`2004_dem_margin`),2)+
-    power((((`2000_dem_margin`+`2004_dem_margin`+`2008_dem_margin`+`2012_dem_margin`)/4)-`2008_dem_margin`),2)+
-    power((((`2000_dem_margin`+`2004_dem_margin`+`2008_dem_margin`+`2012_dem_margin`)/4)-`2012_dem_margin`),2))) as sd
-from state_odds so
-  inner join master_state_ref msr on so.state=msr.state
-")
-                  
-
-print("RUNNING ELECTION SIMULATIONS",quote=FALSE)
-n<-10000
-dem_wins<-0
-electoral_vote_list<-c()
-for(i in 1:n){
-  set.seed(seed = NULL)
-  if(i %% 1000 == 0){print(paste('CURRENTLY ON ELECTION SIMULATION:',i),quote=FALSE)}
-  state_odds_rand<-state_odds[sample(nrow(state_odds)),]
-  electoral_votes<-0
-  margins<-c()
-  for(j in 1:nrow(state_odds_rand)){
-    if(j==1){
-      margin<-rnorm(1,state_odds_rand$mean[j],state_odds_rand$sd[j])
-      if(margin>=0){win_or_lose<-1}else{win_or_lose<-0}
-      margins<-append(margins,margin)
-      }
-    else {
-      corr<-t(master_state_ref)
-      colnames(corr)<-corr['abb',]
-      corr<-data.frame(corr[12:15,],stringsAsFactors = FALSE)
-      corr<-sapply(corr,as.numeric)
-      corr<-cor(corr[,state_odds_rand$abb[(j-1):j]])
-      correlation<-corr[1,2]
-      updated_mean<-state_odds_rand$mean[j] + 
-        correlation*(state_odds_rand$sd[(j-1)]/state_odds_rand$sd[j])*
-        (margins[(j-1)]-state_odds_rand$mean[(j-1)])
-      updated_sd<-sqrt(state_odds_rand$sd[j]^2*(1-correlation^2))
-      margin<-rnorm(1,updated_mean,updated_sd)
-      if(margin>=0){win_or_lose<-1}else{win_or_lose<-0}
-      margins<-append(margins,margin)
-    }
-    
-    if(win_or_lose==1){
-      electoral_votes<-electoral_votes+state_odds_rand[j,'electoral_votes']
-    }
-  }
-  electoral_vote_list<-append(electoral_vote_list,electoral_votes)
-  if(electoral_votes>=270){
-    dem_wins<-dem_wins+1
-  }
-}
- 
-dem_prob<-dem_wins/n
-state_odds$tested_odds<-round(100*pnorm(q=0,mean=state_odds$mean,sd=state_odds$sd,lower.tail = FALSE),1)
-#########################################################################################################################################
-#ELECTION SIMULATION
-#########################################################################################################################################
-
-
-
-#########################################################################################################################################
-#NATIONAL FORECAST OVER TIME
-#########################################################################################################################################
-national_forecasts<-read.csv("forecasts\\national_forecasts.csv")
-national_forecasts$date<-as.Date(national_forecasts$date)
-
-if(nrow(national_forecasts[national_forecasts$date==run_date,])==0){
-  #Entry hasn't been created yet
-  national_forecasts<-rbind(national_forecasts,c(as.character(run_date),round(100*dem_prob,1),100-round(100*dem_prob,1)))
-}else if(nrow(national_forecasts[national_forecasts$date==run_date,])!=0){
-  national_forecasts[national_forecasts$date==run_date,]<-c(as.character(run_date),round(100*dem_prob,1),100-round(100*dem_prob,1))
-}
-
-write.csv(national_forecasts,'forecasts\\national_forecasts.csv',row.names = FALSE)
-
-names(national_forecasts)<-c('Date','Clinton','Trump')
-national_forecasts<-melt(national_forecasts,id=c('Date'))
-names(national_forecasts)<-c('date','candidate','value')
-national_forecasts$value<-as.numeric(national_forecasts$value)
-
-
-odds_over_time<- ggplot(data=national_forecasts,aes(x=date,y=value,colour=candidate,group=candidate)) + 
-  geom_line(size=2.3) + 
-  #theme(axis.text.x=element_blank(),axis.ticks.x=element_blank())+
-  ggtitle("Odds Over Time")+
-  theme(plot.title=element_text(face="bold",hjust=0,vjust=2,colour="#3C3C3C",size=23))+
-  theme(legend.position = "bottom")+
-  scale_color_manual(values=c("deepskyblue", "firebrick1"))+
-  theme(axis.title.y=element_blank())+
-  theme(axis.title.x=element_blank())+
-  theme(legend.title=element_blank())+
-  scale_y_continuous(limits = c(0.0, 100.0))+
-  theme(panel.grid.minor = element_blank()
-        ,panel.background = element_rect(fill = "white")
-        ,panel.grid.major = element_line(colour = "gray93")
-        ,axis.line.x = element_line(color="black")
-        ,axis.line.y = element_blank()
-      )+
-  scale_x_date(limits=c(as.Date('2016-06-01'),as.Date('2016-11-08')))+
-  geom_vline(linetype=2,aes(xintercept=as.numeric(as.Date('2016-11-08'))))+
-  geom_vline(linetype=1,aes(xintercept=as.numeric(run_date)))+
-  geom_text(aes(x=as.Date('2016-11-08')-7.5, label="Election Day\nNov 8", y=100), colour="grey38",size=5)+
-  geom_text(aes(x=run_date-7.5, label=as.character(run_date), y=100), colour="grey38",size=5)+
-  theme(legend.text = element_text(size = 19, face = "bold"))+
-  guides(fill=guide_legend(title=NULL))+
-  theme(axis.text=element_text(size=18))+
-  theme(axis.title=element_text(size=22))+
-  geom_text(aes(x=run_date+6, label=paste0(round(100*dem_prob,1),'%'), y=round(100*dem_prob,1)), colour="grey38",size=7)+
-  geom_text(aes(x=run_date+6, label=paste0(100-round(100*dem_prob,1),'%'), y=100-round(100*dem_prob,1)), colour="grey38",size=7)+
-  theme(plot.title=element_text(face="bold",hjust=0,vjust=2,colour="#3C3C3C",size=31))
-
-
-#########################################################################################################################################
-#NATIONAL FORECAST OVER TIME
-#########################################################################################################################################
-
-
-
-#########################################################################################################################################
-# VISUALIZATION: STATE MARGINS
-#########################################################################################################################################
-state_odds_temp<-state_odds[is.na(state_odds$mean)==FALSE,]
-state_odds_temp<-state_odds_temp[order(state_odds_temp$mean),]
-#80% confidence intervals
-ci_bands<-aes(ymax=mean+1.28*sd,ymin=mean-1.28*sd)
-dodge <- position_dodge(width=0.9)
-
-
-state_margins<-ggplot(data=state_odds_temp, aes(x=reorder(state, -mean), y=mean,fill=mean)) +
-    geom_bar(stat="identity") +
-    geom_crossbar(ci_bands, position=dodge, width=0.25,alpha=.5,colour='grey41',show.legend = TRUE)+
-    coord_flip() + 
-     scale_fill_gradient2(
-       low = "red"
-       ,high = "blue"
-       ,mid = "grey"
-       ,midpoint = 0) +
-    labs(title = "State Margins of Victory")+
-    theme(plot.title=element_text(face="bold",hjust=0,vjust=2,colour="#3C3C3C",size=31))+
-    ylab("Margin of Victory")+
-    xlab(expression(paste(symbol('\254'),' ','Clinton','        ','Trump',' ', symbol('\256'))))+
-    scale_y_continuous(breaks = c(-30,-20,-10,0,10,20,30), labels = c("+30","+20","+10", "0","+10","+20","+30"))+
-    theme(axis.text=element_text(size=25))+
-    theme(axis.title=element_text(size=25))+
-    theme(legend.text = element_text(size = 19, face = "bold"))+
-    theme(legend.position = "none")+
-    theme(axis.title.y=element_text(face='bold'))+
-    theme(panel.grid.minor = element_blank()
-          ,panel.background = element_rect(fill = "white")
-          ,panel.grid.major = element_line(colour = "gray93")
-    )
-
-#########################################################################################################################################
-# VISUALIZATION: STATE MARGINS
-#########################################################################################################################################
-
-
-
-#########################################################################################################################################
-# VISUALIZATION: HISTOGRAMS
-#########################################################################################################################################
-hist_data<-
-data.frame(
-  rbind(
-    cbind(rep('Clinton',length(electoral_vote_list)),electoral_vote_list)
-    ,cbind(rep('Trump',length(electoral_vote_list)),538-electoral_vote_list)
-  )
-)
-names(hist_data)<-c('candidate','electoral_votes')
-hist_data$electoral_votes<-as.numeric(as.character(hist_data$electoral_votes))
-sum_dat<-ddply(hist_data, "candidate", summarise, electoral_votes.mean=mean(electoral_votes))
-
-if(sum_dat[sum_dat$candidate=='Clinton',2]>=270){
-    clinton_label_spot<-sum_dat[sum_dat$candidate=='Clinton',2]+12
-    trump_label_spot<-sum_dat[sum_dat$candidate=='Trump',2]-12
-}else{
-    clinton_label_spot<-sum_dat[sum_dat$candidate=='Clinton',2]-12
-    trump_label_spot<-sum_dat[sum_dat$candidate=='Trump',2]+12
-}
-
-line_lengths<-sql("
-select
-  hd.candidate
-  ,count(case when electoral_votes>=round(`electoral_votes.mean`)-2 and electoral_votes<=round(`electoral_votes.mean`)+2 then hd.candidate end) as counter
-from hist_data hd
-  inner join sum_dat sd on sd.candidate=hd.candidate
-group by 1
-")
-
-simulated_result<-ggplot(hist_data, aes(x=electoral_votes, fill=candidate)) +
-    geom_histogram(binwidth=5, alpha=.5, position="identity")+
-    scale_fill_manual(values=c("deepskyblue", "firebrick1"))+
-    geom_text(aes(x=clinton_label_spot, label=round(sum_dat[sum_dat$candidate=='Clinton',2]), y=60), colour="blue",size=8)+
-    geom_text(aes(x=trump_label_spot, label=round(sum_dat[sum_dat$candidate=='Trump',2]), y=60), colour="red3",size=8)+
-    geom_text(aes(x=270, label='270 to Win', y=380),size=8)+
-    ggtitle("Electoral Votes")+
-    ylab("Simulations")+
-    xlab("Electoral Votes")+
-    guides(fill=guide_legend(title=NULL))+
-    theme(plot.title=element_text(face="bold",hjust=0,vjust=2,colour="#3C3C3C",size=31))+
-    theme(axis.text=element_text(size=18))+
-    theme(axis.title=element_text(size=22))+
-    theme(legend.text = element_text(size = 19, face = "bold"))+
-    geom_segment(aes(x = round(sum_dat[sum_dat$candidate=='Clinton',2]), y = 0, xend = round(sum_dat[sum_dat$candidate=='Clinton',2]), yend = line_lengths[line_lengths$candidate=='Clinton','counter']), colour = "blue",linetype='dashed',size=1)+
-    geom_segment(aes(x = round(sum_dat[sum_dat$candidate=='Trump',2]), y = 0, xend = round(sum_dat[sum_dat$candidate=='Trump',2]), yend = line_lengths[line_lengths$candidate=='Trump','counter']), colour = "red3",linetype='dashed',size=1)+
-    geom_segment(aes(x = 270, y = 0, xend = 270, yend = 360),linetype='dashed',size=1)+
-    theme(legend.position = "bottom")+
-    theme(panel.grid.minor = element_blank()
-          ,panel.background = element_rect(fill = "white")
-          ,panel.grid.major = element_line(colour = "gray93")
-          ,axis.line.x = element_line(color="black")
-    )
-
-#########################################################################################################################################
-# VISUALIZATION: HISTOGRAMS
-#########################################################################################################################################
-
-
-
-#########################################################################################################################################
-# VISUALIZATION: CARTOGRAM
-#########################################################################################################################################
-dat <- data.frame(state=as.character(state_odds$abb), value=state_odds$mean, stringsAsFactors=FALSE)
-dat[dat$value>=50,'value']<-dat[dat$value>=50,'value']/3
-dat[dat$value<=-50,'value']<-dat[dat$value<=-50,'value']/2
-
-map<-statebins(dat
-          ,breaks=7
-          ,labels=c("Solid R","Likely R","Lean R","Tossup","Lean D","Likely D","Solid D")
-          ,brewer_pal="RdBu"
-          ,text_color="black"
-          ,font_size=6
-          ,legend_title=""
-          ,legend_position="bottom"
-          )
-#########################################################################################################################################
-# VISUALIZATION: CARTOGRAM
-#########################################################################################################################################
-
-
-
-
-#########################################################################################################################################
-# VISUALIZATION: STATE GRAPHS
-#########################################################################################################################################
-temp<-sql("
-select
-  paf.*
-  ,msr.state as state_full
-  ,case when prediction in ('prob_unweighted_dem','prob_weighted_dem') then 'Clinton' else 'Trump' end as candidate
-from polls_altered_final paf
-  inner join master_state_ref msr on paf.state=msr.abb
-where paf.election_year=2016
-")
-relevant_list<-sort(unique(temp$state_full))
-relevant_list_abb<-unique(temp[order(temp$state_full),'state'])
-temp$value<-100*as.numeric(temp$nearest_neighbor_value)
-
-temp<-sql("
-select
 <<<<<<< HEAD
   pd.*
   ,case when value>99 then '>99'
@@ -1764,6 +1971,7 @@ for(i in 1:length(relevant_list)){
   poll_temp<-temp_new[temp_new$final_prediction_ind==1,]
 
   plot<- ggplot(data=temp_new,aes(x=date,y=value,colour=candidate,group=candidate)) + 
+<<<<<<< HEAD
 <<<<<<< HEAD
     geom_line(size=1.9,alpha=.8) + 
     theme(axis.ticks.x=element_blank())+
@@ -1934,11 +2142,20 @@ for(i in 1:nrow(state_odds)){
     geom_line(size=1.2) + 
 >>>>>>> update
     theme(axis.text.x=element_blank(),axis.ticks.x=element_blank())+
+=======
+    geom_line(size=1.9,alpha=.8) + 
+    theme(axis.ticks.x=element_blank())+
+>>>>>>> update
     ggtitle(
       paste(state_label," - ",as.character(poll_temp[which.max(poll_temp$value),'candidate']),sub(" ", "",paste(poll_temp[which.max(poll_temp$value),'poll_data_value_label'],"%"),fixed=TRUE))
     )+
     theme(plot.title=element_text(face="bold",hjust=0,vjust=2,colour="#3C3C3C",size=23))+
+    
     theme(legend.position = "none")+
+    theme(legend.text = element_text(size = 19, face = "bold"))+
+    guides(fill=guide_legend(title=NULL))+
+    theme(legend.title=element_blank())+
+    
     scale_color_manual(values=c("deepskyblue", "firebrick1"))+
     theme(axis.title.y=element_blank())+
     theme(axis.title.x=element_blank())+
@@ -1948,10 +2165,13 @@ for(i in 1:nrow(state_odds)){
           ,panel.grid.major = element_line(colour = "gray93")
           ,axis.line.x = element_line(color="black")
           ,axis.line.y = element_blank()
-        )
+        )+
+    scale_x_date(limits=c(as.Date('2016-06-01'),as.Date('2016-11-08')))+
+    geom_vline(linetype=2,aes(xintercept=as.numeric(as.Date('2016-11-08'))))
           
   plots[[i]]<-plot
 }
+
 
 #multiplot(plotlist = plots,cols=3)
 #########################################################################################################################################
@@ -1978,8 +2198,13 @@ if(dem_prob>=.5){
   loser<-'Donald Trump'
   winner_prob<-paste0(round(100*dem_prob,1),'%')
   loser_prob<-paste0(100-round(100*dem_prob,1),'%')
-  winning_electoral_votes<-round(mean(electoral_vote_list),0)
+  winning_electoral_votes<-round(median(electoral_vote_list),0)
   losing_electoral_votes<-538-winning_electoral_votes
+  
+  low_exp_ev<-round(quantile(electoral_vote_list,probs=c(.05,.95))[1])
+  high_exp_ev<-round(quantile(electoral_vote_list,probs=c(.05,.95))[2])
+  
+  
   color<-'dodgerblue'
   num_states_won<-nrow(state_odds[state_odds$mean>0,])
   
@@ -1988,19 +2213,42 @@ if(dem_prob>=.5){
   
   if(round(100*dem_prob,1)<90 && round(100*dem_prob,1)>=80){a_or_an<-'an'}else{ a_or_an<-'a'}
   
+  nat_margin<-nat_polls[nrow(nat_polls),'running_avg']
+  last_week_nat_margin<-nat_polls[nrow(nat_polls)-7,'running_avg']
+  
+  if(nat_margin-last_week_nat_margin>0){change_wording<-'up from'}
+  else if(nat_margin-last_week_nat_margin<0){change_wording<-'down from'}
+  else{change_wording<-'unchanged from'}
+  
+  if(last_week_nat_margin>0){plus_or_minus<-'+'}else{plus_or_minus<-'-'}
+  
 }else{
   winner<-'Donald Trump'
   loser<-'Hillary Clinton'
   winner_prob<-paste0(100-round(100*dem_prob,1),'%')
   loser_prob<-paste0(round(100*dem_prob,1),'%')
-  winning_electoral_votes<-538-round(mean(electoral_vote_list),0)
-  losing_electoral_votes<-round(mean(electoral_vote_list),0)
+  winning_electoral_votes<-538-round(median(electoral_vote_list),0)
+  losing_electoral_votes<-round(median(electoral_vote_list),0)
+  
+  round(low_exp_ev<-quantile(538 - electoral_vote_list,probs=c(.05,.95))[1])
+  round(high_exp_ev<-quantile(538 - electoral_vote_list,probs=c(.05,.95))[2])
+  
   color<-'firebrick1'
   num_states_won<-nrow(state_odds[state_odds$mean<0,])
 
   
   winner_pronoun<-'He'
   loser_pronoun<-'She'
+  
+  nat_margin<- (-1*nat_polls[nrow(nat_polls),'running_avg'])
+  last_week_nat_margin<-(-1*nat_polls[nrow(nat_polls)-7,'running_avg'])
+  
+  if(nat_margin-last_week_nat_margin>0){change_wording<-'up from'}
+  else if(nat_margin-last_week_nat_margin<0){change_wording<-'down from'}
+  else{change_wording<-'unchanged from'}
+  
+  if(last_week_nat_margin>0){plus_or_minus<-'+'}else{plus_or_minus<-'-'}
+
   
   if(100-round(100*dem_prob,1)<90 && 100-round(100*dem_prob,1)>=80 ){a_or_an<-'an'}else{ a_or_an<-'a'}
 
@@ -2037,8 +2285,8 @@ for(i in 1:nrow(state_odds)){
     odds_temp_temp<-100-state_odds$tested_odds[i]
   }else{odds_temp_temp<-state_odds$tested_odds[i]}
   
-  if(odds_temp_temp==100){odds_temp<-'>99.9%'}
-  else if(odds_temp_temp==0){odds_temp<-'<0.1%'}
+  if(odds_temp_temp==100){odds_temp<-'99.9%'}
+  else if(odds_temp_temp==0){odds_temp<-'0.1%'}
   else{odds_temp<-paste0(odds_temp_temp,'%')}
   
   probs<-paste0(state_odds$abb[i],'_ODDS')
@@ -2054,5 +2302,6 @@ for(i in 1:nrow(state_odds)){
 #########################################################################################################################################
 # HTML TABLE
 #########################################################################################################################################
+
 
 
