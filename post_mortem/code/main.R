@@ -1,5 +1,6 @@
 setwd("~/election_forecasts/post_mortem")
 library(ggplot2)
+library(data.table)
 makepic<-function(file,width,height){
   fname <- paste("tex/",file,".tex",sep="")
   tikz(fname, 
@@ -16,6 +17,14 @@ options(tikzMetricPackages = c("\\usepackage[utf8]{inputenc}",
 
 
 final<-read.csv('data//final_pred.csv')
+ev<-read.csv('data//ev.csv')
+winner<-c()
+for(i in 1:nrow(ev)){
+  if(ev$electoral_vote_list[i]>=270){winner<-append(winner,'Clinton Wins')}
+  else{winner<-append(winner,'Trump Wins')}
+}
+ev$winner<-winner
+
 
 real_dem_margins<-c()
 for(i in 1:nrow(final)){
@@ -172,6 +181,48 @@ sqrt((1/nrow(final))*sum((pred_dk_dem_margins-real_dem_margins)^2))
 # Daily Kos
 ####################################################################
 
+
+dt<-data.table(ev)
+
+gg <- dt[,list(x=density(ev$electoral_vote_list)$x, y=density(ev$electoral_vote_list)$y)]
+
+
+makepic('dem_prob',6,3)
+ggplot(dt) +
+  geom_ribbon(data=subset(gg,gg$x>=270),aes(x=x,ymax=y),ymin=0,fill="#00AEF3", alpha=0.5)+
+  geom_ribbon(data=subset(gg,gg$x<271),aes(x=x,ymax=y),ymin=0,fill="#D81A21", alpha=0.5)+
+  geom_ribbon(data=subset(gg,gg$x>242 & gg$x<375),aes(x=x,ymax=.001+max(y)),ymin=0,fill="grey", alpha=0.4)+
+  theme(panel.background = element_blank())+
+  # Format the grid
+  theme(panel.grid.major=element_line(colour="#D0D0D0",size=.05)) +
+  theme(panel.grid.minor=element_blank()) +
+  #scale_x_continuous(minor_breaks=0,breaks=seq(0,100,10),limits=c(0,100)) +
+  #scale_y_continuous(minor_breaks=0,breaks=seq(0,26,4),limits=c(0,25)) +
+  scale_y_continuous(breaks = NULL)+
+  
+  theme(axis.ticks=element_blank()) +
+  # Dispose of the legend
+  theme(legend.position="bottom") +
+  # Set title and axis labels, and format these and tick marks
+  ggtitle("Clinton's Chances of Winning") +
+  theme(plot.title=element_text(face="bold",hjust=-.08,vjust=2,colour="#3C3C3C",size=20)) +
+  theme(axis.text.x=element_text(size=11,colour="#535353",face="bold")) +
+  theme(axis.text.y=element_blank()) +
+  theme(axis.title.y=element_text(size=11,colour="#535353",face="bold",vjust=1.5)) +
+  theme(axis.title.x=element_text(size=11,colour="#535353",face="bold",vjust=-.5))+
+  xlab('Electoral Votes')+
+  ylab('')+
+  geom_hline(yintercept=0,size=1.2,colour="#535353")+
+  #geom_vline(xintercept=270,size=1,colour="#535353")+
+  #geom_vline(xintercept=375,size=1,colour="#535353")+
+  xlim(150,450)+
+  geom_text(aes(x=317, label="<-- 95% -->",
+                y=.0006+max(density(ev$electoral_vote_list)$y)),
+                colour="grey38",size=5)+
+  geom_text(aes(x=320, label="Clinton Wins",
+                y=max(density(ev$electoral_vote_list)$y)/3),
+                colour="#0089c0",size=5)
+dev.off()
 
 
 
