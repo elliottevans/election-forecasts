@@ -196,9 +196,10 @@ model_rmse<-data.frame(model,RMSE,median_error)
 makepic('median_err',6,3)
 ggplot(data=model_rmse, aes(x=reorder(model,median_error), y=median_error)) +
   # Set the entire chart region to a light gray color
-  theme(panel.background=element_rect(fill="#F0F0F0")) +
-  theme(plot.background=element_rect(fill="#F0F0F0")) +
+  #theme(panel.background=element_rect(fill="#F0F0F0")) +
+  #theme(plot.background=element_rect(fill="#F0F0F0")) +
   # theme(panel.border=element_rect(colour="#F0F0F0")) +
+  theme(panel.background = element_blank())+
   # Format the grid
   theme(panel.grid.major=element_line(colour="#D0D0D0",size=.75)) +
   theme(panel.grid.minor=element_blank()) +
