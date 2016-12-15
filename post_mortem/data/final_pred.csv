@@ -1,0 +1,52 @@
+State,Electoral Votes,Predictive Winner,Predictive Odds of Victory,Predictive Margin of Victory,Actual Winner,Actual Margin of Victory,NYT Winner,NYT Margin of Victory,FTE Winner,FTE Margin of Victory,HP Winner,HP Margin of Victory,PEC Winner,PEC Margin of Victory,DK Winner,DK Margin of Victory
+Alabama,9,Trump,99.70%,18.6,Trump,28.3,Trump,18,Trump,22.3,Trump,19.3,Trump,22,Trump,19
+Alaska,3,Trump,99.20%,14.7,Trump,15.2,Trump,9,Trump,7.4,Trump,7,Trump,12,Trump,8.9
+Arizona,11,Trump,53.40%,0.6,Trump,4.1,Trump,4,Trump,2.2,Trump,2.3,Trump,3,Trump,1.1
+Arkansas,6,Trump,99.80%,19.7,Trump,26.6,Trump,19,Trump,20.7,Trump,16.4,Trump,11,Trump,20.5
+California,55,Clinton,96.40%,16.9,Clinton,28.8,Clinton,24,Clinton,22.9,Clinton,24.2,Clinton,21.5,Clinton,23.4
+Colorado,9,Clinton,83.90%,5.2,Clinton,2.8,Clinton,4,Clinton,4,Clinton,5.2,Clinton,5,Clinton,4.4
+Connecticut,7,Clinton,96.90%,13.9,Clinton,13.3,Clinton,15,Clinton,12.7,Clinton,11.9,Clinton,7.5,Clinton,13
+Delaware,3,Clinton,96.80%,12.3,Clinton,11.5,Clinton,15,Clinton,12.5,Clinton,14.2,Clinton,19,Clinton,14.8
+Florida,29,Clinton,70.90%,3.2,Trump,1.3,Clinton,2,Clinton,0.7,Clinton,1.6,Clinton,1.5,Clinton,1.6
+Georgia,16,Trump,61.90%,2.4,Trump,5.7,Trump,4,Trump,4,Trump,2.7,Trump,3.5,Trump,2.2
+Hawaii,4,Clinton,96.40%,16.9,Clinton,32.2,Clinton,29,Clinton,23.7,Clinton,27.9,Clinton,43,Clinton,23.3
+Idaho,4,Trump,99.80%,20,Trump,31.6,Trump,23,Trump,19.6,Trump,18.9,Trump,32,Trump,21.2
+Illinois,20,Clinton,97.30%,14.8,Clinton,16,Clinton,15,Clinton,12.9,Clinton,15.7,Clinton,14,Clinton,16.3
+Indiana,11,Trump,99.50%,15.3,Trump,19.3,Trump,11,Trump,11.6,Trump,10,Trump,13,Trump,10.9
+Iowa,6,Trump,75.30%,5.1,Trump,9.6,Trump,1,Trump,2.9,Trump,3.2,Trump,2,Trump,4.1
+Kansas,6,Trump,99.50%,16.3,Trump,21,Trump,15,Trump,12.5,Trump,12.6,Trump,15.5,Trump,12
+Kentucky,8,Trump,99.80%,20,Trump,29.8,Trump,22,Trump,18.2,Trump,22.7,Trump,23,Trump,17.9
+Louisiana,8,Trump,99.50%,16.3,Trump,19.7,Trump,13,Trump,16.1,Trump,12.6,Trump,15,Trump,13.1
+Maine,4,Clinton,96.30%,10.1,Clinton,2.7,Clinton,7,Clinton,7.4,Clinton,9.2,Clinton,8,Clinton,7
+Maryland,10,Clinton,96%,17.5,Clinton,25.2,Clinton,27,Clinton,25.7,Clinton,29.2,Clinton,22,Clinton,32.7
+Massachusetts,11,Clinton,96.40%,16.9,Clinton,27.3,Clinton,25,Clinton,23.4,Clinton,23.6,Clinton,24,Clinton,27.2
+Michigan,16,Clinton,83.90%,5.2,Trump,0.3,Clinton,7,Clinton,4.2,Clinton,6.7,Clinton,3,Clinton,6.6
+Minnesota,10,Clinton,93.80%,8.3,Clinton,1.5,Clinton,7,Clinton,5.8,Clinton,7.3,Clinton,7,Clinton,8.6
+Mississippi,6,Trump,97.20%,12.3,Trump,18.6,Trump,6,Trump,13.1,Trump,9.1,Trump,13,Trump,8.2
+Missouri,10,Trump,92.70%,10.1,Trump,19.1,Trump,9,Trump,10.1,Trump,7.8,Trump,8.5,Trump,10.1
+Montana,3,Trump,99.70%,18.3,Trump,20.5,Trump,14,Trump,15,Trump,16.3,Trump,14,Trump,15.5
+Nebraska,5,Trump,99.70%,18.6,Trump,26.3,Trump,19,Trump,17.8,Trump,17.5,Trump,20.5,Trump,18.7
+Nevada,6,Clinton,69.50%,3,Clinton,2.4,Clinton,2,Clinton,1.2,Clinton,2,Clinton,2,Clinton,1.4
+New Hampshire,4,Clinton,92.50%,7.8,Clinton,0.4,Clinton,3,Clinton,3.6,Clinton,3.3,Clinton,1,Clinton,4.8
+New Jersey,14,Clinton,96.90%,13.9,Clinton,13.2,Clinton,15,Clinton,11.5,Clinton,12.9,Clinton,12.5,Clinton,13.9
+New Mexico,5,Clinton,83.90%,5.2,Clinton,8.3,Clinton,7,Clinton,5.8,Clinton,7.6,Clinton,4,Clinton,5.7
+New York,29,Clinton,96.40%,16.9,Clinton,21,Clinton,21,Clinton,19,Clinton,20.4,Clinton,19.5,Clinton,22.6
+North Carolina,15,Clinton,74.50%,3.8,Trump,3.8,Clinton,1,Clinton,0.7,Clinton,1.5,Trump,0.5,Clinton,1.6
+North Dakota,3,Trump,99.80%,21.2,Trump,36.3,Trump,17,Trump,23.1,Trump,21.9,Trump,20,Trump,22.6
+Ohio,18,Trump,55.30%,1,Trump,8.6,Trump,0,Trump,1.9,Trump,1.1,Trump,1,Trump,1.7
+Oklahoma,7,Trump,99.60%,22.6,Trump,36.4,Trump,25,Trump,26,Trump,24.8,Trump,34,Trump,25.2
+Oregon,7,Clinton,96.60%,12.5,Clinton,10.6,Clinton,10,Clinton,9.2,Clinton,10.6,Clinton,10,Clinton,12.2
+Pennsylvania,20,Clinton,82.70%,5,Trump,1.2,Clinton,5,Clinton,3.7,Clinton,4.5,Clinton,3,Clinton,4.8
+Rhode Island,4,Clinton,97%,14.4,Clinton,15.6,Clinton,20,Clinton,14.4,Clinton,14.2,Clinton,28,Clinton,11.8
+South Carolina,9,Trump,77.80%,5.8,Trump,14.1,Trump,6,Trump,7,Trump,5.1,Trump,5,Trump,4.8
+South Dakota,3,Trump,99.70%,19,Trump,29.8,Trump,20,Trump,15.5,Trump,16.1,Trump,18,Trump,16
+Tennessee,11,Trump,97.80%,12.7,Trump,26.2,Trump,15,Trump,12,Trump,12.3,Trump,14,Trump,12.4
+Texas,38,Trump,89.20%,8.8,Trump,9.2,Trump,8,Trump,8.6,Trump,5.9,Trump,9,Trump,7.3
+Utah,6,Trump,95%,10.9,Trump,18.1,Trump,13,Trump,10.5,Trump,9.1,Trump,9,Trump,6.1
+Vermont,3,Clinton,96%,17.5,Clinton,28.5,Clinton,26,Clinton,27.4,Clinton,27.6,Clinton,36,Clinton,27.8
+Virginia,13,Clinton,93.80%,8.3,Clinton,4.9,Clinton,6,Clinton,5.6,Clinton,5.5,Clinton,6,Clinton,6.2
+Washington,12,Clinton,97%,14.4,Clinton,16.2,Clinton,13,Clinton,13.3,Clinton,13.2,Clinton,15,Clinton,14.7
+Washington DC,3,Clinton,99.90%,81.4,Clinton,88.7,Clinton,77,Clinton,70.5,Clinton,29.5,Clinton,83,Clinton,81.1
+West Virginia,5,Trump,99.80%,21.6,Trump,42.2,Trump,28,Trump,26.5,Trump,23.9,Trump,24,Trump,28.6
+Wisconsin,10,Clinton,83.90%,5.2,Trump,1,Clinton,6,Clinton,5.3,Clinton,6.2,Clinton,6,Clinton,5.1
+Wyoming,3,Trump,99.50%,23.1,Trump,47.6,Trump,34,Trump,35,Trump,39,Trump,41,Trump,38.9
