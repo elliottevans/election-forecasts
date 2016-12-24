@@ -191,7 +191,7 @@ makepic('dem_prob',6,3)
 ggplot(dt) +
   geom_ribbon(data=subset(gg,gg$x>=270),aes(x=x,ymax=y),ymin=0,fill="#00AEF3", alpha=0.5)+
   geom_ribbon(data=subset(gg,gg$x<271),aes(x=x,ymax=y),ymin=0,fill="#D81A21", alpha=0.5)+
-  geom_ribbon(data=subset(gg,gg$x>242 & gg$x<375),aes(x=x,ymax=.001+max(y)),ymin=0,fill="grey", alpha=0.4)+
+  geom_ribbon(data=subset(gg,gg$x>242 & gg$x<375),aes(x=x,ymax=.0013+max(y)),ymin=0,fill="grey", alpha=0.4)+
   theme(panel.background = element_blank())+
   # Format the grid
   theme(panel.grid.major=element_line(colour="#D0D0D0",size=.05)) +
