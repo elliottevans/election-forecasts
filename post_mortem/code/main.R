@@ -186,9 +186,10 @@ dt<-data.table(ev)
 
 gg <- dt[,list(x=density(ev$electoral_vote_list)$x, y=density(ev$electoral_vote_list)$y)]
 
-
 makepic('dem_prob',6,3)
+windowsFonts(Times=windowsFont("TT Times New Roman"))
 ggplot(dt) +
+  theme(text=element_text(family="Times", face="bold", size=20))+
   geom_ribbon(data=subset(gg,gg$x>=270),aes(x=x,ymax=y),ymin=0,fill="#00AEF3", alpha=0.5)+
   geom_ribbon(data=subset(gg,gg$x<271),aes(x=x,ymax=y),ymin=0,fill="#D81A21", alpha=0.5)+
   geom_ribbon(data=subset(gg,gg$x>242 & gg$x<375),aes(x=x,ymax=.0013+max(y)),ymin=0,fill="grey", alpha=0.4)+
@@ -216,17 +217,18 @@ ggplot(dt) +
   #geom_vline(xintercept=270,size=1,colour="#535353")+
   #geom_vline(xintercept=375,size=1,colour="#535353")+
   xlim(150,450)+
-  geom_text(aes(x=317, label="<-- 95% -->",
+  geom_text(aes(x=317, label='95%',
                 y=.0006+max(density(ev$electoral_vote_list)$y)),
-                colour="grey38",size=5)+
+                colour="grey38",size=5,family='Times')+
   geom_text(aes(x=320, label="Clinton Wins",
                 y=max(density(ev$electoral_vote_list)$y)/3),
-                colour="#0089c0",size=5)
+                colour="#0089c0",size=5,family='Times')+
+  geom_text(aes(x=250, label="Trump Wins",
+                y=max(density(ev$electoral_vote_list)$y)/25),
+                colour="#a41e1e",size=3,family='Times')+
+  theme(text=element_text(size=16, family="Times"))
 dev.off()
-
-
-
-
+   
 
 
 
@@ -260,7 +262,7 @@ median_error<-c(
 model_rmse<-data.frame(model,RMSE,median_error)
 
 
-makepic('median_err',6,3)
+makepic('median_err',7,3)
 ggplot(data=model_rmse, aes(x=reorder(model,median_error), y=median_error)) +
   # Set the entire chart region to a light gray color
   #theme(panel.background=element_rect(fill="#F0F0F0")) +
@@ -272,6 +274,7 @@ ggplot(data=model_rmse, aes(x=reorder(model,median_error), y=median_error)) +
   theme(panel.grid.minor=element_blank()) +
   #scale_x_continuous(minor_breaks=0,breaks=seq(0,100,10),limits=c(0,100)) +
   #scale_y_continuous(minor_breaks=0,breaks=seq(0,26,4),limits=c(0,25)) +
+  theme(panel.grid.major.x = element_blank())+
   theme(axis.ticks=element_blank()) +
   # Dispose of the legend
   theme(legend.position="none") +
