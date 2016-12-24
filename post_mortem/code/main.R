@@ -18,6 +18,7 @@ options(tikzMetricPackages = c("\\usepackage[utf8]{inputenc}",
 
 final<-read.csv('data//final_pred.csv')
 ev<-read.csv('data//ev.csv')
+nat_polls<-read.csv('data//nat_polls.csv')
 winner<-c()
 for(i in 1:nrow(ev)){
   if(ev$electoral_vote_list[i]>=270){winner<-append(winner,'Clinton Wins')}
@@ -34,7 +35,7 @@ for(i in 1:nrow(final)){
     real_dem_margins<-append(real_dem_margins,-1*final$Actual.Margin.of.Victory[i])
   }
 }
-
+write.csv(nat_polls,'data//nat_polls.csv',row.names=F)
 ####################################################################
 # My Model
 ####################################################################
@@ -292,4 +293,30 @@ ggplot(data=model_rmse, aes(x=reorder(model,median_error), y=median_error)) +
   geom_hline(yintercept=3.85,size=1.2,colour="#535353")
 dev.off()
 
+makepic('clinton_lead',7,3)
+ggplot(subset(nat_polls,election_year==2016 & days_till_election<=90),aes(x=as.Date(Date),y=running_avg))+
+  geom_line(colour='#00AEF3',size=3)+
+  theme(panel.background = element_blank())+
+  # Format the grid
+  theme(panel.grid.major=element_line(colour="#D0D0D0",size=.75)) +
+  theme(panel.grid.minor=element_blank()) +
+  theme(panel.grid.major.x = element_blank())+
+  theme(axis.ticks=element_blank()) +
+  ggtitle("Clinton's Lead Shrinks") +
+  theme(plot.title=element_text(face="bold",hjust=-.08,vjust=2,colour="#3C3C3C",size=20)) +
+  theme(axis.text.x=element_text(size=8,colour="#535353",face="bold")) +
+  theme(axis.text.y=element_text(size=11,colour="#535353",face="bold")) +
+  theme(axis.title.y=element_text(size=11,colour="#535353",face="bold",vjust=1.5)) +
+  theme(axis.title.x=element_text(size=11,colour="#535353",face="bold",vjust=-.5))+
+  coord_cartesian(ylim=c(0,8))+
+  ylab("Lead in Polls (% Points)")+
+  xlab("")
+dev.off()
+  
+  
+  
+  
+  
+  
+  
 
