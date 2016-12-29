@@ -302,7 +302,7 @@ ggplot(subset(nat_polls,election_year==2016 & days_till_election<=90),aes(x=as.D
   theme(panel.grid.minor=element_blank()) +
   theme(panel.grid.major.x = element_blank())+
   theme(axis.ticks=element_blank()) +
-  ggtitle("Clinton's Lead Shrinks") +
+  ggtitle("Clinton's Unstable Lead") +
   theme(plot.title=element_text(face="bold",hjust=-.08,vjust=2,colour="#3C3C3C",size=20)) +
   theme(axis.text.x=element_text(size=8,colour="#535353",face="bold")) +
   theme(axis.text.y=element_text(size=11,colour="#535353",face="bold")) +
