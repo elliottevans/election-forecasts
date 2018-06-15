@@ -1,5 +1,6 @@
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 setwd("~/election_forecasts")
 source("prep_2012.R")
 =======
@@ -10,6 +11,10 @@ source("prep.R")
 setwd("~/election_forecasts")
 source("prep_2012.R")
 >>>>>>> update
+=======
+setwd("~/election_forecasts")
+source("prep_2012.R")
+>>>>>>> 74cc2ec210d8bb2697105938993385d998eec50e
 #Functions created: multiplot, sql
 
 #Data sets created: 
@@ -420,12 +425,16 @@ dem_wins<-0
 electoral_vote_list<-c()
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 print_info<-FALSE
 =======
 >>>>>>> update
 =======
 print_info<-FALSE
 >>>>>>> update
+=======
+print_info<-FALSE
+>>>>>>> 74cc2ec210d8bb2697105938993385d998eec50e
 for(i in 1:n){
   set.seed(seed = NULL)
   if(i %% 1000 == 0){print(paste('CURRENTLY ON ELECTION SIMULATION:',i),quote=FALSE)}
@@ -434,12 +443,16 @@ for(i in 1:n){
   margins<-c()
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
   #1:nrow(state_odds_rand)
 =======
 >>>>>>> update
 =======
   #1:nrow(state_odds_rand)
 >>>>>>> update
+=======
+  #1:nrow(state_odds_rand)
+>>>>>>> 74cc2ec210d8bb2697105938993385d998eec50e
   for(j in 1:nrow(state_odds_rand)){
     if(j==1){
       margin<-rnorm(1,state_odds_rand$mean[j],state_odds_rand$sd[j])
@@ -447,8 +460,11 @@ for(i in 1:n){
       margins<-append(margins,margin)
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
 >>>>>>> update
+=======
+>>>>>>> 74cc2ec210d8bb2697105938993385d998eec50e
       if(print_info==TRUE){
         print(paste("First State:",state_odds_rand[j,'state'],"||","Odds of Dem Victory:"
                     ,round(100*pnorm(q=0,mean=state_odds_rand$mean[j],sd=state_odds_rand$sd[j],lower.tail = FALSE),1)
@@ -457,11 +473,14 @@ for(i in 1:n){
       }
     }
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
       }
 >>>>>>> update
 =======
 >>>>>>> update
+=======
+>>>>>>> 74cc2ec210d8bb2697105938993385d998eec50e
     else {
       corr<-t(master_state_ref)
       colnames(corr)<-corr['abb',]
@@ -476,8 +495,11 @@ for(i in 1:n){
       margin<-rnorm(1,updated_mean,updated_sd)
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
 >>>>>>> update
+=======
+>>>>>>> 74cc2ec210d8bb2697105938993385d998eec50e
       
       if(print_info==TRUE){
         print(paste("Next State:",state_odds_rand[j,'state'],"||","Previous Odds of Dem Victory:"
@@ -490,10 +512,13 @@ for(i in 1:n){
       }
       
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
 >>>>>>> update
 =======
 >>>>>>> update
+=======
+>>>>>>> 74cc2ec210d8bb2697105938993385d998eec50e
       if(margin>=0){win_or_lose<-1}else{win_or_lose<-0}
       margins<-append(margins,margin)
     }
@@ -517,8 +542,11 @@ state_odds$tested_odds<-round(100*pnorm(q=0,mean=state_odds$mean,sd=state_odds$s
 
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
 >>>>>>> update
+=======
+>>>>>>> 74cc2ec210d8bb2697105938993385d998eec50e
 # 
 # #########################################################################################################################################
 # #NATIONAL FORECAST OVER TIME
@@ -575,6 +603,7 @@ state_odds$tested_odds<-round(100*pnorm(q=0,mean=state_odds$mean,sd=state_odds$s
 # #########################################################################################################################################
 # #NATIONAL FORECAST OVER TIME
 # #########################################################################################################################################
+<<<<<<< HEAD
 <<<<<<< HEAD
 =======
 
@@ -636,6 +665,8 @@ odds_over_time<- ggplot(data=national_forecasts,aes(x=date,y=value,colour=candid
 >>>>>>> update
 =======
 >>>>>>> update
+=======
+>>>>>>> 74cc2ec210d8bb2697105938993385d998eec50e
 
 
 
@@ -687,6 +718,7 @@ data.frame(
   rbind(
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
     cbind(rep('Obama',length(electoral_vote_list)),electoral_vote_list)
     ,cbind(rep('Romney',length(electoral_vote_list)),538-electoral_vote_list)
 =======
@@ -697,10 +729,15 @@ data.frame(
     cbind(rep('Obama',length(electoral_vote_list)),electoral_vote_list)
     ,cbind(rep('Romney',length(electoral_vote_list)),538-electoral_vote_list)
 >>>>>>> update
+=======
+    cbind(rep('Obama',length(electoral_vote_list)),electoral_vote_list)
+    ,cbind(rep('Romney',length(electoral_vote_list)),538-electoral_vote_list)
+>>>>>>> 74cc2ec210d8bb2697105938993385d998eec50e
   )
 )
 names(hist_data)<-c('candidate','electoral_votes')
 hist_data$electoral_votes<-as.numeric(as.character(hist_data$electoral_votes))
+<<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
 sum_dat<-ddply(hist_data, "candidate", summarise, electoral_votes.median=median(electoral_votes))
@@ -716,11 +753,15 @@ sum_dat<-ddply(hist_data, "candidate", summarise, electoral_votes.mean=mean(elec
 =======
 sum_dat<-ddply(hist_data, "candidate", summarise, electoral_votes.median=median(electoral_votes))
 >>>>>>> update
+=======
+sum_dat<-ddply(hist_data, "candidate", summarise, electoral_votes.median=median(electoral_votes))
+>>>>>>> 74cc2ec210d8bb2697105938993385d998eec50e
 
 if(sum_dat[sum_dat$candidate=='Obama',2]>=270){
     clinton_label_spot<-sum_dat[sum_dat$candidate=='Obama',2]+12
     trump_label_spot<-sum_dat[sum_dat$candidate=='Romney',2]-12
 }else{
+<<<<<<< HEAD
 <<<<<<< HEAD
     clinton_label_spot<-sum_dat[sum_dat$candidate=='Clinton',2]-12
     trump_label_spot<-sum_dat[sum_dat$candidate=='Trump',2]+12
@@ -729,11 +770,16 @@ if(sum_dat[sum_dat$candidate=='Obama',2]>=270){
     clinton_label_spot<-sum_dat[sum_dat$candidate=='Obama',2]-12
     trump_label_spot<-sum_dat[sum_dat$candidate=='Romney',2]+12
 >>>>>>> update
+=======
+    clinton_label_spot<-sum_dat[sum_dat$candidate=='Obama',2]-12
+    trump_label_spot<-sum_dat[sum_dat$candidate=='Romney',2]+12
+>>>>>>> 74cc2ec210d8bb2697105938993385d998eec50e
 }
 
 line_lengths<-sql("
 select
   hd.candidate
+<<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
   ,count(case when electoral_votes>=round(`electoral_votes.median`)-2 and electoral_votes<=round(`electoral_votes.median`)+2 then hd.candidate end) as counter
@@ -743,6 +789,9 @@ select
 =======
   ,count(case when electoral_votes>=round(`electoral_votes.median`)-2 and electoral_votes<=round(`electoral_votes.median`)+2 then hd.candidate end) as counter
 >>>>>>> update
+=======
+  ,count(case when electoral_votes>=round(`electoral_votes.median`)-2 and electoral_votes<=round(`electoral_votes.median`)+2 then hd.candidate end) as counter
+>>>>>>> 74cc2ec210d8bb2697105938993385d998eec50e
 from hist_data hd
   inner join sum_dat sd on sd.candidate=hd.candidate
 group by 1
@@ -751,6 +800,7 @@ group by 1
 simulated_result<-ggplot(hist_data, aes(x=electoral_votes, fill=candidate)) +
     geom_histogram(binwidth=5, alpha=.5, position="identity")+
     scale_fill_manual(values=c("deepskyblue", "firebrick1"))+
+<<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
     geom_text(aes(x=clinton_label_spot, label=round(sum_dat[sum_dat$candidate=='Obama',2]), y=60), colour="blue",size=8)+
@@ -763,6 +813,10 @@ simulated_result<-ggplot(hist_data, aes(x=electoral_votes, fill=candidate)) +
     geom_text(aes(x=clinton_label_spot, label=round(sum_dat[sum_dat$candidate=='Obama',2]), y=60), colour="blue",size=8)+
     geom_text(aes(x=trump_label_spot, label=round(sum_dat[sum_dat$candidate=='Romney',2]), y=60), colour="red3",size=8)+
 >>>>>>> update
+=======
+    geom_text(aes(x=clinton_label_spot, label=round(sum_dat[sum_dat$candidate=='Obama',2]), y=60), colour="blue",size=8)+
+    geom_text(aes(x=trump_label_spot, label=round(sum_dat[sum_dat$candidate=='Romney',2]), y=60), colour="red3",size=8)+
+>>>>>>> 74cc2ec210d8bb2697105938993385d998eec50e
     geom_text(aes(x=270, label='270 to Win', y=380),size=8)+
     ggtitle("Electoral Votes")+
     ylab("Simulations")+
@@ -772,6 +826,7 @@ simulated_result<-ggplot(hist_data, aes(x=electoral_votes, fill=candidate)) +
     theme(axis.text=element_text(size=18))+
     theme(axis.title=element_text(size=22))+
     theme(legend.text = element_text(size = 19, face = "bold"))+
+<<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
     geom_segment(aes(x = round(sum_dat[sum_dat$candidate=='Obama',2]), y = 0, xend = round(sum_dat[sum_dat$candidate=='Obama',2]), yend = line_lengths[line_lengths$candidate=='Obama','counter']), colour = "blue",linetype='dashed',size=1)+
@@ -784,6 +839,10 @@ simulated_result<-ggplot(hist_data, aes(x=electoral_votes, fill=candidate)) +
     geom_segment(aes(x = round(sum_dat[sum_dat$candidate=='Obama',2]), y = 0, xend = round(sum_dat[sum_dat$candidate=='Obama',2]), yend = line_lengths[line_lengths$candidate=='Obama','counter']), colour = "blue",linetype='dashed',size=1)+
     geom_segment(aes(x = round(sum_dat[sum_dat$candidate=='Romney',2]), y = 0, xend = round(sum_dat[sum_dat$candidate=='Romney',2]), yend = line_lengths[line_lengths$candidate=='Romney','counter']), colour = "red3",linetype='dashed',size=1)+
 >>>>>>> update
+=======
+    geom_segment(aes(x = round(sum_dat[sum_dat$candidate=='Obama',2]), y = 0, xend = round(sum_dat[sum_dat$candidate=='Obama',2]), yend = line_lengths[line_lengths$candidate=='Obama','counter']), colour = "blue",linetype='dashed',size=1)+
+    geom_segment(aes(x = round(sum_dat[sum_dat$candidate=='Romney',2]), y = 0, xend = round(sum_dat[sum_dat$candidate=='Romney',2]), yend = line_lengths[line_lengths$candidate=='Romney','counter']), colour = "red3",linetype='dashed',size=1)+
+>>>>>>> 74cc2ec210d8bb2697105938993385d998eec50e
     geom_segment(aes(x = 270, y = 0, xend = 270, yend = 360),linetype='dashed',size=1)+
     theme(legend.position = "bottom")+
     theme(panel.grid.minor = element_blank()
@@ -981,8 +1040,11 @@ for(i in 1:nrow(state_odds)){
 
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
 >>>>>>> update
+=======
+>>>>>>> 74cc2ec210d8bb2697105938993385d998eec50e
 
 #########################################################################################################################################
 # VISUALIZATION: ERROR VIZUALIZATION
@@ -1060,7 +1122,10 @@ where ev between 300 and 340
 
 
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
 >>>>>>> update
 =======
 >>>>>>> update
+=======
+>>>>>>> 74cc2ec210d8bb2697105938993385d998eec50e

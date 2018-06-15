@@ -1,6 +1,9 @@
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> 74cc2ec210d8bb2697105938993385d998eec50e
 setwd("~/election_forecasts")
 source("prep.R")
 DEBUG<-FALSE
@@ -30,6 +33,7 @@ nice_run_date<-format(run_date, format="%b %d")
 #########################################################################################################################################
 print("CREATING WEIGHTED POLLING AVERAGES...",quote=FALSE)
 
+<<<<<<< HEAD
 =======
 setwd("~/Desktop/Random Analysis/2016_election_analysis")
 library("sqldf", lib.loc="~/R/win-library/3.2")
@@ -285,10 +289,13 @@ nice_run_date<-format(run_date, format="%b %d")
 print("CREATING WEIGHTED POLLING AVERAGES...",quote=FALSE)
 
 >>>>>>> update
+=======
+>>>>>>> 74cc2ec210d8bb2697105938993385d998eec50e
 temp1<-sql("
 Select  
   id
   ,election_year
+<<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
   ,state as state
@@ -298,6 +305,9 @@ Select
 =======
   ,state as state
 >>>>>>> update
+=======
+  ,state as state
+>>>>>>> 74cc2ec210d8bb2697105938993385d998eec50e
   ,date
   ,days_till_election
   ,sum(case when party='D' then value else 0 end) -
@@ -307,6 +317,9 @@ group by 1,2,3
 ")
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> 74cc2ec210d8bb2697105938993385d998eec50e
 names(temp1)<-c('id','election_year','state','date','days_till_election','dem_plus_minus')
 
 #Create running averages of polling margins
@@ -561,6 +574,7 @@ if(DEBUG==TRUE){
       select
         election_year
         ,state
+<<<<<<< HEAD
         ,min(distances) as min_distances
         ,id
         ,actual_dem_margin
@@ -1462,6 +1476,95 @@ write.csv(polls_altered_final,'forecasts\\polls_altered_final.csv',row.names = F
 =======
 if(DEBUG==FALSE){write.csv(polls_altered_final,'forecasts\\polls_altered_final.csv',row.names = FALSE)}
 >>>>>>> update
+=======
+        ,min(distances) as min_distances
+        ,id
+        ,actual_dem_margin
+      from train_temp_with_info_2 ttwi
+      group by state
+      order by 3 asc
+      limit 15
+      ")
+      margins<-rbind(margins,as.list(states_wanted$actual_dem_margin))
+    }
+    if(i==1){margins_total<-margins}else{margins_total<-cbind(margins_total,margins)}
+  }
+}
+##########################
+#Take equal parts from each year for nearest neighbor alg
+##########################
+
+polls_altered_2016<-polls_altered[polls_altered$election_year==2016,]
+
+means<-c()
+sds<-c()
+probs<-c()
+for(i in 1:nrow(polls_altered_2016)){
+  mean<-mean(unlist(as.list(margins_total[i,])))
+  sd<-sd(unlist(as.list(margins_total[i,])))
+  
+  means<-append(means,mean)
+  sds<-append(sds,sd)
+  probability<-pnorm(q=0,mean=mean,sd=sd,lower.tail = FALSE)
+  probs<-append(probs,probability)
+}
+
+
+polls_altered_2016$probs<-probs
+polls_altered_2016$mean<-means
+polls_altered_2016$sd<-sds
+#########################################################################################################################################
+# NEAREST NEIGHBOR LEARNING
+#########################################################################################################################################
+
+polls_altered_final<-data.frame(cbind(polls_altered,prob_weighted_dem=NA,prob_weighted_rep=NA))
+
+polls_altered_final<-melt(polls_altered_final,id=c('id','election_year','state','date','days_till_election','dem_plus_minus',
+                                   'exp_weighted_avg','exp_weights','prop_weighted_avg','prop_weights','hist_dem_prob','actual','actual_dem_margin','actual_binary_dem'))
+names(polls_altered_final)[ncol(polls_altered_final)-1]<-'prediction'
+
+polls_altered_final<-sql("
+select 
+  paf.*
+  ,mean 
+  ,sd
+  ,case when prediction='prob_weighted_rep' then 1-probs
+       when prediction='prob_weighted_dem' then probs
+  end as nearest_neighbor_value
+from polls_altered_final paf
+  left join polls_altered_2016 pa on pa.state=paf.state
+    and pa.election_year=paf.election_year
+    and pa.date=paf.date
+")
+polls_altered_final<-polls_altered_final[,!(colnames(polls_altered_final) %in% c('value'))]
+
+####################################
+# Actually create the models
+####################################
+
+####################################
+# Set indicators for the state's most current prediction date
+####################################
+#Make indicators for the last prediction for each state-year
+temp<-sql("
+select 
+  election_year
+  ,State
+  ,min(days_till_election) as final_poll_days_till_election
+from polls_altered_final
+group by 1,2
+")
+
+polls_altered_final<-sql("
+select
+  paf.*
+  ,case when final_poll_days_till_election=days_till_election then 1 else 0 end as final_prediction_ind
+from polls_altered_final paf
+  inner join temp t on paf.election_year=t.election_year and paf.State=t.State
+")
+
+if(DEBUG==FALSE){write.csv(polls_altered_final,'forecasts\\polls_altered_final.csv',row.names = FALSE)}
+>>>>>>> 74cc2ec210d8bb2697105938993385d998eec50e
 ####################################
 # Set indicators for the state's most current prediction date
 ####################################
@@ -1942,6 +2045,7 @@ temp$value<-100*as.numeric(temp$nearest_neighbor_value)
 temp<-sql("
 select
 <<<<<<< HEAD
+<<<<<<< HEAD
   pd.*
   ,case when value>99 then '>99'
         when value<1 then '<1' 
@@ -1949,12 +2053,17 @@ select
 from poll_data pd
 >>>>>>> added files
 =======
+=======
+>>>>>>> 74cc2ec210d8bb2697105938993385d998eec50e
   t.*
   ,case when value>99.9 then '>99.9'
         when value<.1 then '<.1'
         else cast(round(value,1) as text) end as poll_data_value_label 
 from temp t
+<<<<<<< HEAD
 >>>>>>> update
+=======
+>>>>>>> 74cc2ec210d8bb2697105938993385d998eec50e
 ")
 
 plots<-vector('list', length(relevant_list))
@@ -1965,12 +2074,16 @@ for(i in 1:length(relevant_list)){
   
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
 >>>>>>> update
+=======
+>>>>>>> 74cc2ec210d8bb2697105938993385d998eec50e
   temp_new<-temp[temp$state_full==state,]
   poll_temp<-temp_new[temp_new$final_prediction_ind==1,]
 
   plot<- ggplot(data=temp_new,aes(x=date,y=value,colour=candidate,group=candidate)) + 
+<<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
     geom_line(size=1.9,alpha=.8) + 
@@ -2146,6 +2259,10 @@ for(i in 1:nrow(state_odds)){
     geom_line(size=1.9,alpha=.8) + 
     theme(axis.ticks.x=element_blank())+
 >>>>>>> update
+=======
+    geom_line(size=1.9,alpha=.8) + 
+    theme(axis.ticks.x=element_blank())+
+>>>>>>> 74cc2ec210d8bb2697105938993385d998eec50e
     ggtitle(
       paste(state_label," - ",as.character(poll_temp[which.max(poll_temp$value),'candidate']),sub(" ", "",paste(poll_temp[which.max(poll_temp$value),'poll_data_value_label'],"%"),fixed=TRUE))
     )+
@@ -2268,7 +2385,10 @@ if(dem_prob>=.5){
 #########################################################################################################################################
 
 
+<<<<<<< HEAD
 >>>>>>> added files
+=======
+>>>>>>> 74cc2ec210d8bb2697105938993385d998eec50e
 
 #########################################################################################################################################
 # HTML TABLE

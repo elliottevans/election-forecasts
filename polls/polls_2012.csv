@@ -1,7 +1,10 @@
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
 >>>>>>> update
+=======
+>>>>>>> 74cc2ec210d8bb2697105938993385d998eec50e
 "election_year","State","Date","Candidate","party","days_till_election","id","value"
 "2012","AL",2012-06-27,"Obama","D",132,14263,36
 "2012","AL",2012-06-27,"Romney","R",132,14263,51
@@ -2059,6 +2062,7 @@
 "2012","WV",2011-09-04,"Romney","R",429,15042,49
 "2012","WV",2011-10-02,"Obama","D",401,12592,33
 "2012","WV",2011-10-02,"Romney","R",401,12592,54
+<<<<<<< HEAD
 <<<<<<< HEAD
 =======
 "id","election_year","State","Date","Pollster","Candidate","value","party","days_till_election"
@@ -4537,3 +4541,5 @@
 >>>>>>> added files
 =======
 >>>>>>> update
+=======
+>>>>>>> 74cc2ec210d8bb2697105938993385d998eec50e
